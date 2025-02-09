@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Satoshi";
+  --color-primary: #d1d1d1;
+}
+
+@layer base {
+  body {
+    @apply font-display;
+    background-color: var(--color-primary);
+  }
+
+  a {
+    @apply border-solid border-black;
+    text-decoration: none;
+  }
+
+  input {
+    @apply border-solid border-black rounded-2xl;
+  }
+}
+
+@layer components {
+  .actions {
+    @apply space-x-4;
+  }
+
+  .actions a {
+    @apply border-solid border-black;
+  }
+}
