@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Satoshi";
+  /*--font-display: "Satoshi";*/
   --color-primary: #d1d1d1;
 }
 
 @layer base {
   body {
-    @apply font-display;
+    /*@apply font-display;*/
     background-color: var(--color-primary);
   }
 
@@ -17,7 +17,7 @@
   }
 
   input {
-    @apply border-solid border-black rounded-2xl;
+    @apply border-solid border-black rounded;
   }
 }
 
@@ -28,5 +28,41 @@
 
   .actions a {
     @apply border-solid border-black;
+  }
+
+  .login-container {
+    @apply relative flex justify-center items-center h-screen;
+  }
+
+  .login-box {
+    @apply bg-black text-white p-8 rounded-lg text-center w-96;
+  }
+
+  .field-input-container {
+    @apply text-left mb-1.5;
+  }
+
+  .field-checkbox-container {
+    @apply text-left mt-2.5 mb-2.5;
+  }
+
+  .input-primary {
+    @apply bg-white p-2 w-full text-black;
+  }
+
+  .btn-primary {
+    @apply w-full content-center bg-yellow-500 p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-yellow-600;
+  }
+
+  .btn-secondary {
+    @apply w-full content-center p-2 py-2 border border-yellow-500 text-yellow-500 bg-transparent rounded cursor-pointer hover:bg-yellow-500 mt-3 hover:text-black transition;
+  }
+
+  .divider {
+    @apply my-1 text-white;
+  }
+
+  .yellow-circle {
+    @apply absolute -top-35 -left-24 w-180 h-180 bg-yellow-500 rounded-full -z-99;
   }
 }
