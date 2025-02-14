@@ -16,6 +16,10 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    >
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
@@ -26,6 +30,29 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <%= yield %>
+    <nav class="navbar">
+      <div class="navbar-content-container">
+        <h1 class="text-black"><%= t("wellcome") %></h1>
+      </div>
+    </nav>
+
+    <div class="body-content">
+      <div class="sidebar">
+        <%= link_to "English", url_for(locale: "en") %>
+        <%= link_to "Português", url_for(locale: "pt") %>
+
+        <%= link_to root_path, data: { "turbo-method": :delete }, class: "logout" do %>
+          <i class="material-icons">settings</i>
+        <% end %>
+
+        <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "logout" do %>
+          <i class="material-icons">logout</i>
+        <% end %>
+      </div>
+
+      <main class="content">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

@@ -28,4 +28,11 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  wellcome: "Wellcome"
+  email: "Email"
+  password: "Password"
+  remember_me: "Remember me"
+  log_in: "Log in"
+  sign_up: "Sign up"
+  forgot_password: "Forgot your password?"
+  or: "Or"

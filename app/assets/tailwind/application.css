@@ -3,6 +3,8 @@
 @theme {
   /*--font-display: "Satoshi";*/
   --color-primary: #d1d1d1;
+  --color-gold: #ffcc00;
+  --sidebar-width: 5rem;
 }
 
 @layer base {
@@ -22,6 +24,26 @@
 }
 
 @layer components {
+  .navbar {
+    @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-[var(--color-primary)] ml-[var(--sidebar-width)] h-16;
+  }
+
+  .navbar-content-container {
+    @apply p-1.5;
+  }
+
+  .body-content {
+    @apply flex h-screen;
+  }
+
+  .sidebar {
+    @apply fixed inset-y-0 left-0 w-[var(--sidebar-width)] bg-gray-900 text-white p-4 space-y-6;
+  }
+
+  .content {
+    @apply flex-1 p-6 ml-[var(--sidebar-width)];
+  }
+
   .actions {
     @apply space-x-4;
   }

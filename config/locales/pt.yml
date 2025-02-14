@@ -1,0 +1,9 @@
+pt:
+  wellcome: "Bem vindo"
+  email: "Email"
+  password: "Senha"
+  remember_me: "Lembrar-me"
+  log_in: "Entrar"
+  sign_up: "Criar conta"
+  forgot_password: "Esqueceu sua senha?"
+  or: "Ou"
