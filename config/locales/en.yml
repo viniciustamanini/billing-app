@@ -31,6 +31,7 @@ en:
   wellcome: "Wellcome"
   email: "Email"
   password: "Password"
+  password_confirmation: "Password confirmation"
   remember_me: "Remember me"
   log_in: "Log in"
   sign_up: "Sign up"

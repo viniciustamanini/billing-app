@@ -2,6 +2,7 @@ pt:
   wellcome: "Bem vindo"
   email: "Email"
   password: "Senha"
+  password_confirmation: "Confirme sua senha"
   remember_me: "Lembrar-me"
   log_in: "Entrar"
   sign_up: "Criar conta"

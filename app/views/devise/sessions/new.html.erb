@@ -1,8 +1,7 @@
-<div class="login-container">
-  <div class="yellow-circle"></div>
-  <div class="login-box">
+<div class="session-container">
+  <div class="session-box">
     <div class="">
-      <h1>Billing App</h1>
+      <h1>Billin' Jean</h1>
     </div>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -33,6 +32,8 @@
       <div class="actions btn-primary">
         <%= f.submit t("log_in") %>
       </div>
+
+      <div class="divider"><%= t("or") %></div>
     <% end %>
 
     <%= render "devise/shared/links" %>

@@ -1,9 +1,10 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to "Log in", new_session_path(resource_name) %><br/>
+  <div class="btn-secondary">
+    <%= link_to t("log_in"), new_session_path(resource_name) %><br/>
+  </div>
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <div class="divider">or</div>
   <div class="btn-secondary">
     <%= link_to t("sign_up"), new_registration_path(resource_name) %><br/>
   </div>

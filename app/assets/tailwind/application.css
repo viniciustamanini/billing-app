@@ -4,7 +4,9 @@
   /*--font-display: "Satoshi";*/
   --color-primary: #d1d1d1;
   --color-gold: #ffcc00;
-  --sidebar-width: 5rem;
+  /*--sidebar-width: 5rem;*/
+  --sidebar-width: 14.375rem;
+  --navbar-height: 4rem;
 }
 
 @layer base {
@@ -25,7 +27,7 @@
 
 @layer components {
   .navbar {
-    @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-[var(--color-primary)] ml-[var(--sidebar-width)] h-16;
+    @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-white ml-[var(--sidebar-width)] h-[var(--navbar-height)] w-full fixed;
   }
 
   .navbar-content-container {
@@ -37,11 +39,11 @@
   }
 
   .sidebar {
-    @apply fixed inset-y-0 left-0 w-[var(--sidebar-width)] bg-gray-900 text-white p-4 space-y-6;
+    @apply fixed inset-y-0 left-0 w-[var(--sidebar-width)] bg-black text-white p-4 space-y-6;
   }
 
   .content {
-    @apply flex-1 p-6 ml-[var(--sidebar-width)];
+    @apply flex-1 p-6 ml-[var(--sidebar-width)] mt-[var(--navbar-height)];
   }
 
   .actions {
@@ -52,11 +54,11 @@
     @apply border-solid border-black;
   }
 
-  .login-container {
+  .session-container {
     @apply relative flex justify-center items-center h-screen;
   }
 
-  .login-box {
+  .session-box {
     @apply bg-black text-white p-8 rounded-lg text-center w-96;
   }
 
@@ -81,7 +83,11 @@
   }
 
   .divider {
-    @apply my-1 text-white;
+    @apply my-1 text-white text-xs;
+  }
+
+  .divider-horizontal {
+    @apply w-full h-px bg-white rounded-sm;
   }
 
   .yellow-circle {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Billing App" %></title>
+    <title><%= content_for(:title) || "Billing Jean" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -38,14 +38,34 @@
 
     <div class="body-content">
       <div class="sidebar">
+        <%= link_to root_path do %>
+          <h1>Billin' Jean</h1>
+        <% end %>
+
         <%= link_to "English", url_for(locale: "en") %>
         <%= link_to "Português", url_for(locale: "pt") %>
 
-        <%= link_to root_path, data: { "turbo-method": :delete }, class: "logout" do %>
+        <%= link_to root_path, title: "Ir ao Dashboard" do %>
+          <i class="material-icons text-[var(--color-gold)]">space_dashboard</i>
+        <% end %>
+
+        <div class="divider-horizontal"></div>
+
+        <div>
+          <%= link_to root_path do %>
+            <i class="material-icons text-4xl">account_circle</i>
+          <% end %>
+          <p><%= current_user.first_name %></p>
+          <p><%= current_user.email %></p>
+        </div>
+
+        <div class="divider-horizontal"></div>
+
+        <%= link_to root_path do %>
           <i class="material-icons">settings</i>
         <% end %>
 
-        <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "logout" do %>
+        <%= link_to destroy_user_session_path, data: { "turbo-method": :delete } do %>
           <i class="material-icons">logout</i>
         <% end %>
       </div>
