@@ -27,19 +27,33 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-
     <nav class="navbar">
       <div class="navbar-content-container">
-        <h1 class="text-black"><%= t("wellcome") %></h1>
+        <div class="navbar-column navbar-col-1">
+          <h1 class="text-black"><%= t("wellcome") %></h1>
+        </div>
+
+        <div class="navbar-column navbar-col-2">
+          <input
+            type="text"
+            name="search_customer"
+            placeholder="<%= t("search_customer") %>"
+            class="navbar-search"
+          />
+          <i class="material-icons">search</i>
+        </div>
+
+        <div class="navbar-column navbar-col-3">
+          <i class="material-icons">account_circle</i>
+        </div>
       </div>
     </nav>
 
     <div class="body-content">
       <div class="sidebar">
-        <%= link_to root_path do %>
-          <h1>Billin' Jean</h1>
+        <%= link_to root_path, class: "sidebar-logo" do %>
+          <i class="material-icons text-[var(--color-gold)]">paid</i>
+          <h1 class="sidebar-logo-text">Billin' Jean</h1>
         <% end %>
 
         <%= link_to "English", url_for(locale: "en") %>
@@ -53,7 +67,7 @@
 
         <div>
           <%= link_to root_path do %>
-            <i class="material-icons text-4xl">account_circle</i>
+            <i class="material-icons">account_circle</i>
           <% end %>
           <p><%= current_user.first_name %></p>
           <p><%= current_user.email %></p>
@@ -71,6 +85,9 @@
       </div>
 
       <main class="content">
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+
         <%= yield %>
       </main>
     </div>
