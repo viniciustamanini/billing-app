@@ -138,4 +138,29 @@
   .card-content {
     @apply p-3;
   }
+
+  .toast-container {
+    @apply absolute top-5 right-5 z-50 transition duration-300 max-w-xs 
+           bg-white border border-gray-200 rounded-xl shadow-lg;
+  }
+
+  .toast-content {
+    @apply flex p-4;
+  }
+
+  .toast-message {
+    @apply text-sm text-gray-700;
+  }
+
+  .toast-actions {
+    @apply ms-auto flex items-center space-x-3;
+  }
+
+  .toast-undo {
+    @apply text-blue-600 decoration-2 hover:underline cursor-pointer font-medium text-sm;
+  }
+
+  .toast-close {
+    @apply inline-flex shrink-0 justify-center items-center size-5 rounded-lg text-gray-800 opacity-50 hover:opacity-100 cursor-pointer;
+  }
 }

@@ -23,8 +23,23 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice.present? %>
+      <%= render partial: "shared/toast",
+      locals: {
+        message: notice,
+        type_class: "bg-green-100",
+        show_undo: true,
+      } %>
+    <% end %>
+
+    <% if alert.present? %>
+      <%= render partial: "shared/toast",
+      locals: {
+        message: alert,
+        type_class: "bg-red-100",
+        show_undo: false,
+      } %>
+    <% end %>
 
     <main>
       <div class="yellow-circle"></div>
