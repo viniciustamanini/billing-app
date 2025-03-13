@@ -140,12 +140,18 @@
   }
 
   .toast-container {
-    @apply absolute top-5 right-5 z-50 transition duration-300 max-w-xs 
-           bg-white border border-gray-200 rounded-xl shadow-lg;
+    @apply fixed w-96 top-5 right-5 z-50 flex flex-col items-end space-y-2;
+  }
+
+  .toast-panel {
+    @apply relative w-full max-w-xs
+           transition duration-300
+           bg-white border border-gray-200
+           shadow-lg;
   }
 
   .toast-content {
-    @apply flex p-4;
+    @apply grid grid-cols-[auto_1fr_auto] gap-2 p-4 items-center;
   }
 
   .toast-message {
@@ -153,7 +159,7 @@
   }
 
   .toast-actions {
-    @apply ms-auto flex items-center space-x-3;
+    @apply flex items-center space-x-3;
   }
 
   .toast-undo {
@@ -162,5 +168,9 @@
 
   .toast-close {
     @apply inline-flex shrink-0 justify-center items-center size-5 rounded-lg text-gray-800 opacity-50 hover:opacity-100 cursor-pointer;
+  }
+
+  .toast-countdown {
+    @apply h-1 w-full bg-gray-200;
   }
 }

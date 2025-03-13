@@ -27,23 +27,31 @@
   </head>
 
   <body>
-    <% if notice.present? %>
-      <%= render partial: "shared/toast",
-      locals: {
-        message: notice,
-        type_class: "bg-green-100",
-        show_undo: true,
-      } %>
-    <% end %>
+    <div id="toasts" class="toast-container">
+      <% flash.each do |type, message| %>
+        <% type_str = type.to_s %>
+        <% type_class =
+          case type_str
+          when "notice"
+            "info"
+          when "alert"
+            "error"
+          when "warning"
+            "warning"
+          when "success"
+            "success"
+          else
+            "info"
+          end %>
 
-    <% if alert.present? %>
-      <%= render partial: "shared/toast",
-      locals: {
-        message: alert,
-        type_class: "bg-red-100",
-        show_undo: false,
-      } %>
-    <% end %>
+        <%= render partial: "shared/toast",
+        locals: {
+          message: message,
+          icon: type_class,
+          show_undo: (type_str == "notice"),
+        } %>
+      <% end %>
+    </div>
 
     <nav class="navbar">
       <div class="navbar-content-container">

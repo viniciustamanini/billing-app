@@ -1,11 +1,12 @@
 <div
   data-controller="toast"
-  class="toast-container <%= type_class %>"
+  class="toast-panel"
   role="alert"
   tabindex="-1"
   aria-labelledby="hs-toast-condensed-label"
 >
   <div class="toast-content">
+    <i class="material-icons"><%= icon %></i>
     <p id="hs-toast-condensed-label" class="toast-message">
       <%= message %>
     </p>
@@ -25,4 +26,5 @@
       </button>
     </div>
   </div>
+  <div class="toast-countdown" data-toast-target="counter"></div>
 </div>
