@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_025730) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_003857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,32 +24,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_025730) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "companies_customers", force: :cascade do |t|
-    t.bigint "company_id", null: false
-    t.bigint "customer_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_companies_customers_on_company_id"
-    t.index ["customer_id"], name: "index_companies_customers_on_customer_id"
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_customers_on_user_id"
-  end
-
-  create_table "employees", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "company_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_employees_on_company_id"
-    t.index ["user_id", "company_id"], name: "index_employees_on_user_id_and_company_id", unique: true
-    t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
   create_table "invoice_items", force: :cascade do |t|
@@ -81,15 +55,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_025730) do
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.bigint "customer_id", null: false
     t.date "issued_date", null: false
     t.date "due_date", null: false
     t.decimal "total_amount", precision: 10, scale: 2, null: false
     t.bigint "invoice_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_invoices_on_customer_id"
+    t.bigint "profile_id", null: false
     t.index ["invoice_status_id"], name: "index_invoices_on_invoice_status_id"
+    t.index ["profile_id"], name: "index_invoices_on_profile_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -116,6 +90,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_025730) do
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
     t.index ["payment_method_id"], name: "index_payments_on_payment_method_id"
     t.index ["payment_status_id"], name: "index_payments_on_payment_status_id"
+  end
+
+  create_table "profile_types", force: :cascade do |t|
+    t.string "name", limit: 20, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_profile_types_on_name", unique: true
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "company_id", null: false
+    t.bigint "profile_type_id", null: false
+    t.boolean "default_profile", default: false, null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_profiles_on_company_id"
+    t.index ["profile_type_id"], name: "index_profiles_on_profile_type_id"
+    t.index ["user_id", "company_id", "profile_type_id"], name: "index_profiles_on_user_company_and_type", unique: true
+    t.index ["user_id", "company_id"], name: "unique_default_profile_per_user", unique: true, where: "(default_profile = true)"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "renegotiation_statuses", force: :cascade do |t|
@@ -153,18 +149,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_025730) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "companies_customers", "companies"
-  add_foreign_key "companies_customers", "customers"
-  add_foreign_key "customers", "users"
-  add_foreign_key "employees", "companies"
-  add_foreign_key "employees", "users"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_renegotiations", "invoices"
   add_foreign_key "invoice_renegotiations", "renegotiations"
-  add_foreign_key "invoices", "customers"
   add_foreign_key "invoices", "invoice_statuses"
+  add_foreign_key "invoices", "profiles"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
   add_foreign_key "payments", "payment_statuses"
+  add_foreign_key "profiles", "companies"
+  add_foreign_key "profiles", "profile_types"
+  add_foreign_key "profiles", "users"
   add_foreign_key "renegotiations", "renegotiation_statuses"
 end

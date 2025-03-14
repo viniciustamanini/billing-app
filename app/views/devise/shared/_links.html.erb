@@ -1,19 +1,19 @@
 <%- if controller_name != 'sessions' %>
-  <div class="btn-secondary">
+  <button class="btn-secondary">
     <%= link_to t("log_in"), new_session_path(resource_name) %><br/>
-  </div>
+  </button>
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <div class="btn-secondary">
+  <button class="btn-secondary">
     <%= link_to t("sign_up"), new_registration_path(resource_name) %><br/>
-  </div>
+  </button>
 <% end %>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <div class="btn-secondary">
+  <button class="btn-secondary">
     <%= link_to t("forgot_password"), new_password_path(resource_name) %><br/>
-  </div>
+  </button>
 <% end %>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>

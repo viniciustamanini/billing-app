@@ -1,8 +1,9 @@
-class DashboardController < ApplicationController
+class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @users = User.limit(5)
+  def choose
     @profiles = current_user.profiles.includes(:company, :profile_type)
+
+    render :choose
   end
 end

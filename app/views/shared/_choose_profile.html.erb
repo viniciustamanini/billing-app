@@ -1,0 +1,120 @@
+<%# app/views/shared/_choose_profile.html.erb %>
+<div
+  class="w-full max-w-4xl mx-auto px-4 py-8"
+  data-controller="choose-profile"
+>
+  <h2 class="text-2xl font-bold text-center mb-6"><%= t("choose_your_profile") %></h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <%# Obtém os perfis do usuário com base no tipo (assumindo que @profiles foi carregado no controller) %>
+    <% client_profile = @profiles.find { |p| p.profile_type.name == "client" } %>
+    <% employee_profile = @profiles.find { |p| p.profile_type.name == "employee" } %>
+    <% admin_profile = @profiles.find { |p| p.profile_type.name == "administrator" } %>
+
+    <%# Card: Client Profile (sempre exibido) %>
+    <div
+      class="
+        bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
+        transition-shadow
+      "
+    >
+      <div
+        class="
+          bg-yellow-400 w-16 h-16 rounded-full flex items-center justify-center mb-4
+        "
+      >
+        <span class="text-white font-bold text-xl">C</span>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Client Profile</h3>
+      <p class="text-gray-600 text-center mb-4">
+        Default para visualizar itens pendentes
+      </p>
+      <%# Defina select_profile_path(profile) conforme sua lógica para selecionar um perfil %>
+      <%= link_to "Selecionar",
+      root_path,
+      class: "bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500" %>
+    </div>
+
+    <%# Se o usuário possuir perfil de funcionário ou administrador, exiba-os %>
+    <% if employee_profile.present? || admin_profile.present? %>
+      <% if employee_profile.present? %>
+        <div
+          class="
+            bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
+            transition-shadow
+          "
+        >
+          <div
+            class="
+              bg-gray-600 w-16 h-16 rounded-full flex items-center justify-center mb-4
+            "
+          >
+            <span class="text-white font-bold text-xl">E</span>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Employee Profile</h3>
+          <p class="text-gray-600 text-center mb-4">
+            Gerencie tarefas e relatórios de forma eficiente
+          </p>
+          <%= link_to "Selecionar",
+          root_path,
+          class: "bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700" %>
+        </div>
+      <% end %>
+
+      <% if admin_profile.present? %>
+        <div
+          class="
+            bg-black text-white shadow rounded-lg flex flex-col items-center p-6
+            hover:shadow-lg transition-shadow
+          "
+        >
+          <div
+            class="
+              bg-black w-16 h-16 rounded-full flex items-center justify-center mb-4 border
+              border-white
+            "
+          >
+            <span class="text-white font-bold text-xl">A</span>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Administrator Profile</h3>
+          <p class="text-gray-300 text-center mb-4">
+            Acesso completo a todos os recursos
+          </p>
+          <%= link_to "Selecionar",
+          root_path,
+          class: "bg-white text-black px-4 py-2 rounded hover:bg-gray-200" %>
+        </div>
+      <% end %>
+    <% else %>
+      <%# Se o usuário não tiver nem perfil de funcionário nem de administrador, exibe um botão para criar uma empresa %>
+      <div
+        class="
+          bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
+          transition-shadow
+        "
+      >
+        <div
+          class="
+            bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mb-4
+          "
+        >
+          <i class="material-icons text-white">add_business</i>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Criar Empresa</h3>
+        <p class="text-gray-600 text-center mb-4">
+          Cadastre uma nova empresa e seja o administrador
+        </p>
+        <%= link_to "Criar Empresa",
+        root_path,
+        class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Botão opcional para criar novo perfil/empresa, se desejar disponibilizar essa opção em outra posição %>
+  <div class="mt-8 text-center">
+    <%= link_to "Criar Novo Perfil / Registrar Nova Empresa",
+    root_path,
+    class:
+      "bg-yellow-400 text-white px-6 py-3 rounded hover:bg-yellow-500 inline-block" %>
+  </div>
+</div>

@@ -28,7 +28,7 @@
 #       enabled: "ON"
 
 en:
-  wellcome: "Wellcome"
+  welcome: "Welcome"
   email: "Email"
   password: "Password"
   password_confirmation: "Password confirmation"
@@ -39,3 +39,5 @@ en:
   or: "Or"
   search_customer: "Search customers"
   undo: "Undo"
+  choose_your_profile: "Choose your profile"
+  switch_profile: "Switch profile"

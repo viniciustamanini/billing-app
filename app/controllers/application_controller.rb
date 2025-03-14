@@ -13,6 +13,15 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }
   end
 
+  def after_sign_in_path_for(resource)
+    choose_profile_path
+  end
+
+  def current_profile
+    return unless current_profile
+    @current_profile ||= current_user.profiles.find_by(id: session[:current_profile_id])
+  end
+
   private
 
   def layout_by_resource

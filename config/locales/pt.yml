@@ -1,5 +1,5 @@
 pt:
-  wellcome: "Bem vindo"
+  welcome: "Bem vindo"
   email: "Email"
   password: "Senha"
   password_confirmation: "Confirme sua senha"
@@ -10,3 +10,5 @@ pt:
   or: "Ou"
   search_customer: "Buscar clientes"
   undo: "Desfazer"
+  choose_your_profile: "Escolha seu perfil"
+  switch_profile: "Alterar perfil"
