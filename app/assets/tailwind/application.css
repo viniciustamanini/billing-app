@@ -4,6 +4,7 @@
   /*--font-display: "Satoshi";*/
   --color-primary: #d1d1d1;
   --color-gold: #ffcc00;
+  --color-gold-hoover: #c9a202;
   /*--sidebar-width: 5rem;*/
   --sidebar-width: 14.375rem;
   --navbar-height: 4rem;
@@ -104,11 +105,11 @@
   }
 
   .btn-primary {
-    @apply w-full content-center bg-yellow-500 p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-yellow-600;
+    @apply w-full content-center bg-[var(--color-gold)] p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-[var(--color-gold-hoover)];
   }
 
   .btn-secondary {
-    @apply w-full content-center p-2 py-2 border border-yellow-500 text-yellow-500 bg-transparent rounded cursor-pointer hover:bg-yellow-500 mt-3 hover:text-black transition;
+    @apply w-full content-center p-2 py-2 border border-[var(--color-gold)] text-[var(--color-gold)] bg-transparent rounded cursor-pointer hover:bg-yellow-500 mt-3 hover:text-black transition;
   }
 
   .divider {

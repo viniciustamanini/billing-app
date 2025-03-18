@@ -12,3 +12,6 @@ pt:
   undo: "Desfazer"
   choose_your_profile: "Escolha seu perfil"
   switch_profile: "Alterar perfil"
+  customer_profile_description: "Perfil de cliente"
+  admin_profile_hint: "Perfil de administrador"
+  employee_profile_hint: "Perfil de funcionário"

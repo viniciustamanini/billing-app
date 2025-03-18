@@ -19,7 +19,7 @@
         >
           <i class="material-icons text-white">person</i>
         </div>
-        <h3 class="text-lg font-semibold mb-2">Customer Profile</h3>
+        <h3 class="text-lg font-semibold mb-2"><%= t("customer_profile_description") %></h3>
         <p class="text-gray-600 text-center mb-4">
           Default para visualizar itens pendentes
         </p>
@@ -28,7 +28,7 @@
 
     <% if employee_profiles.any? %>
       <% employee_profiles.each do |employee_profile| %>
-        <%= link_to root_path do %>
+        <%= link_to root_path, title: t("employee_profile_hint") do %>
           <div
             class="
               bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
@@ -42,7 +42,7 @@
             >
               <i class="material-icons text-white">work</i>
             </div>
-            <h3 class="text-lg font-semibold mb-2">Employee Profile</h3>
+            <h3 class="text-lg font-semibold mb-2"><%= employee_profile.company.name.upcase %></h3>
             <p class="text-gray-600 text-center mb-4">
               Gerencie tarefas e relatórios de forma eficiente
             </p>
@@ -53,7 +53,7 @@
 
     <% if admin_profiles.any? %>
       <% admin_profiles.each do |admin_profile| %>
-        <%= link_to root_path do %>
+        <%= link_to root_path, title: t("admin_profile_hint") do %>
           <div
             class="
               bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
@@ -66,12 +66,9 @@
                 border-white
               "
             >
-              <i class="material-icons text-white">crown</i>
+              <i class="material-icons text-gold">crown</i>
             </div>
-            <h3 class="text-lg font-semibold mb-2">Administrator Profile</h3>
-            <!---
-            <p class="text-gray-600 text-center mb-4"><%= admin_profile.company.name %></p>
-            -->
+            <h3 class="text-lg font-semibold mb-2"><%= admin_profile.company.name.upcase %></h3>
             <p class="text-gray-600 text-center mb-4">
               Acesso completo a todos os recursos
             </p>

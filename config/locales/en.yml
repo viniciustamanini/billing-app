@@ -41,3 +41,6 @@ en:
   undo: "Undo"
   choose_your_profile: "Choose your profile"
   switch_profile: "Switch profile"
+  customer_profile_description: "Customer profile"
+  admin_profile_hint: "Admin profile"
+  employee_profile_hint: "Employee profile"
