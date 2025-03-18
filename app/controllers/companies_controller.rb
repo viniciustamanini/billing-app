@@ -18,7 +18,7 @@ class CompaniesController < ApplicationController
         active: true
       )
 
-      redirect_to root_path, success: "Company was successfully created."
+      redirect_to root_path, flash: { success: "Company was successfully created." }
     else
       render :new
     end
