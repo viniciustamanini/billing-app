@@ -145,9 +145,9 @@
 
   .toast-panel {
     @apply relative w-full max-w-xs
-           transition duration-300
-           bg-white border border-gray-200
-           shadow-lg;
+      transition duration-300
+      bg-white border border-gray-200
+      shadow-lg;
   }
 
   .toast-content {
