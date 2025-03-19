@@ -5,6 +5,7 @@ pt:
   password_confirmation: "Confirme sua senha"
   remember_me: "Lembrar-me"
   log_in: "Entrar"
+  log_out: "Sair"
   sign_up: "Criar conta"
   forgot_password: "Esqueceu sua senha?"
   or: "Ou"
@@ -15,3 +16,4 @@ pt:
   customer_profile_description: "Perfil de cliente"
   admin_profile_hint: "Perfil de administrador"
   employee_profile_hint: "Perfil de funcionário"
+  settings: "Configurações"

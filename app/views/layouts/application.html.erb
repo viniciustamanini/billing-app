@@ -71,8 +71,8 @@
           </div>
         </div>
 
-        <div class="navbar-column navbar-col-3 flex items-center space-x-2">
-          <div class="w-[140px]">
+        <div class="navbar-column navbar-col-3 flex items-center space-x-4">
+          <div>
             <%= link_to t("switch_profile"), choose_profile_path %>
           </div>
           <i class="material-icons text-4xl">account_circle</i>
@@ -88,35 +88,53 @@
           <h1 class="sidebar-logo-text">Billin' Jean</h1>
         <% end %>
 
-        <%= link_to "English", url_for(locale: "en") %>
-        <%= link_to "Português", url_for(locale: "pt") %>
-
-        <%= link_to root_path, title: "Ir ao Dashboard" do %>
+        <%= link_to root_path, title: "Ir ao Dashboard", class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
           <i class="material-icons text-[var(--color-gold)]">space_dashboard</i>
+          <p>Dashboard</p>
         <% end %>
 
         <div class="divider-horizontal"></div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-4">
           <%= link_to root_path do %>
-            <i class="material-icons">account_circle</i>
+            <i class="material-icons text-5xl">account_circle</i>
           <% end %>
-          <p><%= current_user.first_name %></p>
-          <p><%= current_user.email %></p>
+          <div>
+            <p class="leading-tight"><%= current_user.first_name %></p>
+            <p class="text-sm text-gray-400 leading-tight"><%= current_user.email %></p>
+          </div>
         </div>
 
         <div class="divider-horizontal"></div>
 
-        <%= link_to root_path do %>
-          <i class="material-icons">settings</i>
+        <%= link_to root_path, class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
+          <i class=" material-icons text-[var(--color-gold)]">settings</i>
+          <%= t("settings") %>
+        <% end %>
+
+        <% if I18n.locale == :en %>
+          <%= link_to url_for(locale: :pt),
+          class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
+            <i class="material-icons text-[var(--color-gold)]">language</i>
+            Português
+          <% end %>
+        <% else %>
+          <%= link_to url_for(locale: :en),
+          class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
+            <i class=" material-icons text-[var(--color-gold)]">language</i>
+            English
+          <% end %>
+        <% end %>
+
+        <%= link_to destroy_user_session_path,
+            data: { "turbo-method": :delete },
+            class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
+          <i class=" material-icons text-[var(--color-gold)]">logout</i>
+          <%= t("log_out") %>
         <% end %>
 
         <% if controller_name == "profiles" %>
           <%= render "shared/modal" %>
-        <% end %>
-
-        <%= link_to destroy_user_session_path, data: { "turbo-method": :delete } do %>
-          <i class="material-icons">logout</i>
         <% end %>
       </div>
 
