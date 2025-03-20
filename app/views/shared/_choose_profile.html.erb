@@ -5,75 +5,47 @@
     <% employee_profiles = @profiles.select { |p| p.profile_type.name == "employee" } %>
     <% admin_profiles = @profiles.select { |p| p.profile_type.name == "administrator" } %>
 
-    <%= link_to customer_dashboard_path do %>
-      <div
-        class="
-          bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
-          transition-shadow
-        "
-      >
-        <div
-          class="
-            bg-yellow-400 w-16 h-16 rounded-full flex items-center justify-center mb-4
-          "
-        >
-          <i class="material-icons text-white">person</i>
-        </div>
-        <h3 class="text-lg font-semibold mb-2"><%= t("customer_profile_description") %></h3>
-        <p class="text-gray-600 text-center mb-4">
-          Default para visualizar itens pendentes
-        </p>
-      </div>
-    <% end %>
+    <%= render "shared/profile_card",
+    icon_bg: "bg-gold",
+    extra_icon_bg_class: "",
+    icon_color: "text-white",
+    icon_size_in_px: "48",
+    icon_name: "person",
+    title: t("customer_profile_description"),
+    description: "Visualizar pendencias",
+    path: customer_dashboard_path,
+    hint: t("customer_profile_description"),
+    is_default_profile: false %>
 
     <% if employee_profiles.any? %>
       <% employee_profiles.each do |employee_profile| %>
-        <%= link_to root_path, title: t("employee_profile_hint") do %>
-          <div
-            class="
-              bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
-              transition-shadow
-            "
-          >
-            <div
-              class="
-                bg-gray-600 w-16 h-16 rounded-full flex items-center justify-center mb-4
-              "
-            >
-              <i class="material-icons text-white">work</i>
-            </div>
-            <h3 class="text-lg font-semibold mb-2"><%= employee_profile.company.name.upcase %></h3>
-            <p class="text-gray-600 text-center mb-4">
-              Gerencie tarefas e relatórios de forma eficiente
-            </p>
-          </div>
-        <% end %>
+        <%= render "shared/profile_card",
+        icon_bg: "bg-white",
+        extra_icon_bg_class: "",
+        icon_color: "text-black",
+        icon_size_in_px: "48",
+        icon_name: "badge",
+        title: employee_profile.company.name.upcase,
+        description: "Gerencie tarefas e relatórios",
+        path: root_path,
+        hint: t("employee_profile_hint"),
+        is_default_profile: employee_profile.default_profile %>
       <% end %>
     <% end %>
 
     <% if admin_profiles.any? %>
       <% admin_profiles.each do |admin_profile| %>
-        <%= link_to root_path, title: t("admin_profile_hint") do %>
-          <div
-            class="
-              bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
-              transition-shadow
-            "
-          >
-            <div
-              class="
-                bg-black w-16 h-16 rounded-full flex items-center justify-center mb-4 border
-                border-white
-              "
-            >
-              <i class="material-icons text-gold">crown</i>
-            </div>
-            <h3 class="text-lg font-semibold mb-2"><%= admin_profile.company.name.upcase %></h3>
-            <p class="text-gray-600 text-center mb-4">
-              Acesso completo a todos os recursos
-            </p>
-          </div>
-        <% end %>
+        <%= render "shared/profile_card",
+        icon_bg: "bg-black",
+        extra_icon_bg_class: "",
+        icon_color: "text-gold",
+        icon_size_in_px: "48",
+        icon_name: "admin_panel_settings",
+        title: admin_profile.company.name.upcase,
+        description: "Acesso completo a todos os recursos",
+        path: root_path,
+        hint: t("admin_profile_hint"),
+        is_default_profile: admin_profile.default_profile %>
       <% end %>
     <% end %>
 

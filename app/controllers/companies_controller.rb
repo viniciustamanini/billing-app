@@ -6,22 +6,12 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    @company = Company.new(company_params)
-
-    if @company.save
-      admin_profile_type = ProfileType.find_by(name: "administrator")
-
-      current_user.profiles.create!(
-        company: @company,
-        profile_type: admin_profile_type,
-        default_profile: true,
-        active: true
-      )
-
-      redirect_to root_path, flash: { success: "Company was successfully created." }
-    else
-      render :new
-    end
+    default_profile = params[:default_profile]
+    @company = CompanyCreator.new(current_user, company_params, default_profile).call
+    redirect_to root_path, flash: { success: "Company was successfuly created!" }
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:error] = e.message
+    render new
   end
 
   def show

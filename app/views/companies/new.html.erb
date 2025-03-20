@@ -52,6 +52,11 @@
     </div>
 
     <div class="mt-4">
+      <%= check_box_tag :default_profile, "true", false, class: "ml-2" %>
+      <%= label_tag :default_profile, "Set as default profile?" %>
+    </div>
+
+    <div class="mt-4">
       <%= form.submit "Create Company", class: "btn-primary" %>
     </div>
   <% end %>

@@ -1,0 +1,23 @@
+<%= link_to path, title: hint do %>
+  <div
+    class="
+      bg-white shadow rounded-lg flex flex-col items-center p-6 h-56 hover:shadow-lg
+      transition-shadow
+    "
+  >
+    <i
+      class="
+        material-icons inline-block rounded-2xl <%= icon_bg %>
+        <%= icon_color %>
+      "
+      style="font-size: <%= icon_size_in_px %>px !important;"
+    >
+      <%= icon_name %>
+    </i>
+    <h3 class="text-lg font-semibold mb-2"><%= title %></h3>
+    <p class="text-gray-600 text-center mb-4"><%= description %></p>
+    <% if is_default_profile %>
+      <p>Perfil padrao</p>
+    <% end %>
+  </div>
+<% end %>
