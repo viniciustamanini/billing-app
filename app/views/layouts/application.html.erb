@@ -73,7 +73,7 @@
 
         <div class="navbar-column navbar-col-3 flex items-center space-x-4">
           <div>
-            <%= link_to t("switch_profile"), choose_profile_path %>
+            <%= link_to t("switch_profile"), choose_profile_path, class: "btn-primary" %>
           </div>
           <i class="material-icons text-4xl">account_circle</i>
           <p><%= current_user.first_name %></p>

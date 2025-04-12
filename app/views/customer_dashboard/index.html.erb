@@ -1,6 +1,5 @@
 <div class="max-w-7xl mx-auto px-4 py-6">
   <h1 class="text-2xl font-bold mb-6">Customer Dashboard</h1>
-  <!-- Box 1: Customer Info -->
   <div class="bg-white shadow-md rounded p-4 mb-6">
     <h2 class="text-lg font-semibold mb-2">Nome do cliente</h2>
     <% if @client_profile %>
@@ -9,14 +8,12 @@
         <%= current_user.last_name %></p>
       <p><strong>CPF:</strong>
         <%= current_user.cpf %></p>
-      <!-- Input fields or renegotiation options go here -->
     <% else %>
       <p class="text-gray-500">No customer profile available.</p>
     <% end %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Box 2: Próximos vencimentos -->
     <div class="bg-white shadow-md rounded p-4">
       <h3 class="text-lg font-medium mb-2">Próximos vencimentos</h3>
       <% if @upcoming_invoices.any? %>
@@ -34,7 +31,6 @@
         <p class="text-gray-500">No upcoming invoices.</p>
       <% end %>
     </div>
-    <!-- Box 3: Histórico de pagamentos -->
     <div class="bg-white shadow-md rounded p-4">
       <h3 class="text-lg font-medium mb-2">Histórico de pagamentos</h3>
       <% if @payment_history.any? %>

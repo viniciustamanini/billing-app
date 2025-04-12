@@ -1,0 +1,61 @@
+<%= form_with model: @company, local: true do |form| %>
+  <% if @company.errors.any? %>
+    <div
+      class="
+        bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4
+      "
+    >
+      <h2 class="font-bold"><%= pluralize(@company.errors.count, "error") %>
+        prohibited this company from being saved:</h2>
+      <ul class="list-disc pl-5">
+        <% @company.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :name, class: "block text-gray-700" %>
+    <%= form.text_field :name, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :address, class: "block text-gray-700" %>
+    <%= form.text_field :address, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :city, class: "block text-gray-700" %>
+    <%= form.text_field :city, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :state, class: "block text-gray-700" %>
+    <%= form.text_field :state, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :zip_code, class: "block text-gray-700" %>
+    <%= form.text_field :zip_code, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :country, class: "block text-gray-700" %>
+    <%= form.text_field :country, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :email, class: "block text-gray-700" %>
+    <%= form.email_field :email, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mt-4">
+    <%= check_box_tag :default_profile, "true", false, class: "ml-2" %>
+    <%= label_tag :default_profile, "Set as default profile?" %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.submit "Create Company", class: "btn-primary" %>
+  </div>
+<% end %>

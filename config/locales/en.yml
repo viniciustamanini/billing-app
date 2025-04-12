@@ -7,6 +7,7 @@ en:
   log_in: "Log in"
   log_out: "Log out"
   sign_up: "Sign up"
+  cancel: "Cancel"
   forgot_password: "Forgot your password?"
   or: "Or"
   search_customer: "Search customers"

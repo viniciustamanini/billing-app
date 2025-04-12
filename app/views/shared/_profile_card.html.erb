@@ -1,23 +1,32 @@
-<%= link_to path, title: hint do %>
-  <div
-    class="
-      bg-white shadow rounded-lg flex flex-col items-center p-6 h-56 hover:shadow-lg
-      transition-shadow
-    "
-  >
-    <i
-      class="
-        material-icons inline-block rounded-2xl <%= icon_bg %>
-        <%= icon_color %>
-      "
-      style="font-size: <%= icon_size_in_px %>px !important;"
-    >
-      <%= icon_name %>
-    </i>
-    <h3 class="text-lg font-semibold mb-2"><%= title %></h3>
-    <p class="text-gray-600 text-center mb-4"><%= description %></p>
-    <% if is_default_profile %>
-      <p>Perfil padrao</p>
-    <% end %>
+<div
+  class="
+    bg-white shadow rounded-lg flex flex-col items-center p-6 h-56 hover:shadow-lg
+    transition-shadow relative
+  "
+>
+  <div class="absolute top-2 right-2">
+    <%= check_box_tag "profile[default_profile]",
+    "true",
+    is_default_profile,
+    class: "checkbox-class" %>
   </div>
-<% end %>
+
+  <%= link_to path, title: hint do %>
+    <div class="w-full">
+      <div class="justify-self-center">
+        <i
+          class="
+            material-icons inline-block rounded-2xl <%= icon_bg %>
+            <%= icon_color %>
+          "
+          style="font-size: <%= icon_size_in_px %>px !important;"
+        >
+          <%= icon_name %>
+        </i>
+      </div>
+    </div>
+
+    <h3 class="text-lg font-semibold mb-2 text-center"><%= title %></h3>
+    <p class="text-gray-600 text-center mb-4"><%= description %></p>
+  <% end %>
+</div>

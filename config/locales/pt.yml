@@ -7,6 +7,7 @@ pt:
   log_in: "Entrar"
   log_out: "Sair"
   sign_up: "Criar conta"
+  cancel: "Cancelar"
   forgot_password: "Esqueceu sua senha?"
   or: "Ou"
   search_customer: "Buscar clientes"

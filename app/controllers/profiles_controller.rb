@@ -1,8 +1,10 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
+  layout "choose_profile", only:  [ :choose ]
 
   def choose
     @profiles = current_user.profiles.includes(:company, :profile_type)
+    @company = Company.new
     render :choose
   end
 
