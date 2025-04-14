@@ -74,7 +74,7 @@
 
   <div class="mt-8 text-center">
     <%= link_to "Registrar nova empresa",
-    modal_new_company_path,
+    modal_new_companies_path(format: :html),
     data: {
       turbo_frame: "modal-frame",
       action: "turbo:frame-load->modal#open",

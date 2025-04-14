@@ -7,7 +7,7 @@ class CompaniesController < ApplicationController
 
   def modal_new
     @company = Company.new
-  render :modal_new, layout: false
+    render :modal_new, layout: false
   end
 
   def create

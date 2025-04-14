@@ -1,15 +1,15 @@
 <div
   id="modal-container"
   data-controller="modal"
-  class="fixed inset-0 z-50 flex items-center justify-center hidden"
+  class="
+    fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden
+  "
 >
-  <div
-    class="absolute inset-0 bg-black opacity-50"
-    data-action="click->modal#close"
-  ></div>
   <turbo-frame
     id="modal-frame"
+    data-action="turbo:frame-load->modal#open"
     class="relative bg-white rounded-lg p-6 max-w-xl w-full"
   >
+    <!-- Modal content will be loaded here -->
   </turbo-frame>
 </div>
