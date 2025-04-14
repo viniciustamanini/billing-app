@@ -73,22 +73,21 @@
   </div>
 
   <div class="mt-8 text-center">
-    <%# <%= link_to "Registrar nova empresa", new_company_path, class: "btn-primary shadow" %>
-    <%= link_to "#", 
-      data: { action: "click->modal#open", modalUrl: new_company_path(format: :js) },
-      class: "btn-primary shadow" do %>
-      Registrar nova empresa
-    <% end %>
+    <%= link_to "Registrar nova empresa",
+    modal_new_company_path,
+    data: {
+      turbo_frame: "modal-frame",
+      action: "turbo:frame-load->modal#open",
+    },
+    class: "btn-primary shadow" %>
 
     <%= link_to destroy_user_session_path,
-            data: { "turbo-method": :delete },
-            class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
+            data: { "turbo-method": :delete } do %>
       <div class="btn-primary shadow">
         <%= t("log_out") %>
         <i class=" material-icons">logout</i>
       </div>
     <% end %>
-
   </div>
 
   <%= render "shared/modal" %>

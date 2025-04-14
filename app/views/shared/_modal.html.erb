@@ -1,20 +1,15 @@
 <div
+  id="modal-container"
   data-controller="modal"
-  id="modal"
   class="fixed inset-0 z-50 flex items-center justify-center hidden"
 >
   <div
     class="absolute inset-0 bg-black opacity-50"
     data-action="click->modal#close"
   ></div>
-  <div
-    data-modal-target="content"
-    class="relative bg-white rounded-lg p-6 w-full max-w-xl"
+  <turbo-frame
+    id="modal-frame"
+    class="relative bg-white rounded-lg p-6 max-w-xl w-full"
   >
-    <button
-      data-action="click->modal#close"
-      class="absolute top-2 right-2 text-gray-700"
-    >&times;</button>
-    <!-- This content will be loaded dynamically -->
-  </div>
+  </turbo-frame>
 </div>

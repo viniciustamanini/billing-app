@@ -5,6 +5,11 @@ class CompaniesController < ApplicationController
     @company = Company.new
   end
 
+  def modal_new
+    @company = Company.new
+  render :modal_new, layout: false
+  end
+
   def create
     default_profile = params[:default_profile]
     @company = CompanyCreator.new(current_user, company_params, default_profile).call
@@ -15,6 +20,9 @@ class CompaniesController < ApplicationController
   end
 
   def show
+    @company = Company.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    flash.now[:warning] = e.message
   end
 
   private

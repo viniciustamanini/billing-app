@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "up" => "rails/health#show", as: :rails_health_check
 
     resources :companies, only: %i[new create show]
+    get "companies/modal_new", to: "companies#modal_new", as: :modal_new_company
     get "profiles/choose", to: "profiles#choose", as: :choose_profile
     get "customer_dashboard", to: "customer_dashboard#index", as: :customer_dashboard
 
