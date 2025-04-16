@@ -53,7 +53,7 @@
       <% end %>
     </div>
 
-    <nav class="navbar">
+    <nav class="navbar flex items-center gap-4">
       <div class="navbar-content-container">
         <div class="navbar-column navbar-col-1">
           <h1 class="text-black"><%= t("welcome") %></h1>
@@ -75,8 +75,25 @@
           <div>
             <%= link_to t("switch_profile"), choose_profile_path, class: "btn-primary" %>
           </div>
-          <i class="material-icons text-4xl">account_circle</i>
-          <p><%= current_user.first_name %></p>
+
+          <button class="text-gray-600">
+            <i class="material-icons">visibility</i>
+          </button>
+
+          <button class="text-gray-600">
+            <i class="material-icons">notifications</i>
+          </button>
+
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="material-icons">account_circle</i>
+            </div>
+            <span class="font-medium">
+              <%= current_user.first_name %>
+              <%= current_user.last_name %>
+            </span>
+            <i class="material-icons">expand_more</i>
+          </div>
         </div>
       </div>
     </nav>

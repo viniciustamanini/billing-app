@@ -53,7 +53,7 @@
   }
 
   .navbar-search {
-    @apply w-80 h-9 px-2 border border-solid border-[var(--color-primary)] box-border rounded-lg bg-white text-[#030303] text-sm leading-[19px];
+    @apply w-80 h-9 px-2 border border-solid border-[var(--color-primary)] box-border rounded-lg bg-white text-[#030303] text-sm leading-[19px] focus:border-[var(--color-gold)];
   }
 
   .body-content {
@@ -101,7 +101,7 @@
   }
 
   .input-primary {
-    @apply bg-white p-2 w-full text-black;
+    @apply bg-white p-2 w-full text-black focus:border-[var(--color-gold)];
   }
 
   .btn-primary {
