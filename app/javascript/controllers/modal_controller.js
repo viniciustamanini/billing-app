@@ -15,4 +15,8 @@ export default class extends Controller {
     event.preventDefault();
     this.element.classList.add("hidden");
   }
+
+  closeOnForms() {
+    this.element.classList.add("hidden");
+  }
 }

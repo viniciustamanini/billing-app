@@ -112,6 +112,10 @@
     @apply w-full content-center p-2 py-2 border border-[var(--color-gold)] text-[var(--color-gold)] bg-transparent rounded cursor-pointer hover:bg-yellow-500 mt-3 hover:text-black transition;
   }
 
+  .btn-icon {
+    hover: cursor-pointer transition;
+  }
+
   .divider {
     @apply my-1 text-white text-xs;
   }

@@ -16,7 +16,7 @@ class CompaniesController < ApplicationController
     redirect_to root_path, flash: { success: "Company was successfuly created!" }
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:error] = e.message
-    render new
+    render choose_profile_path
   end
 
   def show

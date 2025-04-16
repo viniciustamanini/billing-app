@@ -21,8 +21,18 @@
   </div>
 
   <div class="mb-4">
+    <%= form.label :email, class: "block text-gray-700" %>
+    <%= form.email_field :email, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
     <%= form.label :address, class: "block text-gray-700" %>
     <%= form.text_field :address, class: "border rounded w-full px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :zip_code, class: "block text-gray-700" %>
+    <%= form.text_field :zip_code, class: "border rounded w-full px-3 py-2" %>
   </div>
 
   <div class="mb-4">
@@ -36,18 +46,8 @@
   </div>
 
   <div class="mb-4">
-    <%= form.label :zip_code, class: "block text-gray-700" %>
-    <%= form.text_field :zip_code, class: "border rounded w-full px-3 py-2" %>
-  </div>
-
-  <div class="mb-4">
     <%= form.label :country, class: "block text-gray-700" %>
     <%= form.text_field :country, class: "border rounded w-full px-3 py-2" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :email, class: "block text-gray-700" %>
-    <%= form.email_field :email, class: "border rounded w-full px-3 py-2" %>
   </div>
 
   <div class="mt-4">
@@ -56,6 +56,10 @@
   </div>
 
   <div class="mt-4">
-    <%= form.submit "Create Company", class: "btn-primary" %>
+    <%= form.submit "Create Company",
+                class: "btn-primary",
+                data: {
+                  action: "click->modal#closeOnForms",
+                } %>
   </div>
 <% end %>
