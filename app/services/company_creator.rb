@@ -9,11 +9,12 @@ class CompanyCreator
   def call
     Company.transaction do
       company = Company.create!(@company_params)
-      admin_profile_type = ProfileType.find_by!(name: "administrator")
+      admin_profile_type = ProfileType.admin
 
       if @default_profile_flag
         @user.profiles.where(default_profile: true).update_all(default_profile: false)
       end
+
       @user.profiles.create!(
         company: company,
         profile_type: admin_profile_type,
