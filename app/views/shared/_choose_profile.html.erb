@@ -1,7 +1,7 @@
 <div class="w-full max-w-4xl mx-auto px-4 py-8">
   <h2 class="text-2xl font-bold text-center mb-6"><%= t("choose_your_profile") %></h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <% customer_profile = @profiles.select { |p| p.profile_type.name == "client" } %>
+    <% customer_profile = @profiles.select { |p| p.profile_type.name == "customer" } %>
     <% employee_profiles = @profiles.select { |p| p.profile_type.name == "employee" } %>
     <% admin_profiles = @profiles.select { |p| p.profile_type.name == "administrator" } %>
 
@@ -26,7 +26,7 @@
         icon_size_in_px: "48",
         icon_name: "badge",
         title: employee_profile.company.name.upcase,
-        description: "Gerencie tarefas e relatórios",
+        description: t("employee_profile_description"),
         path: root_path,
         hint: t("employee_profile_hint"),
         is_default_profile: employee_profile.default_profile %>
@@ -42,7 +42,7 @@
         icon_size_in_px: "48",
         icon_name: "admin_panel_settings",
         title: admin_profile.company.name.upcase,
-        description: "Acesso completo a todos os recursos",
+        description: t("admin_profile_description"),
         path: root_path,
         hint: t("admin_profile_hint"),
         is_default_profile: admin_profile.default_profile %>
@@ -65,15 +65,21 @@
         </div>
         <h3 class="text-lg font-semibold mb-2">Criar Empresa</h3>
         <p class="text-gray-600 text-center mb-4">
-          Cadastre uma nova empresa e seja o administrador
+          <%= t("register_new_company") %>
         </p>
-        <%= link_to "Criar Empresa", new_company_path, class: "btn-secondary" %>
+        <%= link_to t("register_new_company"),
+        modal_new_companies_path(format: :html),
+        data: {
+          turbo_frame: "modal-frame",
+          action: "turbo:frame-load->modal#open",
+        },
+        class: "btn-secondary" %>
       </div>
     <% end %>
   </div>
 
-  <div class="mt-8 text-center">
-    <%= link_to "Registrar nova empresa",
+  <div class="mt-8 flex justify-between items-center">
+    <%= link_to t("create_new_profile_or_company"),
     modal_new_companies_path(format: :html),
     data: {
       turbo_frame: "modal-frame",
@@ -83,9 +89,9 @@
 
     <%= link_to destroy_user_session_path,
             data: { "turbo-method": :delete } do %>
-      <div class="btn-primary shadow">
+      <div class="btn-primary shadow flex items-center">
         <%= t("log_out") %>
-        <i class=" material-icons">logout</i>
+        <i class="material-icons">logout</i>
       </div>
     <% end %>
   </div>

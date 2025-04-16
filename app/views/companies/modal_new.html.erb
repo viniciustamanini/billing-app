@@ -1,12 +1,10 @@
 <turbo-frame id="modal-frame">
-  <h1 class="text-2xl font-bold mb-6">New Company</h1>
-  <button
-    type="button"
-    <%# class="absolute top-4 right-4" %>
-    data-action="click->modal#close"
-  >
-    <i class="material-icons text-4xl">close_small</i>
-  </button>
+  <div class="relative">
+    <h1 class="text-2xl font-bold mb-6"><%= t("register_new_company") %></h1>
+    <button type="button" data-action="click->modal#close">
+      <i class="material-icons text-4xl">close_small</i>
+    </button>
+  </div>
 
   <%= render "form" %>
 </turbo-frame>

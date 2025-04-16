@@ -113,7 +113,7 @@
   }
 
   .btn-icon {
-    hover: cursor-pointer transition;
+    @apply hover:cursor-pointer transition;
   }
 
   .divider {
