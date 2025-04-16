@@ -78,21 +78,27 @@
     <% end %>
   </div>
 
-  <div class="mt-8 flex justify-between items-center">
-    <%= link_to t("create_new_profile_or_company"),
-    modal_new_companies_path(format: :html),
-    data: {
-      turbo_frame: "modal-frame",
-      action: "turbo:frame-load->modal#open",
-    },
-    class: "btn-primary shadow" %>
+  <div class="mt-8 flex justify-between relative">
+    <div class="flex-1">
+      <div class="flex justify-center">
+        <%= link_to modal_new_companies_path(format: :html),
+        data: {
+          turbo_frame: "modal-frame",
+          action: "turbo:frame-load->modal#open",
+        } do %>
+          <button class="btn-primary shadow">
+            <%= t("create_new_profile_or_company") %>
+          </button>
+        <% end %>
+      </div>
+    </div>
 
     <%= link_to destroy_user_session_path,
             data: { "turbo-method": :delete } do %>
-      <div class="btn-primary shadow flex items-center">
+      <button class="btn-primary shadow flex items-center gap-2">
         <%= t("log_out") %>
         <i class="material-icons">logout</i>
-      </div>
+      </button>
     <% end %>
   </div>
 
