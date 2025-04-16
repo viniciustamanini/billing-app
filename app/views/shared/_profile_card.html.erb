@@ -3,12 +3,18 @@
     bg-white shadow rounded-lg flex flex-col items-center p-6 h-56 hover:shadow-lg
     transition-shadow relative
   "
+  data-controller="profile"
 >
   <div class="absolute top-2 right-2">
-    <%= check_box_tag "profile[default_profile]",
-    "true",
-    is_default_profile,
-    class: "checkbox-class" %>
+    <span id="profile_checkbox_<%= local_assigns[:profile_id] %>">
+      <%= if local_assigns[:profile_id]
+        render partial: "profiles/checkbox_input",
+        locals: {
+          profile: Profile.find_by(id: local_assigns[:profile_id]),
+          is_default: is_default_profile,
+        }
+      end %>
+    </span>
   </div>
 
   <%= link_to path, title: hint do %>

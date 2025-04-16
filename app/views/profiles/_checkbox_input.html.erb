@@ -1,0 +1,11 @@
+<%= check_box_tag "profile[default_profile]",
+"true",
+is_default,
+id: nil,
+class: "checkbox-gold",
+data: {
+  profile_target: "defaultCheckbox",
+  action: "change->profile#toggleDefault",
+  profile_id: profile.id,
+  url: update_default_profile_path(profile.id)
+} %> 

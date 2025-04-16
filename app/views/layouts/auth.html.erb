@@ -23,28 +23,29 @@
   </head>
 
   <body>
-    <div id="toasts" class="toast-container">
+    <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">
       <% flash.each do |type, message| %>
-        <% type_str = type.to_s %>
-        <% type_class =
-          case type_str
-          when "notice"
-            "info"
-          when "alert"
-            "error"
-          when "warning"
-            "warning"
-          when "success"
-            "success"
-          else
-            "info"
-          end %>
+        <% 
+        # Map Rails flash types to our toast types
+        icon_type = case type.to_s
+                    when "notice"
+                      "info"
+                    when "alert"
+                      "error"
+                    when "warning"
+                      "warning"
+                    when "success"
+                      "success"
+                    else
+                      "info"
+                    end
+        %>
 
         <%= render partial: "shared/toast",
         locals: {
           message: message,
-          icon: type_class,
-          show_undo: (type_str == "notice"),
+          icon: icon_type,
+          show_undo: false
         } %>
       <% end %>
     </div>

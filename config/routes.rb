@@ -11,6 +11,13 @@ Rails.application.routes.draw do
         get "companies/modal_new", to: "companies#modal_new", as: :modal_new
       end
     end
+    
+    resources :profiles, only: [] do
+      member do
+        patch :update_default
+      end
+    end
+
     get "profiles/choose", to: "profiles#choose", as: :choose_profile
     get "customer_dashboard", to: "customer_dashboard#index", as: :customer_dashboard
 

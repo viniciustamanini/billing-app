@@ -5,14 +5,11 @@ export default class extends Controller {
 
   connect() {
     // Total duration in milliseconds before auto-close
-    this.totalTime = 3000;
+    this.totalTime = 5000;
     this.remainingTime = this.totalTime;
 
-    // Setup the counter element as a progress bar
-    this.counterTarget.style.width = "100%";
-    this.counterTarget.style.height = "4px"; // adjust height as needed
-    this.counterTarget.style.backgroundColor = "#3B82F6"; // Tailwind blue-500
-    this.counterTarget.style.display = "block";
+    // Counter is now the bottom progress bar - no need to set color
+    // as it's handled by the CSS classes
 
     // Start the countdown timer and progress update
     this.startCountdown();
@@ -64,6 +61,13 @@ export default class extends Controller {
   closeToast() {
     clearTimeout(this.autoCloseTimeout);
     clearInterval(this.progressInterval);
-    this.element.remove();
+    
+    // Add fade-out animation
+    this.element.classList.add("opacity-0", "transition-opacity", "duration-300");
+    
+    // Remove after animation completes
+    setTimeout(() => {
+      this.element.remove();
+    }, 300);
   }
 }

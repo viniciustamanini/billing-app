@@ -24,6 +24,39 @@
   input {
     @apply border-solid border-black rounded;
   }
+  
+  /* Custom checkbox styling */
+  input[type="checkbox"].checkbox-gold {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-gold);
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  input[type="checkbox"].checkbox-gold:checked {
+    background-color: var(--color-gold);
+  }
+  
+  input[type="checkbox"].checkbox-gold:checked::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+  input[type="checkbox"].checkbox-gold:focus {
+    outline: 2px solid var(--color-gold-hover);
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
