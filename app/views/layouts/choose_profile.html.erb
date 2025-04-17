@@ -29,28 +29,7 @@
   <body>
     <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">
       <% flash.each do |type, message| %>
-        <% 
-        # Map Rails flash types to our toast types
-        icon_type = case type.to_s
-                    when "notice"
-                      "info"
-                    when "alert"
-                      "error"
-                    when "warning"
-                      "warning"
-                    when "success"
-                      "success"
-                    else
-                      "info"
-                    end
-        %>
-
-        <%= render partial: "shared/toast",
-        locals: {
-          message: message,
-          icon: icon_type,
-          show_undo: false
-        } %>
+        <%= render partial: "shared/toast", locals: { message: message, show_undo: true } %>
       <% end %>
     </div>
 

@@ -26,35 +26,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="sidebar">
     <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">
       <% flash.each do |type, message| %>
-        <% 
-        # Map Rails flash types to our toast types
-        icon_type = case type.to_s
-                    when "notice"
-                      "info"
-                    when "alert"
-                      "error"
-                    when "warning"
-                      "warning"
-                    when "success"
-                      "success"
-                    else
-                      "info"
-                    end
-        %>
-
-        <%= render partial: "shared/toast",
-        locals: {
-          message: message,
-          icon: icon_type,
-          show_undo: false
-        } %>
+        <%= render partial: "shared/toast", locals: { message: message, show_undo: false } %>
       <% end %>
     </div>
 
-    <nav class="navbar flex items-center gap-4">
+    <nav class="navbar sidebar-expanded" data-sidebar-target="navbar">
       <div class="navbar-content-container">
         <div class="navbar-column navbar-col-1">
           <h1 class="text-black"><%= t("welcome") %></h1>
@@ -100,63 +79,116 @@
     </nav>
 
     <div class="body-content">
-      <div class="sidebar">
-        <%= link_to root_path, class: "sidebar-logo" do %>
-          <i class="material-icons text-[var(--color-gold)]">paid</i>
-          <h1 class="sidebar-logo-text">Billin' Jean</h1>
-        <% end %>
-
-        <%= link_to root_path, title: "Ir ao Dashboard", class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
-          <i class="material-icons text-[var(--color-gold)]">space_dashboard</i>
-          <p>Dashboard</p>
-        <% end %>
-
-        <div class="divider-horizontal"></div>
-
-        <div class="flex items-center gap-2 mb-4">
-          <%= link_to root_path do %>
-            <i class="material-icons text-5xl">account_circle</i>
+      <div
+        class="sidebar expanded flex flex-col justify-between"
+        data-sidebar-target="sidebar"
+      >
+        <div class="space-y-5">
+          <%= link_to root_path, class: "sidebar-logo mb-3" do %>
+            <div class="sidebar-icon">
+              <i class="material-icons text-[var(--color-gold)]">paid</i>
+            </div>
+            <h1 class="sidebar-logo-text">Billin Jean</h1>
           <% end %>
-          <div>
-            <p class="leading-tight"><%= current_user.first_name %></p>
-            <p class="text-sm text-gray-400 leading-tight"><%= current_user.email %></p>
+
+          <div class="sidebar-toggle expanded" data-sidebar-target="toggle">
+            <div class="sidebar-link">
+              <div class="sidebar-icon">
+                <i class=" material-icons ">arrow_menu_close</i>
+              </div>
+              <p class="sidebar-text">Collapse sidebar</p>
+            </div>
           </div>
+
+          <%= link_to root_path, title: "Ir ao Dashboard", class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">space_dashboard</i>
+            </div>
+            <p class="sidebar-text">Dashboard</p>
+          <% end %>
+
+          <%= link_to root_path, class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">notifications</i>
+            </div>
+            <p class="sidebar-text">Configurar notificações</p>
+          <% end %>
+
+          <%= link_to root_path, class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">incomplete_circle</i>
+            </div>
+            <p class="sidebar-text">Segmentações</p>
+          <% end %>
+
+          <%= link_to root_path, class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">groups</i>
+            </div>
+            <p class="sidebar-text">Clientes</p>
+          <% end %>
+
+          <%= link_to root_path, class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">store</i>
+            </div>
+            <p class="sidebar-text">Empresa</p>
+          <% end %>
         </div>
+        <!-- Bottom section with user info and settings -->
+        <div class="mt-auto space-y-5">
+          <div class="divider-horizontal"></div>
 
-        <div class="divider-horizontal"></div>
+          <div class="flex items-center gap-3 px-2 py-3">
+            <div class="sidebar-icon">
+              <i class="material-icons text-3xl text-white">account_circle</i>
+            </div>
+            <div class="sidebar-text">
+              <p class="leading-tight"><%= current_user.first_name %>
+                <%= current_user.last_name %></p>
+              <p class="text-sm text-gray-400 leading-tight"><%= current_user.email %></p>
+            </div>
+          </div>
 
-        <%= link_to root_path, class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
-          <i class=" material-icons text-[var(--color-gold)]">settings</i>
-          <%= t("settings") %>
-        <% end %>
+          <div class="divider-horizontal"></div>
 
-        <% if I18n.locale == :en %>
-          <%= link_to url_for(locale: :pt),
-          class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
-            <i class="material-icons text-[var(--color-gold)]">language</i>
-            Português
+          <%= link_to root_path, class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">settings</i>
+            </div>
+            <p class="sidebar-text">Configurações</p>
           <% end %>
-        <% else %>
-          <%= link_to url_for(locale: :en),
-          class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
-            <i class=" material-icons text-[var(--color-gold)]">language</i>
-            English
-          <% end %>
-        <% end %>
 
-        <%= link_to destroy_user_session_path,
-            data: { "turbo-method": :delete },
-            class: "flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)]" do %>
-          <i class=" material-icons text-[var(--color-gold)]">logout</i>
-          <%= t("log_out") %>
-        <% end %>
+          <% if I18n.locale == :en %>
+            <%= link_to url_for(locale: :pt), class: "sidebar-link" do %>
+              <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+                <i class=" material-icons text-[var(--color-gold)] ">language</i>
+              </div>
+              <p class="sidebar-text">PT/BR</p>
+            <% end %>
+          <% else %>
+            <%= link_to url_for(locale: :en), class: "sidebar-link" do %>
+              <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+                <i class=" material-icons text-[var(--color-gold)] ">language</i>
+              </div>
+              <p class="sidebar-text">EN/US</p>
+            <% end %>
+          <% end %>
+
+          <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "sidebar-link" do %>
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-icons text-[var(--color-gold)] ">exit_to_app</i>
+            </div>
+            <p class="sidebar-text">Sair</p>
+          <% end %>
+        </div>
 
         <% if controller_name == "profiles" %>
           <%= render "shared/modal" %>
         <% end %>
       </div>
 
-      <main class="content">
+      <main class="content sidebar-expanded" data-sidebar-target="content">
         <%= yield %>
       </main>
     </div>

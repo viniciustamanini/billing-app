@@ -5,8 +5,8 @@
   --color-primary: #d1d1d1;
   --color-gold: #ffcc00;
   --color-gold-hover: #c9a202;
-  /*--sidebar-width: 5rem;*/
-  --sidebar-width: 14.375rem;
+  --sidebar-width-expanded: 16rem;
+  --sidebar-width-collapsed: 4rem;
   --navbar-height: 4rem;
 }
 
@@ -24,8 +24,7 @@
   input {
     @apply border-solid border-black rounded;
   }
-  
-  /* Custom checkbox styling */
+
   input[type="checkbox"].checkbox-gold {
     appearance: none;
     width: 20px;
@@ -36,11 +35,11 @@
     cursor: pointer;
     position: relative;
   }
-  
+
   input[type="checkbox"].checkbox-gold:checked {
     background-color: var(--color-gold);
   }
-  
+
   input[type="checkbox"].checkbox-gold:checked::after {
     content: "";
     position: absolute;
@@ -52,7 +51,7 @@
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
-  
+
   input[type="checkbox"].checkbox-gold:focus {
     outline: 2px solid var(--color-gold-hover);
     outline-offset: 2px;
@@ -61,8 +60,16 @@
 
 @layer components {
   .navbar {
-    @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-white ml-[var(--sidebar-width)] h-[var(--navbar-height)] w-full fixed
-    content-center;
+    @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-white h-[var(--navbar-height)] w-full fixed
+    content-center transition-all duration-300;
+  }
+
+  .navbar.sidebar-expanded {
+    @apply ml-[var(--sidebar-width-expanded)];
+  }
+
+  .navbar.sidebar-collapsed {
+    @apply ml-[var(--sidebar-width-collapsed)];
   }
 
   .navbar-content-container {
@@ -94,7 +101,31 @@
   }
 
   .sidebar {
-    @apply fixed inset-y-0 left-0 w-[var(--sidebar-width)] bg-black text-white p-4 space-y-6;
+    @apply fixed inset-y-0 left-0 bg-black text-white p-4 space-y-6 transition-all duration-300 overflow-hidden flex flex-col;
+  }
+
+  .sidebar.expanded {
+    @apply w-[var(--sidebar-width-expanded)];
+  }
+
+  .sidebar.collapsed {
+    @apply w-[var(--sidebar-width-collapsed)];
+  }
+
+  .sidebar-toggle {
+    @apply text-white cursor-pointer transition-all duration-300;
+  }
+
+  .sidebar-toggle:hover .material-icons {
+    @apply text-[var(--color-gold-hover)];
+  }
+
+  .sidebar-toggle.expanded {
+    @apply w-full;
+  }
+
+  .sidebar-toggle.collapsed {
+    @apply w-full;
   }
 
   .sidebar-logo {
@@ -102,11 +133,43 @@
   }
 
   .sidebar-logo-text {
-    @apply font-bold text-2xl;
+    @apply font-bold text-2xl transition-opacity duration-300;
+  }
+
+  .sidebar-text {
+    @apply transition-opacity duration-300;
+  }
+
+  .collapsed .sidebar-text {
+    @apply opacity-0 absolute;
+  }
+
+  .collapsed .sidebar-logo-text {
+    @apply opacity-0 absolute;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-2 text-white hover:text-[var(--color-gold-hover)] whitespace-nowrap py-2;
+  }
+
+  .sidebar-icon {
+    @apply flex-shrink-0 w-8 flex justify-center;
+  }
+
+  .sidebar-icon i {
+    @apply transition-colors duration-200;
   }
 
   .content {
-    @apply flex-1 p-6 ml-[var(--sidebar-width)] mt-[var(--navbar-height)];
+    @apply flex-1 p-6 mt-[var(--navbar-height)] transition-all duration-300;
+  }
+
+  .content.sidebar-expanded {
+    @apply ml-[var(--sidebar-width-expanded)];
+  }
+
+  .content.sidebar-collapsed {
+    @apply ml-[var(--sidebar-width-collapsed)];
   }
 
   .actions {

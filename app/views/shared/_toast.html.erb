@@ -1,35 +1,33 @@
-<%
-# Map icon types to their visual styles
+<% icon ||= "info"
+
 toast_styles = {
   "success" => {
     icon: "check_circle",
     icon_class: "text-green-600",
     border_class: "border-green-600",
-    bottom_bar_class: "bg-green-600"
+    bottom_bar_class: "bg-green-600",
   },
   "info" => {
     icon: "info",
     icon_class: "text-blue-500",
     border_class: "border-blue-500",
-    bottom_bar_class: "bg-blue-500"
+    bottom_bar_class: "bg-blue-500",
   },
   "error" => {
     icon: "error",
     icon_class: "text-red-600",
     border_class: "border-red-600",
-    bottom_bar_class: "bg-red-600"
+    bottom_bar_class: "bg-red-600",
   },
   "warning" => {
     icon: "warning",
     icon_class: "text-amber-500",
     border_class: "border-amber-500",
-    bottom_bar_class: "bg-amber-500"
-  }
+    bottom_bar_class: "bg-amber-500",
+  },
 }
 
-# Get the styles for the current toast type
-style = toast_styles[icon] || toast_styles["info"]
-%>
+style = toast_styles[icon] || toast_styles["info"] %>
 
 <div
   data-controller="toast"
@@ -46,16 +44,24 @@ style = toast_styles[icon] || toast_styles["info"]
         <%= message %>
       </p>
     </div>
+    <% if defined?(show_undo) && show_undo %>
+      <button type="button" class="toast-undo">
+        <%= t("undo") %>
+      </button>
+    <% end %>
     <div class="flex-shrink-0">
       <button
         type="button"
         data-toast-target="closeButton"
-        class="text-gray-500 hover:text-gray-700"
+        class="text-gray-500 hover:text-gray-700 hover:cursor-pointer"
         aria-label="Close"
       >
         <i class="material-icons">close</i>
       </button>
     </div>
   </div>
-  <div class="h-1 w-full <%= style[:bottom_bar_class] %>" data-toast-target="counter"></div>
+  <div
+    class="h-1 w-full <%= style[:bottom_bar_class] %>"
+    data-toast-target="counter"
+  ></div>
 </div>
