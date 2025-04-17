@@ -29,13 +29,9 @@ export default class extends Controller {
       this.contentTarget.classList.remove("sidebar-expanded");
       this.contentTarget.classList.add("sidebar-collapsed");
 
-      this.toggleTarget.classList.remove("expanded");
-      this.toggleTarget.classList.add("collapsed");
-
-      // Update icon and text for collapsed state
-      const iconElement = this.toggleTarget.querySelector(".material-icons");
+      const iconElement = this.toggleTarget.querySelector(".material-symbols-outlined");
       if (iconElement) {
-        iconElement.textContent = "arrow_menu_open";
+        iconElement.textContent = "left_panel_open";
       }
 
       localStorage.setItem("sidebarState", "collapsed");
@@ -49,16 +45,12 @@ export default class extends Controller {
       this.contentTarget.classList.remove("sidebar-collapsed");
       this.contentTarget.classList.add("sidebar-expanded");
 
-      this.toggleTarget.classList.remove("collapsed");
-      this.toggleTarget.classList.add("expanded");
-
-      const iconElement = this.toggleTarget.querySelector(".material-icons");
+      const iconElement = this.toggleTarget.querySelector(".material-symbols-outlined");
       if (iconElement) {
-        iconElement.textContent = "arrow_menu_close";
+        iconElement.textContent = "left_panel_close";
       }
 
       localStorage.setItem("sidebarState", "expanded");
     }
   }
 }
-

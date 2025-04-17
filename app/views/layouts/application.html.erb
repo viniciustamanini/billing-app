@@ -17,9 +17,9 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
       rel="stylesheet"
-    >
+    />
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
@@ -47,7 +47,11 @@
               placeholder="<%= t("search_customer") %>"
               class="navbar-search pr-10"
             />
-            <i class="material-icons absolute right-2 top-1/2 transform -translate-y-1/2">search</i>
+            <i
+              class="
+                material-symbols-outlined absolute right-2 top-1/2 transform -translate-y-1/2
+              "
+            >search</i>
           </div>
         </div>
 
@@ -57,22 +61,22 @@
           </div>
 
           <button class="text-gray-600">
-            <i class="material-icons">visibility</i>
+            <i class="material-symbols-outlined">visibility</i>
           </button>
 
           <button class="text-gray-600">
-            <i class="material-icons">notifications</i>
+            <i class="material-symbols-outlined">notifications</i>
           </button>
 
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 flex items-center justify-center">
-              <i class="material-icons">account_circle</i>
+              <i class="material-symbols-outlined">account_circle</i>
             </div>
             <span class="font-medium">
               <%= current_user.first_name %>
               <%= current_user.last_name %>
             </span>
-            <i class="material-icons">expand_more</i>
+            <i class="material-symbols-outlined">expand_more</i>
           </div>
         </div>
       </div>
@@ -86,51 +90,53 @@
         <div class="space-y-5">
           <%= link_to root_path, class: "sidebar-logo mb-3" do %>
             <div class="sidebar-icon">
-              <i class="material-icons text-[var(--color-gold)]">paid</i>
+              <i class="material-symbols-outlined text-[var(--color-gold)]">paid</i>
             </div>
             <h1 class="sidebar-logo-text">Billin Jean</h1>
           <% end %>
 
-          <div class="sidebar-toggle expanded" data-sidebar-target="toggle">
-            <div class="sidebar-link">
-              <div class="sidebar-icon">
-                <i class=" material-icons ">arrow_menu_close</i>
-              </div>
-              <p class="sidebar-text">Collapse sidebar</p>
+          <div class="sidebar-link cursor-pointer" data-sidebar-target="toggle">
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i
+                class="
+                  material-symbols-outlined text-[var(--color-gold)]
+                "
+              >left_panel_close</i>
             </div>
+            <p class="sidebar-text">Collapse sidebar</p>
           </div>
 
           <%= link_to root_path, title: "Ir ao Dashboard", class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">space_dashboard</i>
+              <i class="material-symbols-outlined text-[var(--color-gold)] ">space_dashboard</i>
             </div>
             <p class="sidebar-text">Dashboard</p>
           <% end %>
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">notifications</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">notifications</i>
             </div>
             <p class="sidebar-text">Configurar notificações</p>
           <% end %>
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">incomplete_circle</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">incomplete_circle</i>
             </div>
             <p class="sidebar-text">Segmentações</p>
           <% end %>
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">groups</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">groups</i>
             </div>
             <p class="sidebar-text">Clientes</p>
           <% end %>
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">store</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">store</i>
             </div>
             <p class="sidebar-text">Empresa</p>
           <% end %>
@@ -141,7 +147,7 @@
 
           <div class="flex items-center gap-3 px-2 py-3">
             <div class="sidebar-icon">
-              <i class="material-icons text-3xl text-white">account_circle</i>
+              <i class="material-symbols-outlined text-3xl text-white">account_circle</i>
             </div>
             <div class="sidebar-text">
               <p class="leading-tight"><%= current_user.first_name %>
@@ -154,7 +160,7 @@
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">settings</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">settings</i>
             </div>
             <p class="sidebar-text">Configurações</p>
           <% end %>
@@ -162,14 +168,14 @@
           <% if I18n.locale == :en %>
             <%= link_to url_for(locale: :pt), class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-                <i class=" material-icons text-[var(--color-gold)] ">language</i>
+                <i class=" material-symbols-outlined text-[var(--color-gold)] ">language</i>
               </div>
               <p class="sidebar-text">PT/BR</p>
             <% end %>
           <% else %>
             <%= link_to url_for(locale: :en), class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-                <i class=" material-icons text-[var(--color-gold)] ">language</i>
+                <i class=" material-symbols-outlined text-[var(--color-gold)] ">language</i>
               </div>
               <p class="sidebar-text">EN/US</p>
             <% end %>
@@ -177,9 +183,9 @@
 
           <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-icons text-[var(--color-gold)] ">exit_to_app</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">exit_to_app</i>
             </div>
-            <p class="sidebar-text">Sair</p>
+            <p class="sidebar-text"><%= t("logout") %></p>
           <% end %>
         </div>
 

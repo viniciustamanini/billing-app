@@ -116,7 +116,7 @@
     @apply text-white cursor-pointer transition-all duration-300;
   }
 
-  .sidebar-toggle:hover .material-icons {
+  .sidebar-toggle:hover .material-symbols-outlined {
     @apply text-[var(--color-gold-hover)];
   }
 

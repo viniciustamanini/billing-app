@@ -37,7 +37,7 @@ style = toast_styles[icon] || toast_styles["info"] %>
 >
   <div class="flex items-center p-4">
     <div class="flex-shrink-0 <%= style[:icon_class] %> mr-4">
-      <i class="material-icons text-3xl"><%= style[:icon] %></i>
+      <i class="material-symbols-outlined text-3xl"><%= style[:icon] %></i>
     </div>
     <div class="flex-grow">
       <p class="font-medium">
@@ -56,7 +56,7 @@ style = toast_styles[icon] || toast_styles["info"] %>
         class="text-gray-500 hover:text-gray-700 hover:cursor-pointer"
         aria-label="Close"
       >
-        <i class="material-icons">close</i>
+        <i class="material-symbols-outlined">close</i>
       </button>
     </div>
   </div>

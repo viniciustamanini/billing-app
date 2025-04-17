@@ -1,9 +1,12 @@
 <div class="w-full max-w-4xl mx-auto px-4 py-8">
   <h2 class="text-2xl font-bold text-center mb-6"><%= t("choose_your_profile") %></h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <% customer_profile = @profiles.select { |p| p.profile_type.name == "customer" }.first %>
-    <% employee_profiles = @profiles.select { |p| p.profile_type.name == "employee" }.sort_by(&:id) %>
-    <% admin_profiles = @profiles.select { |p| p.profile_type.name == "administrator" }.sort_by(&:id) %>
+    <% customer_profile =
+      @profiles.select { |p| p.profile_type.name == "customer" }.first %>
+    <% employee_profiles =
+      @profiles.select { |p| p.profile_type.name == "employee" }.sort_by(&:id) %>
+    <% admin_profiles =
+      @profiles.select { |p| p.profile_type.name == "administrator" }.sort_by(&:id) %>
 
     <%= render "shared/profile_card",
     icon_bg: "bg-gold",
@@ -25,7 +28,7 @@
         extra_icon_bg_class: "",
         icon_color: "text-black",
         icon_size_in_px: "48",
-        icon_name: "badge",
+        icon_name: "business_center",
         title: employee_profile.company.name.upcase,
         description: t("employee_profile_description"),
         path: root_path,
@@ -42,7 +45,7 @@
         extra_icon_bg_class: "",
         icon_color: "text-gold",
         icon_size_in_px: "48",
-        icon_name: "admin_panel_settings",
+        icon_name: "crown",
         title: admin_profile.company.name.upcase,
         description: t("admin_profile_description"),
         path: root_path,
@@ -64,7 +67,7 @@
             bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mb-4
           "
         >
-          <i class="material-icons text-white">add_business</i>
+          <i class="material-symbols-outlined text-white">add_business</i>
         </div>
         <h3 class="text-lg font-semibold mb-2">Criar Empresa</h3>
         <p class="text-gray-600 text-center mb-4">
@@ -100,7 +103,7 @@
             data: { "turbo-method": :delete } do %>
       <button class="btn-primary shadow flex items-center gap-2">
         <%= t("log_out") %>
-        <i class="material-icons">logout</i>
+        <i class="material-symbols-outlined">logout</i>
       </button>
     <% end %>
   </div>
