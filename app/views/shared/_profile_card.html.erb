@@ -19,7 +19,13 @@
     </div>
   <% end %>
 
-  <%= link_to path, title: hint do %>
+  <% data_attrs = {} %>
+  <% if local_assigns[:open_in_modal] %>
+    <% data_attrs[:turbo_frame] = "modal-frame" %>
+    <% data_attrs[:action] = "turbo:frame-load->modal#open" %>
+  <% end %>
+
+  <%= link_to path, title: hint, data: data_attrs do %>
     <div class="w-full">
       <div class="justify-self-center">
         <span
