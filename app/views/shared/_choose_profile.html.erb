@@ -41,7 +41,7 @@
     <% if admin_profiles.any? %>
       <% admin_profiles.each do |admin_profile| %>
         <%= render "shared/profile_card",
-        icon_bg: "bg-black",
+        icon_bg: "bg-white",
         extra_icon_bg_class: "",
         icon_color: "text-gold",
         icon_size_in_px: "48",
@@ -56,31 +56,18 @@
     <% end %>
 
     <% if employee_profiles.empty? && admin_profiles.empty? %>
-      <div
-        class="
-          bg-white shadow rounded-lg flex flex-col items-center p-6 hover:shadow-lg
-          transition-shadow
-        "
-      >
-        <div
-          class="
-            bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mb-4
-          "
-        >
-          <i class="material-symbols-outlined text-white">add_business</i>
-        </div>
-        <h3 class="text-lg font-semibold mb-2">Criar Empresa</h3>
-        <p class="text-gray-600 text-center mb-4">
-          <%= t("register_new_company") %>
-        </p>
-        <%= link_to t("register_new_company"),
-        modal_new_companies_path(format: :html),
-        data: {
-          turbo_frame: "modal-frame",
-          action: "turbo:frame-load->modal#open",
-        },
-        class: "btn-secondary" %>
-      </div>
+      <%= render "shared/profile_card",
+      icon_bg: "bg-blue-300",
+      extra_icon_bg_class: "",
+      icon_color: "text-black",
+      icon_size_in_px: "48",
+      icon_name: "add_business",
+      title: t("register_new_company"),
+      description: t("register_new_company"),
+      path: modal_new_companies_path(format: :html),
+      hint: t("admin_profile_hint"),
+      profile_id: 0,
+      is_default_profile: false %>
     <% end %>
   </div>
 

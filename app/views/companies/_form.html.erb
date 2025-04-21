@@ -1,11 +1,7 @@
 <div class="session-box">
   <%= form_with model: @company, local: true do |form| %>
     <% if @company.errors.any? %>
-      <div
-        class="
-          bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb4
-        "
-      >
+      <div class="bg-red-800 border border-red-600 text-white px-4 py-3 rounded mb-4">
         <h2 class="font-bold"><%= pluralize(@company.errors.count, "error") %>
           prohibited this company from being saved:</h2>
         <ul class="list-disc pl-5">
@@ -17,51 +13,70 @@
     <% end %>
 
     <div class="field field-input-container">
-      <%= form.label :name %>
-      <%= form.text_field :name, class: "input-primary" %>
+      <%= form.label :name, "Nome", class: "block mb-1 text-white" %>
+      <%= form.text_field :name, class: "input-primary", placeholder: "Nome da empresa" %>
     </div>
 
     <div class="field field-input-container">
-      <%= form.label :email %>
-      <%= form.email_field :email, class: "input-primary" %>
+      <div class="flex justify-between">
+        <%= form.label :email, "Email", class: "block mb-1 text-white flex items-center" %>
+        <i
+          class="material-symbols-outlined text-[var(--color-gold)]"
+          title="<%= t("email_info") %>"
+        >info</i>
+      </div>
+      <%= form.email_field :email,
+                       class: "input-primary",
+                       placeholder: "email@noreply.com",
+                       disabled: true %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="field field-input-container">
+        <%= form.label :zip_code, "CEP", class: "block mb-1 text-white" %>
+        <%= form.number_field :zip_code,
+                          class: "w-full p-2 rounded bg-white text-black",
+                          placeholder: "00000-000" %>
+      </div>
+      <div class="field field-input-container">
+        <%= form.label :state, "UF", class: "block mb-1 text-white" %>
+        <%= form.select :state,
+                    options_for_select([%w[Selecione SC PR RS]]),
+                    {},
+                    class: "w-full p-2 rounded bg-white text-black appearance-none" %>
+      </div>
     </div>
 
     <div class="field field-input-container">
-      <%= form.label :address %>
-      <%= form.text_field :address, class: "input-primary" %>
+      <%= form.label :city, "Cidade", class: "block mb-1 text-white" %>
+      <%= form.select :city,
+                  options_for_select(
+                    [["Selecione", "Cidade um", "Cidade dois", "Cidade tres"]],
+                  ),
+                  {},
+                  class: "input-primary" %>
     </div>
 
     <div class="field field-input-container">
-      <%= form.label :zip_code %>
-      <%= form.text_field :zip_code, class: "input-primary" %>
-    </div>
-
-    <div class="field field-input-container">
-      <%= form.label :city %>
-      <%= form.text_field :city, class: "input-primary" %>
-    </div>
-
-    <div class="field field-input-container">
-      <%= form.label :state %>
-      <%= form.text_field :state, class: "input-primary" %>
-    </div>
-
-    <div class="field field-input-container">
-      <%= form.label :country %>
-      <%= form.text_field :country, class: "input-primary" %>
+      <%= form.label :address, "Logradouro", class: "block mb-1 text-white" %>
+      <%= form.text_field :address, class: "input-primary", placeholder: "Endereço" %>
     </div>
 
     <div class="field field-checkbox-container">
       <%= check_box_tag :default_profile, "true", false, class: "checkbox-gold" %>
-      <%= label_tag :default_profile, "Set as default profile?" %>
+      <%= label_tag :default_profile, t("set_as_default_profile"), class: "text-white" %>
     </div>
 
-    <div class="mt-4">
-      <%= form.submit "Create Company",
+    <div class="flex justify-between w-70 justify-self-end mt-6">
+      <%= form.submit "Salvar",
                   class: "btn-primary",
                   data: {
                     action: "click->modal#closeOnForms",
                   } %>
+
+      <button type="button" class="btn-secondary" data-action="click->modal#close">
+        Cancelar
+      </button>
     </div>
   <% end %>
 </div>

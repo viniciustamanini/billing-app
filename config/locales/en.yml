@@ -16,7 +16,7 @@ en:
   switch_profile: "Switch profile"
   customer_profile_description: "Customer profile"
   admin_profile_hint: "Admin profile"
-  admin_profile_description: " Full access to all features"
+  admin_profile_description: "Full access to all features"
   employee_profile_hint: "Employee profile"
   employee_profile_description: "Manage tasks and reports"
   settings: "Settings"
@@ -24,3 +24,4 @@ en:
   register_new_company: "Register new company"
   register_new_company_description: "Register a new company and gain full access to all features"
   set_as_default_profile: "Set as default profile?"
+  email_info: "This email will be used to send notifications."

@@ -5,22 +5,24 @@
   "
   data-controller="profile"
 >
-  <div class="absolute top-2 right-2">
-    <span id="profile_checkbox_<%= local_assigns[:profile_id] %>">
-      <%= if local_assigns[:profile_id]
-        render partial: "profiles/checkbox_input",
-        locals: {
-          profile: Profile.find_by(id: local_assigns[:profile_id]),
-          is_default: is_default_profile,
-        }
-      end %>
-    </span>
-  </div>
+  <% if local_assigns[:profile_id].to_i > 0 %>
+    <div class="absolute top-2 right-2">
+      <span id="profile_checkbox_<%= local_assigns[:profile_id] %>">
+        <%= if local_assigns[:profile_id]
+          render partial: "profiles/checkbox_input",
+          locals: {
+            profile: Profile.find_by(id: local_assigns[:profile_id]),
+            is_default: is_default_profile,
+          }
+        end %>
+      </span>
+    </div>
+  <% end %>
 
   <%= link_to path, title: hint do %>
     <div class="w-full">
       <div class="justify-self-center">
-        <i
+        <span
           class="
             material-symbols-outlined inline-block rounded-2xl
             <%= icon_bg %> <%= icon_color %>
@@ -28,7 +30,7 @@
           style="font-size: <%= icon_size_in_px %>px !important;"
         >
           <%= icon_name %>
-        </i>
+        </span>
       </div>
     </div>
 

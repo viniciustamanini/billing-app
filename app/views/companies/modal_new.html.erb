@@ -1,13 +1,15 @@
 <turbo-frame id="modal-frame">
-  <div class="relative">
-    <h1 class="text-2xl font-bold mb-6"><%= t("register_new_company") %></h1>
+  <div class="bg-black text-white p-6 rounded-lg relative">
+    <h1 class="text-2xl font-bold mb-6 text-center"><%= t("register_new_company") %></h1>
     <button
-      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      class="
+        absolute top-2 right-2 text-gray-300 hover:text-white hover:cursor-pointer
+      "
       data-action="click->modal#close"
     >
-      <i class="material-symbols-outlined text-4xl">close_small</i>
+      <i class="material-symbols-outlined text-2xl">close</i>
     </button>
-  </div>
 
-  <%= render "form" %>
+    <%= render "form" %>
+  </div>
 </turbo-frame>

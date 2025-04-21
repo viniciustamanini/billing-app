@@ -22,7 +22,7 @@
   }
 
   input {
-    @apply border-solid border-black rounded;
+    @apply border-solid border-[var(--color-gold)] rounded;
   }
 
   input[type="checkbox"].checkbox-gold {
@@ -185,7 +185,7 @@
   }
 
   .session-box {
-    @apply bg-black text-white p-8 rounded-lg text-center w-96;
+    @apply bg-black text-white p-4 rounded-lg text-center w-full;
   }
 
   .field-input-container {
@@ -205,7 +205,7 @@
   }
 
   .btn-secondary {
-    @apply w-full content-center p-2 py-2 border border-[var(--color-gold)] text-[var(--color-gold)] bg-transparent rounded cursor-pointer hover:bg-yellow-500 mt-3 hover:text-black transition;
+    @apply w-full content-center p-2 py-2 border border-[var(--color-gold-hover)] text-[var(--color-gold-hover)] bg-transparent rounded cursor-pointer hover:bg-[var(--color-gold-hover)] hover:text-black transition;
   }
 
   .btn-icon {

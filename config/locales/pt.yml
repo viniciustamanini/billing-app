@@ -16,7 +16,7 @@ pt:
   switch_profile: "Alterar perfil"
   customer_profile_description: "Perfil de cliente"
   admin_profile_hint: "Perfil de administrador"
-  admin_profile_description: " Acesso completo a todos os recursos"
+  admin_profile_description: "Acesso completo a todos os recursos"
   employee_profile_hint: "Perfil de funcionário"
   employee_profile_description: "Gerencie tarefas e relatórios"
   settings: "Configurações"
@@ -24,3 +24,4 @@ pt:
   register_new_company: "Cadastrar nova empresa"
   register_new_company_description: "Cadastre uma nova empresa e tenha acesso completo a todos os recursos"
   set_as_default_profile: "Usar como perfil padrão?"
+  email_info: "Este email será utilizado para envio de notificações."
