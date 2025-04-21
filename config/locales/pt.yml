@@ -23,3 +23,4 @@ pt:
   create_new_profile_or_company: "Criar novo perfil / Cadastrar nova empresa"
   register_new_company: "Cadastrar nova empresa"
   register_new_company_description: "Cadastre uma nova empresa e tenha acesso completo a todos os recursos"
+  set_as_default_profile: "Usar como perfil padrão?"
