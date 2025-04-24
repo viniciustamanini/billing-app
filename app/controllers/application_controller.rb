@@ -18,9 +18,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_profile
-    return unless current_user && session[:current_profile_id]
-    @current_profile ||= current_user.profiles.find_by(id: session[:current_profile_id])
+    return unless current_user && session[:active_profile_id]
+    @current_profile ||= current_user.profiles.find_by(id: session[:active_profile_id])
   end
+  helper_method :current_profile
 
   private
 

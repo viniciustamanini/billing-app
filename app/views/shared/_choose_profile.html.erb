@@ -31,7 +31,7 @@
         icon_name: "business_center",
         title: employee_profile.company.name.upcase,
         description: t("employee_profile_description"),
-        path: root_path,
+        path: select_profile_path(employee_profile.id),
         hint: t("employee_profile_hint"),
         profile_id: employee_profile.id,
         is_default_profile: employee_profile.default_profile %>
@@ -48,7 +48,7 @@
         icon_name: "crown",
         title: admin_profile.company.name.upcase,
         description: t("admin_profile_description"),
-        path: root_path,
+        path: select_profile_path(admin_profile.id),
         hint: t("admin_profile_hint"),
         profile_id: admin_profile.id,
         is_default_profile: admin_profile.default_profile %>

@@ -25,7 +25,15 @@
     <% data_attrs[:action] = "turbo:frame-load->modal#open" %>
   <% end %>
 
-  <%= link_to path, title: hint, data: data_attrs do %>
+  <% 
+  final_path = if local_assigns[:profile_id].to_i > 0
+    select_profile_path(local_assigns[:profile_id])
+  else
+    path
+  end
+  %>
+
+  <%= link_to final_path, title: hint, data: data_attrs do %>
     <div class="w-full">
       <div class="justify-self-center">
         <span

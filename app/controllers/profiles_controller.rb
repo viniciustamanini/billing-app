@@ -15,9 +15,9 @@ class ProfilesController < ApplicationController
     when "customer"
       redirect_to customer_dashboard_path
     when "employee"
-      redirect_to root_path
+      redirect_to company_dashboard_path(company_id: profile.company_id)
     when "administrator"
-      redirect_to root_path
+      redirect_to company_dashboard_path(company_id: profile.company_id)
     else
       redirect_to choose_profile_path
     end

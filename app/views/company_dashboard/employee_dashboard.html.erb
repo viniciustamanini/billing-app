@@ -1,0 +1,301 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6"><%= @company_name %> - <%= t("employee_dashboard") %></h1>
+  
+  <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4"><%= t("employee_welcome") %></h2>
+    <p class="mb-2"><%= t("employee_dashboard_description") %></p>
+    
+    <div class="mt-4">
+      <h3 class="text-lg font-medium mb-2"><%= t("quick_actions") %></h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="border border-gray-200 rounded p-4 text-center hover:bg-gray-50">
+          <i class="material-symbols-outlined text-3xl mb-2">receipt_long</i>
+          <h4 class="font-medium"><%= t("view_invoices") %></h4>
+        </div>
+        <div class="border border-gray-200 rounded p-4 text-center hover:bg-gray-50">
+          <i class="material-symbols-outlined text-3xl mb-2">people</i>
+          <h4 class="font-medium"><%= t("manage_customers") %></h4>
+        </div>
+        <div class="border border-gray-200 rounded p-4 text-center hover:bg-gray-50">
+          <i class="material-symbols-outlined text-3xl mb-2">calendar_today</i>
+          <h4 class="font-medium"><%= t("schedule") %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4"><%= t("recent_activity") %></h2>
+      <p class="text-gray-500"><%= t("no_recent_activity") %></p>
+    </div>
+    
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4"><%= t("upcoming_tasks") %></h2>
+      <p class="text-gray-500"><%= t("no_upcoming_tasks") %></p>
+    </div>
+  </div>
+</div>
+
+<div class="p-6">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <!-- Recebimentos Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-lg font-medium">Recebimentos</h2>
+        <span class="text-green-500 flex items-center gap-1">
+          <i class="material-symbols-outlined text-sm">arrow_upward</i>
+          18,5%
+        </span>
+      </div>
+      <p class="text-4xl font-bold mb-4">R$ 10.000,00</p>
+      <div class="grid grid-cols-2 gap-4 border-t pt-4">
+        <div>
+          <h3 class="text-sm text-gray-600">Dentro do prazo</h3>
+          <p class="text-lg font-semibold">R$ 10.000,00</p>
+        </div>
+        <div>
+          <h3 class="text-sm text-gray-600">Em atraso</h3>
+          <p class="text-lg font-semibold">R$ 4.000,00</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cobranças Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-lg font-medium">Cobranças</h2>
+        <span class="text-red-500 flex items-center gap-1">
+          <i class="material-symbols-outlined text-sm">arrow_downward</i>
+          2,56%
+        </span>
+      </div>
+      <p class="text-4xl font-bold mb-4">R$ 6.000,00</p>
+      <div class="flex flex-col space-y-2">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Notificações enviadas</span>
+          <span class="font-semibold">552</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Inadimplência recuperada</span>
+          <span class="font-semibold">R$ 6.000,00</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Antecipados</span>
+          <span class="font-semibold">R$ 3.000,00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Negociações aceitas Card -->
+    <div class="bg-yellow-400 rounded-lg shadow p-6 relative">
+      <a href="#" class="absolute top-4 right-4">
+        <i class="material-symbols-outlined">open_in_new</i>
+      </a>
+      <h2 class="text-lg font-medium mb-1">Negociações aceitas</h2>
+      <p class="text-sm mb-4">Dados referentes ao dia 20/03</p>
+      
+      <div class="relative h-40 flex justify-center items-center">
+        <!-- Pie chart placeholder -->
+        <div class="relative w-32 h-32 rounded-full border-8 border-yellow-300 flex justify-center items-center">
+          <span class="text-3xl font-bold">62%</span>
+        </div>
+        <div class="absolute bottom-0 text-center w-full">
+          <p class="text-sm">De um total de 162.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inadimplência Card -->
+    <div class="bg-yellow-400 rounded-lg shadow p-6 relative">
+      <a href="#" class="absolute top-4 right-4">
+        <i class="material-symbols-outlined">open_in_new</i>
+      </a>
+      <h2 class="text-lg font-medium mb-4">Inadimplência</h2>
+      
+      <div class="relative h-40 flex justify-center items-center">
+        <!-- Pie chart placeholder -->
+        <div class="relative w-32 h-32 rounded-full border-8 border-yellow-300 flex justify-center items-center">
+          <span class="text-3xl font-bold">14%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graph section -->
+  <div class="bg-black rounded-lg shadow mt-6 p-6 text-white">
+    <div class="flex justify-between mb-6">
+      <h2 class="text-lg font-medium">Recebimentos</h2>
+      <div class="text-sm">
+        <p>Esperado: R$ 62.000,00</p>
+        <p>Recebido: R$ 61.450,00</p>
+      </div>
+    </div>
+    
+    <div class="relative">
+      <!-- Chart placeholder -->
+      <div class="h-48 grid grid-cols-7 gap-4 items-end">
+        <% (1..7).each do |i| %>
+          <div class="flex flex-col items-center">
+            <div class="w-full bg-yellow-400" style="height: <%= rand(10..100) %>%"></div>
+            <span class="text-xs mt-2">29/02</span>
+          </div>
+        <% end %>
+      </div>
+      
+      <!-- Y-axis labels -->
+      <div class="absolute left-0 top-0 h-full flex flex-col justify-between pointer-events-none">
+        <span class="text-xs">60K</span>
+        <span class="text-xs">40K</span>
+        <span class="text-xs">20K</span>
+        <span class="text-xs">0</span>
+      </div>
+    </div>
+    
+    <!-- Dropdown for time range -->
+    <div class="mt-4 flex justify-end">
+      <div class="relative">
+        <select class="bg-black border border-gray-600 rounded px-4 py-2 appearance-none pr-8">
+          <option>7 dias</option>
+          <option>14 dias</option>
+          <option>30 dias</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+          <i class="material-symbols-outlined text-sm">expand_more</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clientes em atraso and additional widgets -->
+  <div class="mt-6">
+    <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
+    <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
+      <% 8.times do |i| %>
+        <div class="bg-white rounded-lg shadow p-3 flex flex-col items-center justify-center border-2 border-yellow-400">
+          <div class="w-12 h-12 bg-gray-200 rounded-full mb-2 overflow-hidden">
+            <i class="material-symbols-outlined flex justify-center items-center h-full text-3xl">person</i>
+          </div>
+          <% if i == 0 %>
+            <div class="absolute -bottom-2 bg-gray-700 text-white text-xs px-2 py-1 rounded">
+              John Doe
+              <br>45 dias em atraso
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <!-- Add client button -->
+      <div class="flex flex-col items-center justify-center">
+        <button class="w-full h-full bg-gray-100 rounded-lg shadow flex items-center justify-center p-3">
+          <i class="material-symbols-outlined text-3xl">group</i>
+        </button>
+        <div class="absolute -bottom-2 bg-gray-700 text-white text-xs px-2 py-1 rounded">
+          Listar clientes
+        </div>
+      </div>
+      
+      <!-- New client button -->
+      <div class="flex items-center justify-center">
+        <button class="w-full h-full bg-white rounded-lg shadow border border-gray-200 flex items-center justify-center p-3">
+          <i class="material-symbols-outlined text-3xl">add</i>
+        </button>
+        <div class="absolute -bottom-2 bg-gray-700 text-white text-xs px-2 py-1 rounded">
+          Adicionar novo cliente
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pagamento por segmentos -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <div class="bg-yellow-400 rounded-lg shadow p-6 relative">
+      <a href="#" class="absolute top-4 right-4">
+        <i class="material-symbols-outlined">open_in_new</i>
+      </a>
+      <h2 class="text-lg font-medium mb-4">Pagamento por segmentos</h2>
+      
+      <div class="space-y-3">
+        <div class="flex items-center">
+          <div class="w-32 text-sm">10 a 30</div>
+          <div class="flex-1 bg-gray-200 rounded-full h-4">
+            <div class="bg-black h-4 rounded-full" style="width: 96%"></div>
+          </div>
+          <div class="ml-2 text-sm">96%</div>
+        </div>
+        
+        <div class="flex items-center">
+          <div class="w-32 text-sm">31 a 60</div>
+          <div class="flex-1 bg-gray-200 rounded-full h-4">
+            <div class="bg-black h-4 rounded-full" style="width: 48%"></div>
+          </div>
+          <div class="ml-2 text-sm">48%</div>
+        </div>
+        
+        <div class="flex items-center">
+          <div class="w-32 text-sm">61 a 90</div>
+          <div class="flex-1 bg-gray-200 rounded-full h-4">
+            <div class="bg-black h-4 rounded-full" style="width: 56%"></div>
+          </div>
+          <div class="ml-2 text-sm">56%</div>
+        </div>
+        
+        <div class="flex items-center">
+          <div class="w-32 text-sm">91 a 120</div>
+          <div class="flex-1 bg-gray-200 rounded-full h-4">
+            <div class="bg-black h-4 rounded-full" style="width: 27%"></div>
+          </div>
+          <div class="ml-2 text-sm">27%</div>
+        </div>
+        
+        <div class="flex items-center">
+          <div class="w-32 text-sm">120 a 160</div>
+          <div class="flex-1 bg-gray-200 rounded-full h-4">
+            <div class="bg-black h-4 rounded-full" style="width: 45%"></div>
+          </div>
+          <div class="ml-2 text-sm">45%</div>
+        </div>
+        
+        <div class="flex items-center">
+          <div class="w-32 text-sm">Nunca pagos</div>
+          <div class="flex-1 bg-gray-200 rounded-full h-4">
+            <div class="bg-black h-4 rounded-full" style="width: 3%"></div>
+          </div>
+          <div class="ml-2 text-sm">3%</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Configuração de notificações -->
+    <div class="bg-white rounded-lg shadow p-6 relative">
+      <a href="#" class="absolute top-4 right-4">
+        <i class="material-symbols-outlined">open_in_new</i>
+      </a>
+      <div class="flex items-center mb-4">
+        <div class="bg-yellow-400 p-2 rounded mr-3">
+          <i class="material-symbols-outlined">chat</i>
+        </div>
+        <div>
+          <h2 class="text-lg font-medium">Configuração de notificações</h2>
+          <p class="text-sm text-gray-600">Mensagens diretas automáticas</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Segmentações -->
+    <div class="bg-white rounded-lg shadow p-6 relative">
+      <a href="#" class="absolute top-4 right-4">
+        <i class="material-symbols-outlined">open_in_new</i>
+      </a>
+      <div class="flex items-center mb-4">
+        <div class="bg-yellow-400 p-2 rounded mr-3">
+          <i class="material-symbols-outlined">pie_chart</i>
+        </div>
+        <div>
+          <h2 class="text-lg font-medium">Segmentações</h2>
+          <p class="text-sm text-gray-600">Segmentação de clientes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
