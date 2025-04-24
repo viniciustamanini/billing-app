@@ -97,16 +97,12 @@
 
           <div class="sidebar-link cursor-pointer" data-sidebar-target="toggle">
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i
-                class="
-                  material-symbols-outlined text-[var(--color-gold)]
-                "
-              >left_panel_close</i>
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">left_panel_close</i>
             </div>
             <p class="sidebar-text">Collapse sidebar</p>
           </div>
 
-          <%= link_to root_path, title: "Ir ao Dashboard", class: "sidebar-link" do %>
+          <%= link_to company_dashboard_path(company_id: @company_id), title: "Ir ao Dashboard", class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
               <i class="material-symbols-outlined text-[var(--color-gold)] ">space_dashboard</i>
             </div>

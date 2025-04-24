@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     get "customer_dashboard", to: "customer_dashboard#index", as: :customer_dashboard
     get "company_dashboard/:company_id", to: "company_dashboard#index", as: :company_dashboard
 
-    root "dashboard#index"
+    root "profiles#choose"
   end
 
   # Redirects to the default locale if none is specified
