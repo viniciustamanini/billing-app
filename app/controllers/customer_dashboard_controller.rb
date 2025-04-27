@@ -6,6 +6,7 @@ class CustomerDashboardController < ApplicationController
 
     @user_profiles = current_user.profiles.where(profile_type: profile_type)
 
+    @profile_type = profile_type.name
     @invoices = {}
     @upcoming_invoices = {}
     @payment_history = {}
