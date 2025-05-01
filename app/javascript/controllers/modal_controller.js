@@ -7,7 +7,6 @@ export default class extends Controller {
 
   open(event) {
     event.preventDefault();
-    console.log("Turbo frame loaded – opening modal");
     this.element.classList.remove("hidden");
   }
 

@@ -7,10 +7,14 @@ class CompanyCreator
   end
 
   def call
-    Company.transaction do
-      company = Company.create!(@company_params)
-      admin_profile_type = ProfileType.admin
+    company = Company.new(@company_params)
 
+    Company.transaction do
+      unless company.save
+        raise ActiveRecord::Rollback
+      end
+
+      admin_profile_type = ProfileType.admin
       if @default_profile_flag
         @user.profiles.where(default_profile: true).update_all(default_profile: false)
       end
@@ -21,8 +25,8 @@ class CompanyCreator
         default_profile: @default_profile_flag,
         active: true
       )
-
-      company
     end
+
+    company
   end
 end

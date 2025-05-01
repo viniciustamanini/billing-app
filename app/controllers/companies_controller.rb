@@ -13,10 +13,13 @@ class CompaniesController < ApplicationController
   def create
     default_profile = ActiveModel::Type::Boolean.new.cast(params[:default_profile]) || false
     @company = CompanyCreator.new(current_user, company_params, default_profile).call
-    redirect_to root_path, flash: { success: "Company was successfuly created!" }
-  rescue ActiveRecord::RecordInvalid => e
-    flash.now[:error] = e.message
-    redirect_to root_path 
+
+    if @company.persisted?
+      redirect_to root_path, flash: { success: "Company was successfuly created!" }
+    else
+      flash.now[:error] = e.message
+      render :modal_new, layout: false, status: :unprocessable_entity
+    end
   end
 
   def show
