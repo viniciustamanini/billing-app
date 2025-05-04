@@ -7,6 +7,7 @@ class CompanyDashboardController < ApplicationController
     @company_id = @company.id
     @company_name = @company.name
     @profile_type = @current_profile.profile_type.name
+    @late_customers = LateCustomer.new(@company).call
 
     render "company_dashboard/#{@profile_type}_dashboard"
   end
@@ -31,4 +32,3 @@ class CompanyDashboardController < ApplicationController
     @company = @current_profile.company
   end
 end
-

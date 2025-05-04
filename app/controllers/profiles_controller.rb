@@ -1,9 +1,32 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_company
+  before_action :set_profile_type, only: %i[new modal_new create]
   layout "choose_profile", only:  [ :choose ]
 
+  def new
+    @profile = @company.profiles.new(profile_type: @profile_type)
+  end
+
+  def modal_new
+    @profile = @company.profiles.new(profile_type: @profile_type)
+    render :modal_new, layout: false
+  end
+
+  def create
+    @profile = current_user.profiles.build(profile_params)
+    @profile.company = @company
+    @profile.profile_type = @profile_type
+
+    if @profile.save
+      redirect_to company_profiles_path(@company), notice: "#{@profile_type.name} created"
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def choose
-    @profiles = current_user.profiles.includes(:company, :profile_type).order(:id)
+    @profiles = current_user.profiles.where(active: true).includes(:company, :profile_type).order(:id)
     @company = Company.new
     render :choose
   end
@@ -25,8 +48,6 @@ class ProfilesController < ApplicationController
 
   def update_default
     @profile = current_user.profiles.find(params[:id])
-
-    # Find all other profiles that need to be updated
     other_profiles = current_user.profiles.where.not(id: @profile.id)
 
     Profile.transaction do
@@ -93,5 +114,19 @@ class ProfilesController < ApplicationController
         redirect_to choose_profiles_path
       end
     end
+  end
+
+  private
+
+  def set_profile_type
+    raise NotImplementedError
+  end
+
+  def set_company
+    @company = current_user.profiles.find(session[:active_profile_id]).company
+  end
+
+  def profile_params
+    params.require(:profile).permit(:default_profile, :active)
   end
 end

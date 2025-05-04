@@ -2,7 +2,6 @@ class CompanyCreator
   def initialize(user, company_params, default_profile_flag)
     @user = user
     @company_params = company_params
-
     @default_profile_flag = ActiveModel::Type::Boolean.new.cast(default_profile_flag)
   end
 

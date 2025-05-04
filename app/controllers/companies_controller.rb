@@ -17,7 +17,7 @@ class CompaniesController < ApplicationController
     if @company.persisted?
       redirect_to root_path, flash: { success: "Company was successfuly created!" }
     else
-      flash.now[:error] = e.message
+      flash.now[:error] = "Erro"
       render :modal_new, layout: false, status: :unprocessable_entity
     end
   end
