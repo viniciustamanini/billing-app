@@ -1,15 +1,11 @@
 <div class="session-box">
   <%= form_with model: @company, local: true do |form| %>
     <% if @company.errors.any? %>
-      <div class="bg-red-800 border border-red-600 text-white px-4 py-3 rounded mb-4">
-        <h2 class="font-bold"><%= pluralize(@company.errors.count, "error") %>
-          prohibited this company from being saved:</h2>
-        <ul class="list-disc pl-5">
-          <% @company.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
+      <% @company.errors.full_messages.each do |message| %>
+        <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">
+          <%= render "shared/toast", icon: "error", message: message, show_undo: false %>
+        </div>
+      <% end %>
     <% end %>
 
     <div class="field field-input-container">
@@ -27,8 +23,8 @@
       </div>
       <%= form.email_field :email,
                        class: "input-primary",
-                       placeholder: "email@noreply.com",
-                       disabled: true %>
+                       placeholder: "email@noreply.com" %>
+                       <%# disabled: true %>
     </div>
 
     <div class="grid grid-cols-2 gap-4">

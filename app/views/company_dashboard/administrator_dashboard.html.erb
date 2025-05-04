@@ -1,10 +1,4 @@
 <div class="container">
-  <h1 class="text-3xl font-bold mb-6">
-    <%= @company_name %>
-    -
-    <%= t("administrator_dashboard") %>
-  </h1>
-
   <div class="p-6">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <!-- Recebimentos Card -->
@@ -208,33 +202,35 @@
           </div>
         </div>
       </div>
-      <!-- Configuração de notificações -->
-      <div class="bg-white rounded-lg shadow p-6 relative">
-        <a href="#" class="absolute top-4 right-4">
-          <i class="material-symbols-outlined">open_in_new</i>
-        </a>
-        <div class="flex items-center mb-4">
-          <div class="bg-yellow-400 p-2 rounded mr-3">
-            <i class="material-symbols-outlined">chat</i>
-          </div>
-          <div>
-            <h2 class="text-lg font-medium">Configuração de notificações</h2>
-            <p class="text-sm text-gray-600">Mensagens diretas automáticas</p>
+      <div>
+        <!-- Configuração de notificações -->
+        <div class="bg-white rounded-lg shadow p-6 relative">
+          <a href="#" class="absolute top-4 right-4">
+            <i class="material-symbols-outlined">open_in_new</i>
+          </a>
+          <div class="flex items-center mb-4">
+            <div class="bg-yellow-400 p-2 rounded mr-3">
+              <i class="material-symbols-outlined">chat</i>
+            </div>
+            <div>
+              <h2 class="text-lg font-medium">Configuração de notificações</h2>
+              <p class="text-sm text-gray-600">Mensagens diretas automáticas</p>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Segmentações -->
-      <div class="bg-white rounded-lg shadow p-6 relative">
-        <a href="#" class="absolute top-4 right-4">
-          <i class="material-symbols-outlined">open_in_new</i>
-        </a>
-        <div class="flex items-center mb-4">
-          <div class="bg-yellow-400 p-2 rounded mr-3">
-            <i class="material-symbols-outlined">pie_chart</i>
-          </div>
-          <div>
-            <h2 class="text-lg font-medium">Segmentações</h2>
-            <p class="text-sm text-gray-600">Segmentação de clientes</p>
+        <!-- Segmentações -->
+        <div class="bg-white rounded-lg shadow p-6 relative">
+          <a href="#" class="absolute top-4 right-4">
+            <i class="material-symbols-outlined">open_in_new</i>
+          </a>
+          <div class="flex items-center mb-4">
+            <div class="bg-yellow-400 p-2 rounded mr-3">
+              <i class="material-symbols-outlined">incomplete_circle</i>
+            </div>
+            <div>
+              <h2 class="text-lg font-medium">Segmentações</h2>
+              <p class="text-sm text-gray-600">Segmentação de clientes</p>
+            </div>
           </div>
         </div>
       </div>
@@ -243,21 +239,19 @@
     <div class="mt-6">
       <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
       <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
-        <% 8.times do |i| %>
+        <% @late_customers.each do |customer| %>
           <div
             class="
               bg-white rounded-lg shadow p-3 flex flex-col items-center justify-center
               border-2 border-yellow-400
             "
-            title="Nome do cliente - Dias em atraso"
+            title="<%= "#{customer.user.first_name} #{customer.user.last_name}" %>"
           >
-            <div class="w-12 h-12 bg-gray-200 rounded-full mb-2 overflow-hidden">
-              <i
-                class="
-                  material-symbols-outlined flex justify-center items-center h-full text-3xl
-                "
-              >person</i>
-            </div>
+            <i
+              class="
+                material-symbols-outlined flex justify-center items-center h-full text-3xl content-center
+              "
+            >person_pin</i>
           </div>
         <% end %>
         <!-- Add client button -->
@@ -268,7 +262,7 @@
             "
             title="Listar clientes"
           >
-            <i class="material-symbols-outlined text-3xl">group</i>
+            <i class="material-symbols-outlined text-3xl">groups</i>
           </button>
         </div>
         <!-- New client button -->
