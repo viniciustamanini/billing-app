@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       collection do
         get "companies/modal_new", to: "companies#modal_new", as: :modal_new
       end
+      resources :customers, controller: "customers", only: %i[new create]
+      # TODO add emplyoee and admin controllers to add new profiles
     end
 
     resources :profiles, only: [] do
@@ -22,6 +24,9 @@ Rails.application.routes.draw do
     get "profiles/:id/select", to: "profiles#select", as: :select_profile
     get "customer_dashboard", to: "customer_dashboard#index", as: :customer_dashboard
     get "company_dashboard/:company_id", to: "company_dashboard#index", as: :company_dashboard
+    get "customer/new"
+    get "customer/modal_new"
+    get "customer/create"
 
     root "profiles#choose"
   end
