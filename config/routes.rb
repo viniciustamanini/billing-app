@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         get "companies/modal_new", to: "companies#modal_new", as: :modal_new
       end
       resources :customers, controller: "customers", only: %i[new create]
-      # TODO add emplyoee and admin controllers to add new profiles
+      resources :employees, controller: "employees", only: %i[new create]
     end
 
     resources :profiles, only: [] do
