@@ -25,3 +25,4 @@ pt:
   register_new_company_description: "Cadastre uma nova empresa e tenha acesso completo a todos os recursos"
   set_as_default_profile: "Usar como perfil padrão?"
   email_info: "Este email será utilizado para envio de notificações."
+  collapse_sidebar: "Recolher barra lateral"

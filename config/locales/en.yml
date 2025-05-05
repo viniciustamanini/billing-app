@@ -25,3 +25,4 @@ en:
   register_new_company_description: "Register a new company and gain full access to all features"
   set_as_default_profile: "Set as default profile?"
   email_info: "This email will be used to send notifications."
+  collapse_sidebar: "Collapse sidebar"
