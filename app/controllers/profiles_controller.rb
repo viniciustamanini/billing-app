@@ -14,12 +14,11 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    @profile = current_user.profiles.build(profile_params)
-    @profile.company = @company
+    @profile = @company.profiles.new(profile_params)
     @profile.profile_type = @profile_type
 
     if @profile.save
-      redirect_to company_profiles_path(@company), notice: "#{@profile_type.name} created"
+      redirect_to root_path, notice: "Customer created"
     else
       render :new, status: :unprocessable_entity
     end
@@ -123,10 +122,18 @@ class ProfilesController < ApplicationController
   end
 
   def set_company
-    @company = current_user.profiles.find(session[:active_profile_id]).company
+    profile = current_user.profiles.find_by(id: session[:active_profile_id])
+
+    unless profile
+      reset_session
+      redirect_to choose_profile_path, alert: "Choose a profile"
+      return
+    end
+
+    @company = profile.company
   end
 
   def profile_params
-    params.require(:profile).permit(:default_profile, :active)
+    params.require(:profile).permit(:cpf, :default_profile, :active)
   end
 end

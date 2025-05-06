@@ -9,4 +9,10 @@ class User < ApplicationRecord
   validates_length_of :cpf, is: 11, message: "must have 11 characters"
 
   has_many :profiles, dependent: :destroy
+
+  private
+
+  def link_profiles
+    Profile.where(cpf: cpf, user_id: nil).update_all(user_id: id)
+  end
 end
