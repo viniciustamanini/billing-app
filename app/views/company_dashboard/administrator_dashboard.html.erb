@@ -1,4 +1,3 @@
-<div class="container">
   <div class="p-6">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <!-- Recebimentos Card -->
@@ -249,7 +248,8 @@
           >
             <i
               class="
-                material-symbols-outlined flex justify-center items-center h-full text-3xl content-center
+                material-symbols-outlined flex justify-center items-center h-full text-3xl
+                content-center
               "
             >person_pin</i>
           </div>
@@ -265,8 +265,13 @@
             <i class="material-symbols-outlined text-3xl">groups</i>
           </button>
         </div>
-        <!-- New client button -->
-        <div class="flex items-center justify-center">
+      </div>
+      <div class="flex items-center justify-center">
+        <%= link_to modal_new_company_customers_path(@company, format: :html),
+        data: {
+          turbo_frame: "modal-frame",
+          action: "turbo:frame-load->modal#open",
+        } do %>
           <button
             class="
               w-full h-full bg-white rounded-lg shadow border border-gray-200 flex
@@ -276,9 +281,10 @@
           >
             <i class="material-symbols-outlined text-3xl">add</i>
           </button>
-        </div>
+        <% end %>
       </div>
     </div>
-
   </div>
 
+  <%= render "shared/modal" %>
+</div>

@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_company
+  before_action :set_company, except: %i[choose select]
   before_action :set_profile_type, only: %i[new modal_new create]
   layout "choose_profile", only:  [ :choose ]
 
