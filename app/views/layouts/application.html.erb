@@ -36,7 +36,10 @@
     <nav class="navbar sidebar-expanded" data-sidebar-target="navbar">
       <div class="navbar-content-container">
         <div class="navbar-column navbar-col-1">
-          <h1 class="text-black font-bold"><%= @company_name %> - <%= @profile_type %> dashboard</h1>
+          <h1 class="text-black font-bold"><%= @company_name %>
+            -
+            <%= @profile_type %>
+            dashboard</h1>
         </div>
 
         <div class="navbar-column navbar-col-2">
@@ -201,11 +204,10 @@
           <% end %>
         </div>
 
-        <% if controller_name == "profiles" %>
-          <%= render "shared/modal" %>
-        <% end %>
+        <% content_for :modal, render("shared/modal") %>
       </div>
 
+      <%= render "shared/modal" %>
       <main class="content sidebar-expanded" data-sidebar-target="content">
         <%= yield %>
       </main>

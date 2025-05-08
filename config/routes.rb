@@ -8,9 +8,15 @@ Rails.application.routes.draw do
 
     resources :companies, only: %i[new create show] do
       collection do
-        get "companies/modal_new", to: "companies#modal_new", as: :modal_new
+        get :modal_new, to: "companies#modal_new"
       end
-      resources :customers, controller: "customers", only: %i[new create]
+
+      resources :customers, controller: "customers", only: %i[new create] do
+        collection do
+          get :modal_new, to: "customers#modal_new"
+        end
+      end
+
       resources :employees, controller: "employees", only: %i[new create]
     end
 
@@ -24,9 +30,6 @@ Rails.application.routes.draw do
     get "profiles/:id/select", to: "profiles#select", as: :select_profile
     get "customer_dashboard", to: "customer_dashboard#index", as: :customer_dashboard
     get "company_dashboard/:company_id", to: "company_dashboard#index", as: :company_dashboard
-    get "customer/new"
-    get "customer/modal_new"
-    get "customer/create"
 
     root "profiles#choose"
   end
