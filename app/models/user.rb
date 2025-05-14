@@ -10,6 +10,8 @@ class User < ApplicationRecord
 
   has_many :profiles, dependent: :destroy
 
+  after_create :link_profiles
+
   def full_name
     "#{first_name} #{last_name}"
   end
