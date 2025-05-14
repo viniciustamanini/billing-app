@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_05_233556) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_14_025545) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -108,6 +108,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_233556) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "cpf", limit: 11
+    t.string "first_name", limit: 50
+    t.string "last_name", limit: 100
     t.index ["company_id"], name: "index_profiles_on_company_id"
     t.index ["cpf"], name: "index_profiles_on_cpf"
     t.index ["profile_type_id"], name: "index_profiles_on_profile_type_id"

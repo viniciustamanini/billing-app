@@ -1,183 +1,181 @@
 <div class="flex">
   <div class="flex-1 overflow-auto">
-      <div class="grid grid-cols-3 gap-6">
-        <%# User Info Card %>
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center gap-4 mb-6">
-            <div class=" w-12 h-12 rounded bg-yellow-500 flex items-center justify-center ">
-              <i class="material-symbols-outlined text-black">person</i>
-            </div>
-            <div>
-              <h2 class="text-lg font-semibold">
-                <%= current_user.first_name %>
-                <%= current_user.last_name %>
-              </h2>
-              <p class="text-gray-500"><%= current_user.email %></p>
-            </div>
+    <div class="grid grid-cols-3 gap-6">
+      <%# User Info Card %>
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center gap-4 mb-6">
+          <div class=" w-12 h-12 rounded bg-yellow-500 flex items-center justify-center ">
+            <i class="material-symbols-outlined text-black">person</i>
           </div>
-
-          <div class="space-y-4">
-            <div>
-              <h3 class="font-medium">Status da conta</h3>
-              <p class="text-green-500">Em dia</p>
-            </div>
-
-            <div class="flex justify-between">
-              <div>
-                <h3 class="font-medium">Valor pago</h3>
-                <p>R$ 3.568,56</p>
-              </div>
-              <div>
-                <h3 class="font-medium">A vencer</h3>
-                <p>R$ 650,99</p>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="font-medium">Última negociação</h3>
-              <p>--</p>
-            </div>
+          <div>
+            <h2 class="text-lg font-semibold">
+              <%= current_user.full_name %>
+            </h2>
+            <p class="text-gray-500"><%= current_user.email %></p>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6 col-span-2">
-          <div class="flex items-center gap-2 mb-4">
-            <i class="material-symbols-outlined text-yellow-500">history</i>
-            <h2 class="text-lg font-medium">Histórico</h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium">Status da conta</h3>
+            <p class="text-green-500">Em dia</p>
           </div>
 
-          <table class="w-full">
-            <thead>
-              <tr class="text-left">
-                <th class="pb-4">Descrição</th>
-                <th class="pb-4">Data</th>
+          <div class="flex justify-between">
+            <div>
+              <h3 class="font-medium">Valor pago</h3>
+              <p>R$ 3.568,56</p>
+            </div>
+            <div>
+              <h3 class="font-medium">A vencer</h3>
+              <p>R$ 650,99</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-medium">Última negociação</h3>
+            <p>--</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <i class="material-symbols-outlined text-yellow-500">history</i>
+          <h2 class="text-lg font-medium">Histórico</h2>
+        </div>
+
+        <table class="w-full">
+          <thead>
+            <tr class="text-left">
+              <th class="pb-4">Descrição</th>
+              <th class="pb-4">Data</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600">
+            <% 4.times do %>
+              <tr>
+                <td class="py-2">Pagamento realizado para Empresa TAL com valor de R$455,90</td>
+                <td class="py-2">16/01/2025</td>
               </tr>
-            </thead>
-            <tbody class="text-gray-600">
-              <% 4.times do %>
-                <tr>
-                  <td class="py-2">Pagamento realizado para Empresa TAL com valor de R$455,90</td>
-                  <td class="py-2">16/01/2025</td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <%# Payment Info Cards %>
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-2">
+            <i class="material-symbols-outlined text-red-500">radio_button_checked</i>
+            <h2 class="text-lg font-medium">Dia recorrente de pagamento</h2>
+          </div>
+          <span class="text-4xl font-bold text-yellow-500">14</span>
         </div>
 
-        <%# Payment Info Cards %>
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-2">
-              <i class="material-symbols-outlined text-red-500">radio_button_checked</i>
-              <h2 class="text-lg font-medium">Dia recorrente de pagamento</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-medium">Dias em atraso</h2>
+          <span class="text-4xl font-bold">0</span>
+        </div>
+      </div>
+
+      <%# Next Due Dates %>
+      <div class="bg-white rounded-lg shadow p-6 col-span-2">
+        <h2 class="text-lg font-medium mb-4">Próximos vencimentos</h2>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between py-2 border-b">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
+                <i class="material-symbols-outlined text-white">receipt</i>
+              </div>
+              <div>
+                <h3 class="font-medium">Empresa TAL</h3>
+                <p class="text-sm text-gray-500">10/02/2025</p>
+              </div>
             </div>
-            <span class="text-4xl font-bold text-yellow-500">14</span>
+            <div class="flex items-center gap-2">
+              <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-sm">VENCE HOJE</span>
+              <span class="font-medium">R$ 499,99</span>
+            </div>
           </div>
 
-          <div class="flex items-center justify-between">
-            <h2 class="text-lg font-medium">Dias em atraso</h2>
-            <span class="text-4xl font-bold">0</span>
-          </div>
-        </div>
-
-        <%# Next Due Dates %>
-        <div class="bg-white rounded-lg shadow p-6 col-span-2">
-          <h2 class="text-lg font-medium mb-4">Próximos vencimentos</h2>
-
-          <div class="space-y-4">
+          <% 2.times do %>
             <div class="flex items-center justify-between py-2 border-b">
               <div class="flex items-center gap-4">
                 <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
                   <i class="material-symbols-outlined text-white">receipt</i>
                 </div>
                 <div>
-                  <h3 class="font-medium">Empresa TAL</h3>
-                  <p class="text-sm text-gray-500">10/02/2025</p>
+                  <h3 class="font-medium">Lojas TAL</h3>
+                  <p class="text-sm text-gray-500">15/02/2025</p>
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-sm">VENCE HOJE</span>
+                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">A VENCER</span>
                 <span class="font-medium">R$ 499,99</span>
               </div>
             </div>
-
-            <% 2.times do %>
-              <div class="flex items-center justify-between py-2 border-b">
-                <div class="flex items-center gap-4">
-                  <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
-                    <i class="material-symbols-outlined text-white">receipt</i>
-                  </div>
-                  <div>
-                    <h3 class="font-medium">Lojas TAL</h3>
-                    <p class="text-sm text-gray-500">15/02/2025</p>
-                  </div>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">A VENCER</span>
-                  <span class="font-medium">R$ 499,99</span>
-                </div>
-              </div>
-            <% end %>
-          </div>
-
-          <div class="mt-4 flex items-center justify-between">
-            <p class="text-gray-600">Fatura atual: R$ 1.760,45</p>
-            <div class="flex items-center gap-4">
-              <a href="#" class="text-blue-500">+4 outros</a>
-              <button class="bg-yellow-500 px-4 py-2 rounded-lg font-medium">
-                Pagar tudo
-              </button>
-            </div>
-          </div>
+          <% end %>
         </div>
 
-        <%# Payment Statement %>
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-2">
-              <i class="material-symbols-outlined text-yellow-500">receipt</i>
-              <h2 class="text-lg font-medium">Extrato de Pagamentos</h2>
-            </div>
-            <button class="text-gray-400">
-              <i class="material-symbols-outlined">filter_list</i>
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-gray-600">Fatura atual: R$ 1.760,45</p>
+          <div class="flex items-center gap-4">
+            <a href="#" class="text-blue-500">+4 outros</a>
+            <button class="bg-yellow-500 px-4 py-2 rounded-lg font-medium">
+              Pagar tudo
             </button>
-          </div>
-
-          <div class="space-y-4">
-            <h3 class="font-medium">Jan. 2025</h3>
-            <% 3.times do %>
-              <div class="flex items-center justify-between py-2">
-                <div class="flex items-center gap-2">
-                  <i class="material-symbols-outlined text-green-500">check_circle</i>
-                  <div>
-                    <h4 class="font-medium">Empresa TAL</h4>
-                    <p class="text-sm text-gray-500">14/01/2025</p>
-                  </div>
-                </div>
-                <span class="font-medium">R$ 499,99</span>
-              </div>
-            <% end %>
-
-            <h3 class="font-medium pt-4">Dez. 2024</h3>
-            <% 3.times do %>
-              <div class="flex items-center justify-between py-2">
-                <div class="flex items-center gap-2">
-                  <i class="material-symbols-outlined text-green-500">check_circle</i>
-                  <div>
-                    <h4 class="font-medium">Empresa TAL</h4>
-                    <p class="text-sm text-gray-500">14/12/2024</p>
-                  </div>
-                </div>
-                <span class="font-medium">R$ 499,99</span>
-              </div>
-            <% end %>
-          </div>
-
-          <div class="mt-4 text-center">
-            <button class="text-yellow-500 font-medium">Ver mais</button>
           </div>
         </div>
       </div>
+
+      <%# Payment Statement %>
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <i class="material-symbols-outlined text-yellow-500">receipt</i>
+            <h2 class="text-lg font-medium">Extrato de Pagamentos</h2>
+          </div>
+          <button class="text-gray-400">
+            <i class="material-symbols-outlined">filter_list</i>
+          </button>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-medium">Jan. 2025</h3>
+          <% 3.times do %>
+            <div class="flex items-center justify-between py-2">
+              <div class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-green-500">check_circle</i>
+                <div>
+                  <h4 class="font-medium">Empresa TAL</h4>
+                  <p class="text-sm text-gray-500">14/01/2025</p>
+                </div>
+              </div>
+              <span class="font-medium">R$ 499,99</span>
+            </div>
+          <% end %>
+
+          <h3 class="font-medium pt-4">Dez. 2024</h3>
+          <% 3.times do %>
+            <div class="flex items-center justify-between py-2">
+              <div class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-green-500">check_circle</i>
+                <div>
+                  <h4 class="font-medium">Empresa TAL</h4>
+                  <p class="text-sm text-gray-500">14/12/2024</p>
+                </div>
+              </div>
+              <span class="font-medium">R$ 499,99</span>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-4 text-center">
+          <button class="text-yellow-500 font-medium">Ver mais</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-

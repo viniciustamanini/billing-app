@@ -135,6 +135,6 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:cpf, :default_profile, :active)
+    params.require(:profile).permit(:first_name, :last_name, :cpf, :default_profile, :active)
   end
 end
