@@ -1,5 +1,24 @@
 <div class="session-box">
-  <%# <%= form_with model: [@company, :customers], local: true do |form| %>
-  <%# <% end %>
-  <p>Test</p>
+  <%= form_with model: @profile, url: company_customers_path(@company), local: true do |f| %>
+    <div class="field field-input-container">
+      <%= f.label :cpf %><br/>
+      <%= f.text_field :cpf,
+                   autofocus: true,
+                   autocomplete: "cpf",
+                   maxlength: 11,
+                   class: "input-primary" %>
+    </div>
+
+    <div class="flex justify-between w-70 justify-self-end mt-6">
+      <%= f.submit "Salvar",
+               class: "btn-primary",
+               data: {
+                 action: "click->modal#closeOnForms",
+               } %>
+
+      <button type="button" class="btn-secondary" data-action="click->modal#close">
+        Cancelar
+      </button>
+    </div>
+  <% end %>
 </div>

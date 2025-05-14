@@ -131,6 +131,7 @@ class ProfilesController < ApplicationController
     end
 
     @company = profile.company
+    @company_id = @company.id
   end
 
   def profile_params
