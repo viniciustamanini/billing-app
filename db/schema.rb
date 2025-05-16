@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_14_025545) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_16_024615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,7 +62,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_025545) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "profile_id", null: false
+    t.datetime "paid_at"
+    t.date "original_due_date"
     t.index ["invoice_status_id"], name: "index_invoices_on_invoice_status_id"
+    t.index ["paid_at"], name: "index_invoices_on_paid_at"
     t.index ["profile_id"], name: "index_invoices_on_profile_id"
   end
 

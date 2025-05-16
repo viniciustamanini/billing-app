@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+invoice_statuses = %w[
+  draft issued sent viewed partial paid overdue void refunded disputed
+]
+
+invoice_statuses.each do |status|
+  InvoiceStatus.find_or_create_by!(name: status)
+end
