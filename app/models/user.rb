@@ -16,6 +16,22 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def recurring_payment_day(as_of: Date.current)
+    customer_ids = profiles.find_by(profile_type: ProfileType.customer)
+
+    return nil if customer_ids.blank?
+
+    Invoice
+      .joins(:invoice_status)
+      .where(profile_id: customer_ids, invoice_statuses: { name: "paid" })
+      .where("paid_at <= ?", as_of)
+      .group("EXTRACT(DAY FROM paid_at)")
+      .order(Arel.sql("COUNT(*) DESC"))
+      .limit(1)
+      .pluck(Arel.sql("EXTRACT(DAY FROM paid_at)::int"))
+      .first
+  end
+
   private
 
   def link_profiles

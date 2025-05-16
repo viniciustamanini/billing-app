@@ -15,6 +15,7 @@ class Invoice < ApplicationRecord
 
   scope :paid, -> { where(invoice_status: InvoiceStatus.paid) }
   scope :overdue, -> { past_due.or(overdue_status) }
+  scope :upcoming, -> { where("due_date >= ?", Date.current) }
 
   private
 
