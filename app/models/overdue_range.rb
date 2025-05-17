@@ -1,0 +1,2 @@
+class OverdueRange < ApplicationRecord
+end
