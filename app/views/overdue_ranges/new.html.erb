@@ -1,4 +1,34 @@
 <div class="container">
   <h1 class="mb-4">Nova Faixa de Atraso</h1>
-  <%= render "form" %>
+  <%= render "form", overdue_range: @overdue_range %>
+
+  <hr class="divider-horizontal">
+
+  <h2 class="text-lg font-semibold mb-2">Faixas já cadastradas</h2>
+
+  <% if @overdue_ranges.any? %>
+    <ul class="space-y-2">
+      <% @overdue_ranges.each do |range| %>
+        <li class="p-2 border rounded flex justify-between">
+          <span>
+            <strong><%= range.days_from %></strong> —
+            <strong><%= range.days_to %></strong> dias
+          </span>
+
+          <span class="space-x-2">
+            <%= link_to "Editar",
+                        edit_company_overdue_range_path(@company, range),
+                        class: "text-blue-600" %>
+            <%# <%= link_to "Excluir", %>
+            <%#             overdue_range_path(range), %>
+            <%#             method: :delete, %>
+            <%#             data: { confirm: "Tem certeza?" }, %>
+            <%#             class: "text-red-600" %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500">Nenhuma faixa cadastrada ainda.</p>
+  <% end %>
 </div>

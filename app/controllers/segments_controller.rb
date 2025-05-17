@@ -10,7 +10,7 @@ class SegmentsController < ApplicationController
       @segments = @segments.where("segments.description ILIKE ?", "%#{params[:search]}%")
     end
 
-    @overdue_ranges = @company.overdue_ranges.order(:days_from)
+    @overdue_ranges = @company.overdue_ranges.active.order(:days_from)
   end
 
   def new

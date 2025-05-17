@@ -72,6 +72,9 @@
     <div class="p-4">
       <div class="flex justify-between items-center mb-3">
         <h2 class="text-lg font-medium text-gray-700">Faixas de atraso</h2>
+        <%= link_to "ver todas..",
+        company_overdue_ranges_path(@company),
+        class: "text-sm text-yellow-600 hover:underline" %>
         <%= link_to "+ Adicionar nova faixa",
         new_company_overdue_range_path(@company),
         class: "text-sm text-yellow-600 hover:underline",

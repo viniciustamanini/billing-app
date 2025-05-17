@@ -2,14 +2,13 @@ class OverdueRangesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
   before_action :set_overdue_range, only: %i[edit update activate deactivate]
+  before_action :set_overdue_range_list, only: %i[index new create]
 
   def index
-    @overdue_ranges = @company.overdue_ranges.order(:days_from)
   end
 
   def new
     @overdue_range = @company.overdue_ranges.new
-    @overdue_ranges = @company.overdue_ranges.order(:days_from)
   end
 
   def create
@@ -58,6 +57,10 @@ class OverdueRangesController < ApplicationController
 
   def set_overdue_range
     @overdue_range = @company.overdue_ranges.find(params[:id])
+  end
+
+  def set_overdue_range_list
+    @overdue_ranges = @company.overdue_ranges.display_order
   end
 
   def overdue_range_params
