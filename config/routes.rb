@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  get "overdue_ranges/index"
-  get "overdue_ranges/new"
-  get "overdue_ranges/create"
-  get "overdue_ranges/edit"
-  get "overdue_ranges/update"
   scope ":locale", locale: /en|pt/ do
     devise_for :users, controllers: {
       registrations: "users/registrations"
@@ -22,7 +17,13 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :segments, only: %i[index new create edit update]
+      resources :segments, except: %i[ destroy ] do
+        member do
+          patch :deactivate
+          patch :activate
+        end
+      end
+
       resources :overdue_ranges, only: %i[index new create edit update]
       resources :employees, controller: "employees", only: %i[new create]
     end

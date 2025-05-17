@@ -1,7 +1,7 @@
 class SegmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
-  before_action :set_segment, only: %i[edit update]
+  before_action :set_segment, only: %i[edit update activate deactivate]
 
   def index
     @segments = @company.segments.includes(:overdue_range).order(:id)
@@ -38,7 +38,24 @@ class SegmentsController < ApplicationController
     end
   end
 
+  def deactivate
+    toggle_active(false, "Segmentacao desativada")
+  end
+
+  def activate
+    toggle_active(true, "Segmentacao ativada")
+  end
+
   private
+
+  def toggle_active(value, message)
+    if @segment.update(active: value)
+      redirect_to company_segments_path, notice: message
+    else
+      redirect_to company_segments_path(@company),
+      alert:  @segment.errors.full_messages.to_sentence
+    end
+  end
 
   def set_company
     @company = Company.find(params[:company_id])
