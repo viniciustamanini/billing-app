@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="d-flex justify-between items-center mb-4">
+    <h1>Segmentações</h1>
+    <%= link_to "+ Cadastrar",
+    new_company_segment_path(@company),
+    class: "btn btn-warning" %>
+  </div>
+
+  <div class="d-flex gap-4">
+    <!-- SEGMENTS TABLE -->
+    <div class="card w-2/3">
+      <div class="p-4">
+        <%= form_with url: company_segments_path(@company), method: :get, local: true, class: "mb-3" do |f| %>
+          <%= f.text_field :search, placeholder: "Buscar por descrição", class: "form-control" %>
+        <% end %>
+        <% if params[:search].present? %>
+          <%= link_to "Limpar filtro",
+          company_segments_path(@company),
+          class: "btn btn-link text-danger" %>
+
+        <% end %>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Faixa de atraso</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @segments.any? %>
+              <% @segments.each do |segment| %>
+                <tr>
+                  <td><%= segment.name %></td>
+                  <td><%= segment.description.presence || "-" %></td>
+                  <td><%= segment.overdue_range&.name || "—" %></td>
+                  <td>
+                    <%= link_to "Editar",
+                    edit_company_segment_path(@company, segment),
+                    class: "btn btn-sm" %>
+                    <%= link_to "(TODO) Inativar",
+                    company_segment_path(@company, segment),
+                    method: :delete,
+                    data: {
+                      confirm: "Tem certeza?",
+                    },
+                    class: "btn btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="text-center text-muted">Nenhuma segmentação encontrada</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- OVERDUE RANGES SIDE PANEL -->
+    <div class="card w-1/3">
+      <div class="p-4">
+        <h2 class="mb-3">Faixas de atraso</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @overdue_ranges.each do |range| %>
+              <tr>
+                <td><%= range.name %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

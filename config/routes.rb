@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :segments, only: %i[index new create]
+      resources :segments, only: %i[index new create edit update]
       resources :employees, controller: "employees", only: %i[new create]
     end
 

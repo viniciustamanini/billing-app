@@ -119,7 +119,7 @@
               <p class="sidebar-text">Vencimentos</p>
             <% end %>
           <% else %>
-            <%= link_to company_dashboard_path(company_id: @company_id), title: "Ir ao Dashboard", class: "sidebar-link" do %>
+            <%= link_to company_dashboard_path(@company), title: "Ir ao Dashboard", class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
                 <i class="material-symbols-outlined text-[var(--color-gold)] ">space_dashboard</i>
               </div>
@@ -133,7 +133,7 @@
               <p class="sidebar-text">Configurar notificações</p>
             <% end %>
 
-            <%= link_to root_path, class: "sidebar-link" do %>
+            <%= link_to company_segments_path(@company), class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
                 <i class=" material-symbols-outlined text-[var(--color-gold)] ">incomplete_circle</i>
               </div>
