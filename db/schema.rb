@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_17_030237) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_17_033532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_030237) do
     t.integer "days_to", limit: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id", null: false
+    t.index ["company_id"], name: "index_overdue_ranges_on_company_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -185,6 +187,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_030237) do
   add_foreign_key "invoice_renegotiations", "renegotiations"
   add_foreign_key "invoices", "invoice_statuses"
   add_foreign_key "invoices", "profiles"
+  add_foreign_key "overdue_ranges", "companies"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
   add_foreign_key "payments", "payment_statuses"
