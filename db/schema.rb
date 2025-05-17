@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_17_024040) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_17_024645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -148,6 +148,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_024040) do
     t.index ["renegotiation_status_id"], name: "index_renegotiations_on_renegotiation_status_id"
   end
 
+  create_table "segments", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.bigint "overdue_range_id", null: false
+    t.string "name"
+    t.text "descriptin"
+    t.decimal "debt_min"
+    t.decimal "debt_max"
+    t.boolean "include_active_customer"
+    t.boolean "include_inactive_customer"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_segments_on_company_id"
+    t.index ["overdue_range_id"], name: "index_segments_on_overdue_range_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -176,4 +192,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_024040) do
   add_foreign_key "profiles", "profile_types"
   add_foreign_key "profiles", "users"
   add_foreign_key "renegotiations", "renegotiation_statuses"
+  add_foreign_key "segments", "companies"
+  add_foreign_key "segments", "overdue_ranges"
 end

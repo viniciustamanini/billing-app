@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company: one
+  overdue_range: one
+  name: MyString
+  descriptin: MyText
+  debt_min: 9.99
+  debt_max: 9.99
+  include_active_customer: false
+  include_inactive_customer: false
+  active: false
+
+two:
+  company: two
+  overdue_range: two
+  name: MyString
+  descriptin: MyText
+  debt_min: 9.99
+  debt_max: 9.99
+  include_active_customer: false
+  include_inactive_customer: false
+  active: false
