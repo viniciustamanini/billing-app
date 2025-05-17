@@ -13,7 +13,6 @@ class SegmentsController < ApplicationController
 
   def create
     @segment = @company.segments.new(segment_params)
-    @segment.company = current_user.company
 
     if @segment.save
       redirect_to segments_path, notice: "Segment created"
