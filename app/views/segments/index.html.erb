@@ -1,58 +1,61 @@
-<div class="container">
-  <div class="d-flex justify-between items-center mb-4">
-    <h1>Segmentações</h1>
+<div class="max-w-7xl mx-auto px-4 py-6">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-semibold text-gray-800">Segmentações</h1>
     <%= link_to "+ Cadastrar",
     new_company_segment_path(@company),
-    class: "btn btn-warning" %>
+    class:
+      "bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-md shadow-sm" %>
   </div>
 
-  <div class="d-flex gap-4">
+  <div class="flex gap-4">
     <!-- SEGMENTS TABLE -->
-    <div class="card w-2/3">
+    <div class="bg-white rounded-md shadow-sm border border-gray-200 w-2/3">
       <div class="p-4">
-        <%= form_with url: company_segments_path(@company), method: :get, local: true, class: "mb-3" do |f| %>
-          <%= f.text_field :search, placeholder: "Buscar por descrição", class: "form-control" %>
+        <%= form_with url: company_segments_path(@company), method: :get, local: true, class: "mb-3 flex gap-2" do |f| %>
+          <%= f.text_field :search,
+                       placeholder: "Buscar por descrição",
+                       class:
+                         "w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-yellow-300" %>
         <% end %>
         <% if params[:search].present? %>
           <%= link_to "Limpar filtro",
           company_segments_path(@company),
-          class: "btn btn-link text-danger" %>
-
+          class: "text-red-600 text-sm hover:underline" %>
         <% end %>
 
-        <table class="table table-hover">
+        <table class="w-full text-sm text-left text-gray-700 mt-4">
           <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Descrição</th>
-              <th>Faixa de atraso</th>
-              <th></th>
+            <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
+              <th class="px-4 py-2">Nome</th>
+              <th class="px-4 py-2">Descrição</th>
+              <th class="px-4 py-2">Faixa de atraso</th>
+              <th class="px-4 py-2"></th>
             </tr>
           </thead>
           <tbody>
             <% if @segments.any? %>
               <% @segments.each do |segment| %>
-                <tr>
-                  <td><%= segment.name %></td>
-                  <td><%= segment.description.presence || "-" %></td>
-                  <td><%= segment.overdue_range&.name || "—" %></td>
-                  <td>
+                <tr class="border-b hover:bg-gray-50">
+                  <td class="px-4 py-2"><%= segment.name %></td>
+                  <td class="px-4 py-2"><%= segment.description.presence || "-" %></td>
+                  <td class="px-4 py-2"><%= segment.overdue_range&.name || "—" %></td>
+                  <td class="px-4 py-2 space-x-2">
                     <%= link_to "Editar",
                     edit_company_segment_path(@company, segment),
-                    class: "btn btn-sm" %>
+                    class: "text-sm text-blue-600 hover:underline" %>
                     <%= link_to "(TODO) Inativar",
                     company_segment_path(@company, segment),
                     method: :delete,
                     data: {
                       confirm: "Tem certeza?",
                     },
-                    class: "btn btn-sm" %>
+                    class: "text-sm text-red-600 hover:underline" %>
                   </td>
                 </tr>
               <% end %>
             <% else %>
               <tr>
-                <td colspan="4" class="text-center text-muted">Nenhuma segmentação encontrada</td>
+                <td colspan="4" class="text-center text-gray-500 italic py-4">Nenhuma segmentação encontrada</td>
               </tr>
             <% end %>
           </tbody>
@@ -60,31 +63,31 @@
       </div>
     </div>
     <!-- OVERDUE RANGES SIDE PANEL -->
-    <div class="card w-1/3">
+    <div class="bg-white rounded-md shadow-sm border border-gray-200 w-1/3">
       <div class="p-4">
-        <div class="d-flex justify-between items-center mb-3">
-          <h2 class="mb-0">Faixas de atraso</h2>
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-lg font-medium text-gray-700">Faixas de atraso</h2>
           <%= link_to "+ Adicionar nova faixa",
           new_company_overdue_range_path(@company),
-          class: "btn btn-sm btn-outline-success",
+          class: "text-sm text-yellow-600 hover:underline",
           title: "Nova faixa" %>
         </div>
 
-        <table class="table">
+        <table class="w-full text-sm text-left text-gray-700">
           <thead>
-            <tr>
-              <th>Descrição</th>
-              <th class="text-end">Ações</th>
+            <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
+              <th class="px-4 py-2">Descrição</th>
+              <th class="px-4 py-2 text-right">Ações</th>
             </tr>
           </thead>
           <tbody>
             <% @overdue_ranges.each do |range| %>
-              <tr>
-                <td><%= range.name %></td>
-                <td class="text-end">
+              <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2"><%= range.name %></td>
+                <td class="px-4 py-2 text-right">
                   <%= link_to "Editar",
                   edit_company_overdue_range_path(@company, range),
-                  class: "btn btn-sm btn-outline-secondary" %>
+                  class: "text-sm text-blue-600 hover:underline" %>
                 </td>
               </tr>
             <% end %>

@@ -6,34 +6,53 @@
       icon: "error" %>
     </div>
   <% end %>
-  <div class="mb-3">
-    <%= f.label :name, "Descrição da faixa" %>
-    <%= f.text_field :name, class: "form-control", required: true %>
+
+  <div class="mb-4">
+    <%= f.label :name,
+            "Descrição da faixa",
+            class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :name,
+                 class:
+                   "w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200",
+                 required: true %>
   </div>
 
-  <div class="mb-3 d-flex gap-2">
-    <div>
-      <%= f.label :days_from, "Dias de atraso (de)" %>
-      <%= f.number_field :days_from, class: "form-control", min: 0 %>
+  <div class="mb-4 flex gap-4">
+    <div class="flex-1">
+      <%= f.label :days_from,
+              "Dias de atraso (de)",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :days_from,
+                     class:
+                       "w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200",
+                     min: 0 %>
     </div>
-    <div>
-      <%= f.label :days_to, "Dias de atraso (até)" %>
-      <%= f.number_field :days_to, class: "form-control", min: 0 %>
+    <div class="flex-1">
+      <%= f.label :days_to,
+              "Dias de atraso (até)",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :days_to,
+                     class:
+                       "w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200",
+                     min: 0 %>
     </div>
   </div>
 
-  <div class="mb-3 form-check">
-    <%= f.check_box :active, class: "form-check-input" %>
-    <%= f.label :active, "Faixa ativa", class: "form-check-label" %>
+  <div class="mb-4 flex items-center gap-2">
+    <%= f.check_box :active,
+                class:
+                  "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
+    <%= f.label :active, "Faixa ativa", class: "text-sm text-gray-700" %>
   </div>
 
-  <div class="mt-4">
+  <div class="mt-6 flex gap-3">
     <%= f.submit(
       @overdue_range.new_record? ? "Salvar Faixa" : "Atualizar Faixa",
-      class: "btn btn-warning",
+      class:
+        "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm",
     ) %>
     <%= link_to "Cancelar",
     company_segments_path(@company),
-    class: "btn btn-outline-secondary ms-2" %>
+    class: "text-gray-600 hover:text-gray-800 underline" %>
   </div>
 <% end %>
