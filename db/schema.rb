@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_17_024645) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_17_030237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -152,7 +152,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_024645) do
     t.bigint "company_id", null: false
     t.bigint "overdue_range_id", null: false
     t.string "name"
-    t.text "descriptin"
+    t.text "description"
     t.decimal "debt_min"
     t.decimal "debt_max"
     t.boolean "include_active_customer"
