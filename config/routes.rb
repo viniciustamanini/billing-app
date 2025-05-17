@@ -24,7 +24,13 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :overdue_ranges, only: %i[index new create edit update]
+      resources :overdue_ranges, except: %i[ destroy ] do
+        member do
+          patch :deactivate
+          patch :activate
+        end
+      end
+
       resources :employees, controller: "employees", only: %i[new create]
     end
 

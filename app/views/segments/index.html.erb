@@ -43,11 +43,11 @@
                   edit_company_segment_path(@company, segment),
                   class: "text-sm text-blue-600 hover:underline" %>
                 <% if segment.active? %>
-                <%= button_to "Inativar",
-                      deactivate_company_segment_path(@company, segment),
-                      method: :patch,
-                      data:   { confirm: "Tem certeza?" },
-                      class:  "text-red-600" %>
+                  <%= button_to "Inativar",
+                        deactivate_company_segment_path(@company, segment),
+                        method: :patch,
+                        data:   { confirm: "Tem certeza?" },
+                        class:  "text-red-600" %>
                 <% else %>
                   <%= button_to "Ativar",
                       activate_company_segment_path(@company, segment),
@@ -93,6 +93,19 @@
                 <%= link_to "Editar",
                 edit_company_overdue_range_path(@company, range),
                 class: "text-sm text-blue-600 hover:underline" %>
+                <% if range.active? %>
+                  <%= button_to "Inativar",
+                        deactivate_company_overdue_range_path(@company, range),
+                        method: :patch,
+                        data:   { confirm: "Tem certeza?" },
+                        class:  "text-red-600" %>
+                <% else %>
+                  <%= button_to "Ativar",
+                      activate_company_overdue_range_path(@company, range),
+                      method: :patch,
+                      class:  "text-green-600" 
+                    %>
+                <% end %>
               </td>
             </tr>
           <% end %>

@@ -1,7 +1,7 @@
 class OverdueRangesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
-  before_action :set_overdue_range, only: %i[edit update]
+  before_action :set_overdue_range, only: %i[edit update activate deactivate]
 
   def index
     @overdue_ranges = @company.overdue_ranges.order(:days_from)
@@ -9,6 +9,7 @@ class OverdueRangesController < ApplicationController
 
   def new
     @overdue_range = @company.overdue_ranges.new
+    @overdue_ranges = @company.overdue_ranges.order(:days_from)
   end
 
   def create
@@ -32,7 +33,24 @@ class OverdueRangesController < ApplicationController
     end
   end
 
+  def deactivate
+    toggle_active(false, "Faixa de atraso desativada")
+  end
+
+  def activate
+    toggle_active(true, "Faixa de atraso ativada")
+  end
+
   private
+
+  def toggle_active(value, message)
+    if @overdue_range.update(active: value)
+      redirect_to company_segments_path, notice: message
+    else
+      redirect_to company_segments_path(@company),
+      alert:  @segment.errors.full_messages.to_sentence
+    end
+  end
 
   def set_company
     @company = Company.find(params[:company_id])
