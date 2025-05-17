@@ -23,11 +23,9 @@
   </head>
 
   <body>
-    <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">
-      <% flash.each do |type, message| %>
-        <%= render partial: "shared/toast", locals: { message: message, show_undo: false } %>
-      <% end %>
-    </div>
+    <% flash.each do |type, message| %>
+      <%= render partial: "shared/toast", locals: { message: message, show_undo: false } %>
+    <% end %>
 
     <div class="yellow-circle"></div>
     <main class="session-container w-[50vh] justify-self-center">

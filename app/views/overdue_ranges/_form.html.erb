@@ -1,10 +1,8 @@
 <%= form_with model: [@company, @overdue_range], local: true do |f| %>
   <% if @overdue_range.errors.any? %>
-    <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">
-      <%= render "shared/toast",
-      message: "Erro ao salvar: #{@overdue_range.errors.full_messages.to_sentence}",
-      icon: "error" %>
-    </div>
+    <%= render "shared/toast",
+    message: "Erro ao salvar: #{@overdue_range.errors.full_messages.to_sentence}",
+    icon: "error" %>
   <% end %>
 
   <div class="mb-4">
