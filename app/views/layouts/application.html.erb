@@ -96,13 +96,6 @@
             <h1 class="sidebar-logo-text">Billin Jean</h1>
           <% end %>
 
-          <div class="sidebar-link cursor-pointer" data-sidebar-target="toggle">
-            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-symbols-outlined text-[var(--color-gold)] ">left_panel_close</i>
-            </div>
-            <p class="sidebar-text"><%= t("collapse_sidebar") %></p>
-          </div>
-
           <% if customer_profile_type?(@profile_type) %>
             <%= link_to customer_dashboard_path, title: "Ir ao Dashboard", class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
@@ -169,6 +162,13 @@
           </div>
 
           <div class="divider-horizontal"></div>
+
+          <div class="sidebar-link cursor-pointer" data-sidebar-target="toggle">
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">left_panel_close</i>
+            </div>
+            <p class="sidebar-text"><%= t("collapse_sidebar") %></p>
+          </div>
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
