@@ -2,7 +2,7 @@ class OverdueRangesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
   before_action :set_overdue_range, only: %i[edit update activate deactivate]
-  before_action :set_overdue_range_list, only: %i[index new create]
+  before_action :set_overdue_range_list, only: %i[index new create edit]
 
   def index
   end
@@ -15,7 +15,7 @@ class OverdueRangesController < ApplicationController
     @overdue_range = @company.overdue_ranges.new(overdue_range_params)
 
     if @overdue_range.save
-      redirect_to company_segments_path, notice: "Overdue range created"
+      redirect_to company_segments_path, flash: { success: "Overdue range created" }
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class OverdueRangesController < ApplicationController
 
   def update
     if @overdue_range.update(overdue_range_params)
-      redirect_to company_segments_path, notice: "Overdue range updated"
+      redirect_to company_segments_path, flash: { success: "Overdue range updated" }
     else
       render :edit, status: :unprocessable_entity
     end
@@ -44,10 +44,10 @@ class OverdueRangesController < ApplicationController
 
   def toggle_active(value, message)
     if @overdue_range.update(active: value)
-      redirect_to company_segments_path, notice: message
+      redirect_to company_segments_path, flash: { success: message }
     else
       redirect_to company_segments_path(@company),
-      alert:  @segment.errors.full_messages.to_sentence
+      flash: { error: @segment.errors.full_messages.to_sentence }
     end
   end
 
