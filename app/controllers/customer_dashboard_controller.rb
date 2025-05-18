@@ -1,5 +1,6 @@
 class CustomerDashboardController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_company, only: %i[index_for_company]
 
   def index
     @profile_type = ProfileType.customer.name
@@ -27,5 +28,27 @@ class CustomerDashboardController < ApplicationController
       .joins(:invoice)
       .where(invoices: { profile_id: profile_ids })
       .order(created_at: :desc)
+  end
+
+  def index_for_company
+    customer_profile = @company.profiles
+      .by_type("customer")
+      .find_by!(id: params[:profile_id])
+
+    unless current_profile.company_id == @company.id
+      redirect to company_dashboard_path(@company),
+      flash: { error: "Nao autorizado." } and return
+    end
+
+    @invoices = Invoice
+      .includes(:invoice_status, :profile)
+      .where(profile_id: customer_profile.id)
+      .order(:due_date)
+  end
+
+  private
+
+  def set_company
+    @company = Company.find(params[:company_id])
   end
 end

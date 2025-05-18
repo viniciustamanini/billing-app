@@ -239,49 +239,50 @@
       <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
       <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
         <% @late_customers.each do |customer| %>
-          <div
-            class="
-              bg-white rounded-lg shadow p-3 flex flex-col items-center justify-center
-              border-2 border-yellow-400
-            "
-            title="<%= customer.full_name %>"
-          >
-            <i
+          <%= link_to company_profile_customer_dashboard_path(@company, customer) do %>
+            <div
               class="
-                material-symbols-outlined flex justify-center items-center h-full text-3xl
-                content-center
+                bg-white rounded-lg shadow p-3 flex flex-col items-center justify-center
+                border-2 border-yellow-400
               "
-            >person_pin</i>
-          </div>
+              title="<%= customer.full_name %>"
+            >
+              <i
+                class="
+                  material-symbols-outlined flex justify-center items-center h-full text-3xl
+                  content-center
+                "
+              >person_pin</i>
+            </div>
+          <% end %>
         <% end %>
-        <!-- Add client button -->
         <div class="flex flex-col items-center justify-center">
-          <button
-            class="
-              w-full h-full bg-gray-100 rounded-lg shadow flex items-center justify-center p-3
-            "
-            title="Listar clientes"
-          >
+          <%= link_to company_customers_path(@company) do %>
+            <button
+              title="Listar clientes",
+              class="w-full h-full bg-gray-100 rounded-lg shadow flex items-center justify-center p-3" 
+            >
             <i class="material-symbols-outlined text-3xl">groups</i>
-          </button>
+            </button>
+          <% end %>
         </div>
-      </div>
-      <div class="flex items-center justify-center">
-        <%= link_to modal_new_company_customers_path(@company, format: :html),
-        data: {
-          turbo_frame: "modal-frame",
-          action: "turbo:frame-load->modal#open",
-        } do %>
-          <button
-            class="
-              w-full h-full bg-white rounded-lg shadow border border-gray-200 flex
-              items-center justify-center p-3
-            "
-            title="Adicionar novo cliente"
-          >
-            <i class="material-symbols-outlined text-3xl">add</i>
-          </button>
-        <% end %>
+        <div class="flex items-center justify-center">
+          <%= link_to modal_new_company_customers_path(@company, format: :html),
+          data: {
+            turbo_frame: "modal-frame",
+            action: "turbo:frame-load->modal#open",
+          } do %>
+            <button
+              class="
+                w-full h-full bg-white rounded-lg shadow border border-gray-200 flex
+                items-center justify-center p-3
+              "
+              title="Adicionar novo cliente"
+            >
+              <i class="material-symbols-outlined text-3xl">add</i>
+            </button>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
