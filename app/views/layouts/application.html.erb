@@ -42,24 +42,26 @@
         </div>
 
         <div class="navbar-column navbar-col-2">
-          <div class="relative inline-block">
-            <%= form_with url: company_customers_path(@company), method: :get, local: true, class: "mb-3 flex gap-2" do |f| %>
-              <%= f.text_field :search,
-                  placeholder: t("search_customer"),
-                  class: "navbar-search pr-10"
-                %>
-            <% end %>
-            <% if params[:search].present? %>
-              <%= link_to "Limpar filtro",
-              company_customers_path(@company),
-              class: "text-red-600 text-sm hover:underline" %>
-            <% end %>
-            <i
-              class="
-                material-symbols-outlined absolute right-2 top-1/2 transform -translate-y-1/2
-              "
-            >search</i>
-          </div>
+          <% unless customer_profile_type?(@profile_type) %>
+            <div class="relative inline-block">
+              <%= form_with url: company_customers_path(@company), method: :get, local: true, class: "mb-3 flex gap-2" do |f| %>
+                <%= f.text_field :search,
+                    placeholder: t("search_customer"),
+                    class: "navbar-search pr-10"
+                  %>
+              <% end %>
+              <% if params[:search].present? %>
+                <%= link_to "Limpar filtro",
+                company_customers_path(@company),
+                class: "text-red-600 text-sm hover:underline" %>
+              <% end %>
+              <i
+                class="
+                  material-symbols-outlined absolute right-2 top-1/2 transform -translate-y-1/2
+                "
+              >search</i>
+            </div>
+          <% end %>
         </div>
 
         <div class="navbar-column navbar-col-3 flex items-center space-x-4">
