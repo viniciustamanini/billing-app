@@ -258,12 +258,12 @@
         <% end %>
         <div class="flex flex-col items-center justify-center">
           <%= link_to company_customers_path(@company) do %>
-            <button
+            <div
               title="Listar clientes",
               class="w-full h-full bg-gray-100 rounded-lg shadow flex items-center justify-center p-3" 
             >
             <i class="material-symbols-outlined text-3xl">groups</i>
-            </button>
+            </div>
           <% end %>
         </div>
         <div class="flex items-center justify-center">
@@ -272,7 +272,7 @@
             turbo_frame: "modal-frame",
             action: "turbo:frame-load->modal#open",
           } do %>
-            <button
+            <div
               class="
                 w-full h-full bg-white rounded-lg shadow border border-gray-200 flex
                 items-center justify-center p-3
@@ -280,7 +280,7 @@
               title="Adicionar novo cliente"
             >
               <i class="material-symbols-outlined text-3xl">add</i>
-            </button>
+            </div>
           <% end %>
         </div>
       </div>

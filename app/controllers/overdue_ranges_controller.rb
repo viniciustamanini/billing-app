@@ -2,7 +2,7 @@ class OverdueRangesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
   before_action :set_overdue_range, only: %i[edit update activate deactivate]
-  before_action :set_overdue_range_list, only: %i[index new create edit]
+  before_action :set_overdue_range_list, only: %i[index new create edit update]
 
   def index
   end
@@ -47,7 +47,7 @@ class OverdueRangesController < ApplicationController
       redirect_to company_segments_path, flash: { success: message }
     else
       redirect_to company_segments_path(@company),
-      flash: { error: @segment.errors.full_messages.to_sentence }
+      flash: { error: @overdue_range.errors.full_messages.to_sentence }
     end
   end
 
