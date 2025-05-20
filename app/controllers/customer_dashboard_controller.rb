@@ -37,7 +37,7 @@ class CustomerDashboardController < ApplicationController
       .find_by!(id: params[:profile_id])
 
     @customer_name = customer_profile.full_name
-    @customer_email = customer_profile.user&.email
+    @customer_email = customer_profile.effective_email
 
     unless current_profile.company_id == @company.id
       redirect to company_dashboard_path(@company),

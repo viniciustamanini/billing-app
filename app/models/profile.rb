@@ -19,6 +19,14 @@ class Profile < ApplicationRecord
     end
   end
 
+  def effective_email
+    if user.present?
+      user.email
+    else
+      email
+    end
+  end
+
   private
 
   def link_user_by_cpf
