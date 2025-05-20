@@ -36,6 +36,7 @@ class CustomerDashboardController < ApplicationController
       .by_type("customer")
       .find_by!(id: params[:profile_id])
 
+    @profile = customer_profile
     @customer_name = customer_profile.full_name
     @customer_email = customer_profile.effective_email
 

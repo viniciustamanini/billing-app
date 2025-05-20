@@ -109,10 +109,11 @@
         <div class="mt-4 flex items-center justify-between">
           <p class="text-gray-600">Fatura atual: R$ 1.760,45</p>
           <div class="flex items-center gap-4">
-            <a href="#" class="text-blue-500">+4 outros</a>
-            <button class="bg-yellow-500 px-4 py-2 rounded-lg font-medium">
-              Pagar tudo
-            </button>
+            <div>
+              <%= link_to t("New"),
+              new_company_profile_invoice_path(@company, @profile),
+              class: "btn-primary" %>
+            </div>
           </div>
         </div>
       </div>

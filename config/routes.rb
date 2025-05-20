@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       # TODO maybe the customer_dashboard and customer controller should be just one
       resources :profiles, only: [] do
         get "customer_dashboard", to: "customer_dashboard#index_for_company", as: :customer_dashboard
+        get "invoices/new_item", to: "invoices#new_item", as: :new_invoice_item
+        resources :invoices
       end
       resources :customers, controller: "customers", only: %i[new create] do
         collection do
