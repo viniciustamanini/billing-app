@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
   belongs_to :profile
   belongs_to :invoice_status
+  belongs_to :parent_renegotiation, optional: true
   has_many :invoice_items, dependent: :destroy
 
   accepts_nested_attributes_for :invoice_items, allow_destroy: true
@@ -21,6 +22,10 @@ class Invoice < ApplicationRecord
   scope :paid, -> { where(invoice_status: InvoiceStatus.paid) }
   scope :overdue, -> { past_due.or(overdue_status) }
   scope :upcoming, -> { where("due_date >= ?", Date.current) }
+
+  def renegotiated?
+    parant_renegotiation_id.present?
+  end
 
   private
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_20_233211) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_21_052546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,8 +62,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_233211) do
     t.bigint "profile_id", null: false
     t.datetime "paid_at"
     t.date "original_due_date"
+    t.bigint "parent_renegotiation_id"
+    t.integer "installment_number"
+    t.integer "installment_count"
     t.index ["invoice_status_id"], name: "index_invoices_on_invoice_status_id"
     t.index ["paid_at"], name: "index_invoices_on_paid_at"
+    t.index ["parent_renegotiation_id", "installment_number"], name: "idx_invoices_installments"
+    t.index ["parent_renegotiation_id"], name: "index_invoices_on_parent_renegotiation_id"
     t.index ["profile_id"], name: "index_invoices_on_profile_id"
   end
 
@@ -198,6 +203,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_233211) do
   add_foreign_key "invoice_renegotiations", "renegotiations"
   add_foreign_key "invoices", "invoice_statuses"
   add_foreign_key "invoices", "profiles"
+  add_foreign_key "invoices", "renegotiations", column: "parent_renegotiation_id"
   add_foreign_key "overdue_ranges", "companies"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "payment_methods"
