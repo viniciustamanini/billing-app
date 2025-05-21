@@ -218,20 +218,22 @@
           </div>
         </div>
         <!-- Segmentações -->
-        <div class="bg-white rounded-lg shadow p-6 relative">
-          <a href="#" class="absolute top-4 right-4">
-            <i class="material-symbols-outlined">open_in_new</i>
-          </a>
-          <div class="flex items-center mb-4">
-            <div class="bg-yellow-400 p-2 rounded mr-3">
-              <i class="material-symbols-outlined">incomplete_circle</i>
+        <%= link_to company_segments_path(@company) do %>
+          <div class="bg-white rounded-lg shadow p-6 relative">
+            <div class="absolute top-4 right-4">
+              <i class="material-symbols-outlined">open_in_new</i>
             </div>
-            <div>
-              <h2 class="text-lg font-medium">Segmentações</h2>
-              <p class="text-sm text-gray-600">Segmentação de clientes</p>
+            <div class="flex items-center mb-4">
+              <div class="bg-yellow-400 p-2 rounded mr-3">
+                <i class="material-symbols-outlined">incomplete_circle</i>
+              </div>
+              <div>
+                <h2 class="text-lg font-medium">Segmentações</h2>
+                <p class="text-sm text-gray-600">Segmentação de clientes</p>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
     <!-- Clientes em atraso and additional widgets -->

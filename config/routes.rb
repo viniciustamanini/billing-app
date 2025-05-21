@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get "up" => "rails/health#show", as: :rails_health_check
 
     resources :companies, only: %i[new create show] do
+      get :collaborators, on: :member
       collection do
         get :modal_new, to: "companies#modal_new"
       end

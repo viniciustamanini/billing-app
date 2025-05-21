@@ -1,1 +1,146 @@
-<h1>Test</h1>
+<!-- app/views/companies/show.html.erb -->
+<div class="p-6 space-y-6">
+  <!-- Summary Metrics -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="flex items-center justify-between bg-white rounded-2xl shadow p-4">
+      <div>
+        <h2 class="text-xl font-bold"><%= @company.name %></h2>
+        <p class="text-sm text-gray-500">Novos clientes</p>
+        <p class="text-green-600 font-semibold">+ 4 neste mês</p>
+      </div>
+      <span class="material-symbols-outlined text-5xl text-yellow-500">groups</span>
+    </div>
+    <div class="flex items-center justify-between bg-white rounded-2xl shadow p-4">
+      <div>
+        <p class="text-sm text-gray-500">Índice de inadimplência</p>
+        <p class="'text-red-600' font-semibold">
+          5% neste mês
+        </p>
+      </div>
+      <span class="material-symbols-outlined text-5xl text-yellow-500">paid</span>
+    </div>
+    <div class="flex items-center justify-between bg-white rounded-2xl shadow p-4">
+      <div>
+        <p class="text-sm text-gray-500">Colaboradores</p>
+        <p class="text-lg font-semibold"><%= @collaborators_count %></p>
+      </div>
+      <span class="material-symbols-outlined text-5xl text-yellow-500">diversity_3</span>
+    </div>
+  </div>
+  <!-- Main section -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Collaborators list -->
+    <div class="col-span-1 bg-white rounded-2xl shadow p-6 flex flex-col">
+      <h3 class="text-2xl font-bold mb-4">Colaboradores</h3>
+      <div class="flex items-center mb-4 gap-2">
+        <%= form_with url: collaborators_company_path(@company), method: :get, local: true, class: "flex flex-1" do |f| %>
+          <%= f.search_field :search,
+                         placeholder: "Buscar",
+                         class:
+                           "flex-1 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none" %>
+          <button
+            type="submit"
+            class="
+              bg-gray-100 px-3 rounded-r-md border border-l-0 border-gray-300
+            "
+          >
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        <% end %>
+        <%# <%= link_to new_company_collaborator_path(@company), class: "ml-2 bg-yellow-400 hover:bg-yellow-500 text-white p-2 rounded-full shadow" do %>
+        <%#   <span class="material-symbols-outlined">person_add</span> %>
+        <%# <% end %>
+      </div>
+
+      <% if @administrators.any? %>
+        <h4 class="text-lg font-semibold mb-2">Administradores</h4>
+        <ul class="space-y-1 mb-4">
+          <% @administrators.each do |admin| %>
+            <li>
+              <%= link_to company_path(@company), class: "flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 #{'bg-gray-200' if admin == @collaborator}" do %>
+                <span class="material-symbols-outlined">account_box</span>
+                <%= admin.full_name %>
+                <% if admin == current_user %>
+                  <span class="text-sm text-gray-400 ml-1">(você)</span>
+                <% end %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <% if @employees.any? %>
+        <h4 class="text-lg font-semibold mb-2">Funcionários</h4>
+        <ul class="space-y-1">
+          <% @employees.each do |employee| %>
+            <li>
+              <% disabled = employee.inactive? %>
+              <%= link_to company_path(@company), class: "flex items-center gap-2 p-2 rounded-md #{disabled ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-100'} #{'bg-gray-300' if employee == @collaborator}" do %>
+                <span class="material-symbols-outlined">account_box</span>
+                <%= employee.full_name %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+    <!-- Collaborator detail -->
+    <div class="col-span-1 lg:col-span-2 bg-white rounded-2xl shadow p-6">
+      <% if @collaborator %>
+        <div class="flex flex-col items-center mb-6">
+          <span class="material-symbols-outlined text-8xl">account_box</span>
+          <h2 class="mt-2 text-3xl font-bold"><%= @collaborator.full_name %></h2>
+          <p class="text-yellow-600 font-medium"><%= @collaborator.role_humanize %></p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-y-2 text-sm">
+          <div class="font-semibold">Status</div><div><%= @collaborator.active? ? "Ativo" : "Inativo" %></div>
+          <div class="font-semibold">Data de admissão</div><div><%= l @collaborator.admission_date %></div>
+          <div class="font-semibold">Valor recuperado</div><div><%= number_to_currency(@collaborator.recovered_value) %></div>
+          <div class="font-semibold">Renegociações propostas</div><div><%= @collaborator.negotiations_count %></div>
+        </div>
+
+        <div class="flex gap-4 mt-6">
+          <%= link_to edit_company_collaborator_path(@company, @collaborator), class: "bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded-xl shadow" do %>
+            Editar perfil
+          <% end %>
+
+          <% if @collaborator.active? %>
+            <%= link_to inactivate_company_collaborator_path(@company, @collaborator), method: :patch, data: { turbo_confirm: "Tem certeza?" }, class: "bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-xl shadow" do %>
+              Inativar
+            <% end %>
+          <% end %>
+        </div>
+
+        <hr class="my-6">
+
+        <h3 class="text-xl font-bold flex items-center gap-2">
+          <span class="material-symbols-outlined text-yellow-600">history</span>
+          Histórico
+          <%= link_to "Ver histórico completo →",
+          collaborator_history_path(@collaborator),
+          class: "text-blue-600 hover:underline ml-auto text-sm" %>
+        </h3>
+
+        <table class="w-full mt-4 text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b">
+              <th class="py-2">Descrição</th>
+              <th class="py-2">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @collaborator.recent_events.limit(5).each do |event| %>
+              <tr class="border-b last:border-b-0">
+                <td class="py-2"><%= event.description_html.html_safe %></td>
+                <td class="py-2"><%= l event.occurred_at.to_date %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-center text-gray-500">Selecione um colaborador para ver detalhes.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
