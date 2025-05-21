@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_21_052546) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_21_062810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_052546) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "default_interest_rate", precision: 6, scale: 3, default: "0.0"
+    t.string "default_interest_strategy", default: "simple"
   end
 
   create_table "invoice_items", force: :cascade do |t|
@@ -178,6 +180,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_052546) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "interest_rate", precision: 6, scale: 3, default: "0.0"
+    t.string "interest_stategy", default: "simple"
+    t.decimal "discount_percent", precision: 6, scale: 3, default: "0.0"
     t.index ["company_id"], name: "index_segments_on_company_id"
     t.index ["overdue_range_id"], name: "index_segments_on_overdue_range_id"
   end
