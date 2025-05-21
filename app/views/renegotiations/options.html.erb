@@ -1,0 +1,12 @@
+<!-- app/views/renegotiations/options.html.erb -->
+<h2 class="text-2xl font-bold mb-4">Opções de Renegociação</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <% @offers.each do |offer| %>
+    <%= render partial: "renegotiations/offer_card",
+    locals: {
+      offer: offer,
+      invoice: @invoice,
+    } %>
+  <% end %>
+</div>

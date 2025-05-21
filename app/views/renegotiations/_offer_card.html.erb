@@ -1,0 +1,43 @@
+<% amount_per = (offer[:total_amount] / offer[:installments]).round(2) %>
+
+<div class="bg-white rounded-2xl shadow p-6 flex flex-col justify-between">
+  <div>
+    <p class="text-sm text-gray-500 mb-1">
+      <%= if offer[:strategy] == "settlement_discount"
+        "Pagamento único"
+      else
+        "#{offer[:installments]} parcelas"
+      end %>
+    </p>
+
+    <p class="text-xl font-semibold">
+      <%= number_to_currency(offer[:total_amount]) %>
+    </p>
+
+    <% if offer[:installments] > 1 %>
+      <p class="text-xs text-gray-500">
+        <%= number_to_currency(amount_per) %>
+        cada</p>
+    <% end %>
+
+    <ul class="text-xs text-gray-600 mt-3 space-y-1">
+      <% offer[:schedule].each_with_index do |date, idx| %>
+        <li>
+          <%= idx.zero? ? "1ª" : "#{idx + 1}ª" %>
+          venc.
+          <%= l date, format: "%d/%m/%Y" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <%= button_to "Escolher esta opção",
+  invoice_renegotiation_path(
+    invoice,
+    strategy: offer[:strategy],
+    installments: offer[:installments],
+  ),
+  method: :post,
+  class:
+    "mt-4 inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 w-full" %>
+</div>

@@ -1,6 +1,12 @@
 <h1 class="text-xl font-bold mb-4">Detalhes da Fatura</h1>
 <div class="mt-6 flex justify-between">
-  <%= link_to t("Renegociar"), choose_profile_path, class: "btn-primary" %>
+  <%= link_to t("Renegociar"),
+  options_company_profile_invoice_renegotiation_path(
+    @company,
+    @profile,
+    @invoice,
+  ),
+  class: "btn-primary" %>
 
   <%= link_to "Editar",
   edit_company_profile_invoice_path(@company, @profile, @invoice),
