@@ -1,4 +1,4 @@
-module Renegotiation
+module RenegotiationService
   class Calculator
     Result = Struct.new(:total_amount, :interest, :schedule, :error, keyword_init: true)
 

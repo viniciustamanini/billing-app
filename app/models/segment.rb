@@ -1,6 +1,7 @@
 class Segment < ApplicationRecord
   belongs_to :company
   belongs_to :overdue_range
+  has_many :profiles
 
   STRATEGIES = %w[flat_late_fee settlement_discount compound].freeze
 

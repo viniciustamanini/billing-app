@@ -1,4 +1,4 @@
-module Renegotiation
+module RenegotiationService
   class Propose
     Result = Struct.new(:success?, :renegotiation, :error)
 

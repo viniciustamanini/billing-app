@@ -1,23 +1,23 @@
-module Renegotiation
-  class Accept
+module RenegotiationService
+  class Cancel
     Result = Struct.new(:success?, :renegotiation, :error)
 
-    def initialize(decider, renegotiation:, params:)
+    def initialize(requester, renegotiation:, params:)
       @renegotiation = renegotiation
-      @decider = decider
+      @requester = requester
+      @params = params
     end
 
     def call
       return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending
-      return Result.new(false, @renegotiation, "You are the proposer") unless @renegotiation.decision_perding_for?(@decider)
+      Result.new(false, @renegotiation, "Only proposer can cancel") unless @renegotiation.proposed_by_profile_id(@requester.id)
 
       ActiveRecord::Base.transaction do
         @renegotiation.update!(
-          renegotiation_status: RenegotiationStatus.approved,
-          decided_by_profile: @decider,
-          decision_date: Time.current,
+          renegotiation_status: RenegotiationStatus.canceled,
+          cancelled_by_profile: @requester,
+          cancellation_date: Time.current,
         )
-        Splitter.new(@renegotiation).call
       end
 
       Result.new(true, @renegotiation, nil)

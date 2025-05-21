@@ -1,4 +1,5 @@
-<% amount_per = (offer[:total_amount] / offer[:installments]).round(2) %>
+<%# <% amount_per = (offer[:total_amount] / offer[:installments]).round(2) %>
+<% amount_per = 10 %>
 
 <div class="bg-white rounded-2xl shadow p-6 flex flex-col justify-between">
   <div>
@@ -32,7 +33,7 @@
   </div>
 
   <%= button_to "Escolher esta opção",
-  invoice_renegotiation_path(
+  company_profile_invoice_renegotiation_path(
     invoice,
     strategy: offer[:strategy],
     installments: offer[:installments],

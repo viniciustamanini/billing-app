@@ -2,6 +2,7 @@ class Profile < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :company
   belongs_to :profile_type
+  belongs_to :segment, optional: true
   has_many :invoices, dependent: :destroy
 
   validates :first_name, :last_name, presence: true, if: -> { user_id.nil? }

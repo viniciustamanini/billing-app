@@ -1,6 +1,7 @@
 class RenegotiationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_invoice
+  before_action :set_company
 
   def options
     segment = @invoice.profile.segment
@@ -55,7 +56,7 @@ class RenegotiationsController < ApplicationController
   end
 
   def build_offer(invoice, segment, strategy:, installments: 1)
-    calc = Renegotiation::Calculator.call(
+    calc = RenegotiationService::Calculator.call(
              invoice: invoice,
              segment: segment,
              params:  { strategy: strategy, installments: installments }
@@ -63,10 +64,14 @@ class RenegotiationsController < ApplicationController
     {
       code: "#{strategy}-#{installments}",
       strategy: strategy,
-      installments: calc.schedule.size,
-      schedule: calc.schedule,
+      installments: (calc.schedule || []).size,
+      schedule: (calc.schedule || []),
       total_amount: calc.total_amount
     }
+  end
+
+  def set_company
+    @company = Company.find(params[:company_id])
   end
 
   def renegotiation_params

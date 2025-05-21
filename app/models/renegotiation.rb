@@ -7,7 +7,7 @@ class Renegotiation < ApplicationRecord
   has_many :child_invoices,
         class_name: "Invoice",
         foreign_key: :parent_renegotiation_id,
-        iverse_of: :parent_renegotiation
+        inverse_of: :parent_renegotiation
 
   RenegotiationStatus::STATUS_CODES.each do |code|
     scope code, -> {
