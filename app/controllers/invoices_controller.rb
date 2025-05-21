@@ -22,26 +22,26 @@ class InvoicesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html # renders show.html.erb (or whatever is available)
-      format.turbo_stream { head :no_content } # prevent Turbo crash
+      format.html
+      format.turbo_stream { head :no_content }
     end
   end
 
   def new_item
+    index = Time.now.to_i
     @item = InvoiceItem.new
     render turbo_stream: turbo_stream.append(
       "items",
       partial: "shared/invoice_item_fields",
-      locals: { f: build_fake_builder(@item) }
+      locals: { f: build_fake_builder(@item, index) }
     )
-    # render partial: "shared/invoice_item_fields", locals: { f: build_fake_builder(@item) }
   end
 
   private
 
-  def build_fake_builder(item)
+  def build_fake_builder(item, index)
     ActionView::Helpers::FormBuilder.new(
-      "invoice[invoice_items_attributes][#{SecureRandom.hex(6)}]",
+      "invoice[invoice_items_attributes][#{index}]",
       item,
       view_context,
       {},
@@ -60,7 +60,7 @@ class InvoicesController < ApplicationController
     params.require(:invoice).permit(
       :issued_date, :due_date, :total_amount, :invoice_status_id,
       invoice_items_attributes: [
-        :id, :description, :quantity, :unit_price, :tax_rate, :line_total, :_destroy
+        :id, :description, :quantity, :unit_price, :_destroy
       ]
     )
   end
