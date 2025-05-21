@@ -42,19 +42,26 @@
         </div>
 
         <div class="navbar-column navbar-col-2">
-          <div class="relative inline-block">
-            <input
-              type="text"
-              name="search_customer"
-              placeholder="<%= t("search_customer") %>"
-              class="navbar-search pr-10"
-            />
-            <i
-              class="
-                material-symbols-outlined absolute right-2 top-1/2 transform -translate-y-1/2
-              "
-            >search</i>
-          </div>
+          <% unless customer_profile_type?(@profile_type) %>
+            <div class="relative inline-block">
+              <%= form_with url: company_customers_path(@company), method: :get, local: true, class: "mb-3 flex gap-2" do |f| %>
+                <%= f.text_field :search,
+                    placeholder: t("search_customer"),
+                    class: "navbar-search pr-10"
+                  %>
+              <% end %>
+              <% if params[:search].present? %>
+                <%= link_to "Limpar filtro",
+                company_customers_path(@company),
+                class: "text-red-600 text-sm hover:underline" %>
+              <% end %>
+              <i
+                class="
+                  material-symbols-outlined absolute right-2 top-1/2 transform -translate-y-1/2
+                "
+              >search</i>
+            </div>
+          <% end %>
         </div>
 
         <div class="navbar-column navbar-col-3 flex items-center space-x-4">
@@ -96,13 +103,6 @@
             <h1 class="sidebar-logo-text">Billin Jean</h1>
           <% end %>
 
-          <div class="sidebar-link cursor-pointer" data-sidebar-target="toggle">
-            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
-              <i class=" material-symbols-outlined text-[var(--color-gold)] ">left_panel_close</i>
-            </div>
-            <p class="sidebar-text"><%= t("collapse_sidebar") %></p>
-          </div>
-
           <% if customer_profile_type?(@profile_type) %>
             <%= link_to customer_dashboard_path, title: "Ir ao Dashboard", class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
@@ -139,7 +139,7 @@
               <p class="sidebar-text">Segmentações</p>
             <% end %>
 
-            <%= link_to root_path, class: "sidebar-link" do %>
+            <%= link_to company_customers_path(@company), class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
                 <i class=" material-symbols-outlined text-[var(--color-gold)] ">groups</i>
               </div>
@@ -169,6 +169,13 @@
           </div>
 
           <div class="divider-horizontal"></div>
+
+          <div class="sidebar-link cursor-pointer" data-sidebar-target="toggle">
+            <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
+              <i class=" material-symbols-outlined text-[var(--color-gold)] ">left_panel_close</i>
+            </div>
+            <p class="sidebar-text"><%= t("collapse_sidebar") %></p>
+          </div>
 
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">

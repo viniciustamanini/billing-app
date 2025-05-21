@@ -1,0 +1,43 @@
+<div data-controller="invoice">
+  <%= form_with model: [@company, @profile, @invoice], local: true do |f| %>
+    <div>
+      <%= f.label :issued_date %>
+      <%= f.date_field :issued_date %>
+    </div>
+
+    <div>
+      <%= f.label :due_date %>
+      <%= f.date_field :due_date %>
+    </div>
+
+    <div>
+      <%= f.label :total_amount %>
+      <%= f.number_field :total_amount, step: 0.01 %>
+    </div>
+
+    <div>
+      <%= f.label :invoice_status_id %>
+      <%= f.collection_select :invoice_status_id, InvoiceStatus.all, :id, :name %>
+    </div>
+
+    <h3>Itens da fatura</h3>
+    <turbo-frame id="items">
+      <%= f.fields_for :invoice_items do |item_form| %>
+        <%= render "shared/invoice_item_fields", f: item_form %>
+      <% end %>
+    </turbo-frame>
+
+    <%= link_to "Adicionar item",
+    company_profile_invoice_path(
+      @company,
+      @profile,
+      "new_item",
+      format: :turbo_stream,
+    ),
+    data: {
+      turbo_frame: "items",
+    },
+    class: "btn btn-secondary mt-2" %>
+    <%= f.submit "Criar fatura", class: "btn btn-primary mt-4" %>
+  <% end %>
+</div>

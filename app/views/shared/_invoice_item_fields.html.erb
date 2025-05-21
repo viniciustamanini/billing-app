@@ -1,0 +1,25 @@
+<div class="invoice-item" data-invoice-target="item">
+  <%= f.hidden_field :_destroy %>
+
+  <div class="mb-2">
+    <%= f.label :description %>
+    <%= f.text_field :description, class: "input-primary" %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, class: "input-primary" %>
+  </div>
+
+  <div class="mb-2">
+    <%= f.label :unit_price %>
+    <%= f.number_field :unit_price, step: 0.01, class: "input-primary" %>
+  </div>
+
+  <%= link_to "Remover",
+  "#",
+  class: "text-red-500",
+  data: {
+    action: "click->invoice#removeItem",
+  } %>
+</div>

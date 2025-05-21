@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_17_043402) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_20_233211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,8 +31,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_043402) do
     t.text "description"
     t.integer "quantity", null: false
     t.decimal "unit_price", precision: 10, scale: 2, null: false
-    t.decimal "tax_rate", precision: 10, scale: 2, null: false
-    t.decimal "line_total", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
@@ -124,6 +122,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_043402) do
     t.string "cpf", limit: 11
     t.string "first_name", limit: 50
     t.string "last_name", limit: 100
+    t.string "email", default: "", null: false
     t.index ["company_id"], name: "index_profiles_on_company_id"
     t.index ["cpf"], name: "index_profiles_on_cpf"
     t.index ["profile_type_id"], name: "index_profiles_on_profile_type_id"
@@ -148,6 +147,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_043402) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "proposed_by_profile_id", null: false
+    t.bigint "decided_by_profile_id"
+    t.bigint "canceled_by_profile_id", null: false
+    t.decimal "original_total_amount", precision: 10, scale: 2
+    t.datetime "paid_at"
+    t.datetime "expired_at"
+    t.datetime "canceled_at"
+    t.datetime "completed_at"
+    t.index ["canceled_by_profile_id"], name: "index_renegotiations_on_canceled_by_profile_id"
+    t.index ["decided_by_profile_id"], name: "index_renegotiations_on_decided_by_profile_id"
+    t.index ["proposed_by_profile_id"], name: "index_renegotiations_on_proposed_by_profile_id"
     t.index ["renegotiation_status_id"], name: "index_renegotiations_on_renegotiation_status_id"
   end
 
@@ -195,6 +205,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_17_043402) do
   add_foreign_key "profiles", "companies"
   add_foreign_key "profiles", "profile_types"
   add_foreign_key "profiles", "users"
+  add_foreign_key "renegotiations", "profiles", column: "canceled_by_profile_id"
+  add_foreign_key "renegotiations", "profiles", column: "decided_by_profile_id"
+  add_foreign_key "renegotiations", "profiles", column: "proposed_by_profile_id"
   add_foreign_key "renegotiations", "renegotiation_statuses"
   add_foreign_key "segments", "companies"
   add_foreign_key "segments", "overdue_ranges"

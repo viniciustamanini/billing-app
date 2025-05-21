@@ -1,0 +1,10 @@
+<h1 class="text-xl font-bold mb-4">Editar Vencimento da Fatura</h1>
+
+<%= form_with model: [@company, @profile, @invoice], local: true do |f| %>
+  <div class="mb-4">
+    <%= f.label :due_date, "Nova data de vencimento" %>
+    <%= f.date_field :due_date, class: "input-primary" %>
+  </div>
+
+  <%= f.submit "Atualizar", class: "btn btn-primary" %>
+<% end %>

@@ -15,3 +15,11 @@ invoice_statuses = %w[
 invoice_statuses.each do |status|
   InvoiceStatus.find_or_create_by!(name: status)
 end
+
+renegotiation_statuses = %w[
+  pending approved rejected canceled expired completed
+]
+
+renegotiation_statuses.each do |status|
+  RenegotiationStatus.find_or_create_by!(name: status)
+end

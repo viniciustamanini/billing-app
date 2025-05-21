@@ -1,8 +1,13 @@
 class Invoice < ApplicationRecord
   belongs_to :profile
   belongs_to :invoice_status
+  has_many :invoice_items, dependent: :destroy
 
-  before_create :set_due_date
+  accepts_nested_attributes_for :invoice_items, allow_destroy: true
+
+  validates :issued_date, :due_date, :total_amount, :profile_id, presence: true
+
+  before_create :set_original_due_date
   after_update :set_due_date_when_partial
   after_update :set_paid_at
 
@@ -20,7 +25,7 @@ class Invoice < ApplicationRecord
   private
 
   def set_original_due_date
-    self.original_due_date ||= due_date
+    self.original_due_date = due_date if original_due_date.blank? && due_date.present?
   end
 
   def set_paid_at

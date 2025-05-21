@@ -1,0 +1,28 @@
+<div class="bg-white rounded-md shadow-sm border border-gray-200">
+  <div class="p-4">
+    <table class="w-full text-sm text-left text-gray-700">
+      <thead>
+        <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
+          <th class="px-4 py-2">Cpf</th>
+          <th class="px-4 py-2">Nome</th>
+          <th class="px-4 py-2 text-right">Acoes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @customers.each do |customer| %>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="px-4 py-2"><%= customer.cpf %></td>
+            <td class="px-4 py-2"><%= customer.full_name %></td>
+            <td class="px-4 py-2 text-right">
+              <%= link_to "Visualizar",
+              company_profile_customer_dashboard_path(@company, customer),
+              class: "text-sm text-blue-600 hover:underline" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

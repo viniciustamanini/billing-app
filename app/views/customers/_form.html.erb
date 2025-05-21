@@ -17,6 +17,14 @@
     </div>
 
     <div class="field field-input-container">
+      <%= f.label :email %><br/>
+      <%= f.email_field :email,
+                    autofocus: true,
+                    autocomplete: "email",
+                    class: "input-primary" %>
+    </div>
+
+    <div class="field field-input-container">
       <%= f.label :cpf %><br/>
       <%= f.text_field :cpf,
                    autofocus: true,

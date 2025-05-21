@@ -11,9 +11,16 @@ Rails.application.routes.draw do
         get :modal_new, to: "companies#modal_new"
       end
 
+      # TODO maybe the customer_dashboard and customer controller should be just one
+      resources :profiles, only: [] do
+        get "customer_dashboard", to: "customer_dashboard#index_for_company", as: :customer_dashboard
+        get "invoices/new_item", to: "invoices#new_item", as: :new_invoice_item
+        resources :invoices, only: %i[index new create show edit update]
+      end
       resources :customers, controller: "customers", only: %i[new create] do
         collection do
           get :modal_new, to: "customers#modal_new"
+          get :index, to: "customers#index"
         end
       end
 
