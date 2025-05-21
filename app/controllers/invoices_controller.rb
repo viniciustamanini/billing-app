@@ -2,6 +2,7 @@ class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
   before_action :set_profile
+  before_action :set_invoice, only: %i[edit update]
 
   def index
   end
@@ -34,6 +35,17 @@ class InvoicesController < ApplicationController
     )
   end
 
+  def edit
+  end
+
+  def update
+    if @invoice.update(invoice_due_date_params)
+      redirect_to company_profile_invoice_path(@company, @profile, @invoice), notice: "Successfully updated"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def build_fake_builder(item, index)
@@ -43,6 +55,10 @@ class InvoicesController < ApplicationController
       view_context,
       {},
     )
+  end
+
+  def set_invoice
+    @invoice = @profile.invoices.find(params[:id])
   end
 
   def set_profile
@@ -60,5 +76,9 @@ class InvoicesController < ApplicationController
         :id, :description, :quantity, :unit_price, :_destroy
       ]
     )
+  end
+
+  def invoice_due_date_params
+    params.require(:invoice).permit(:due_date)
   end
 end
