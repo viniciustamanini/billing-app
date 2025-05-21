@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_20_015454) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_20_233211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,8 +31,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_015454) do
     t.text "description"
     t.integer "quantity", null: false
     t.decimal "unit_price", precision: 10, scale: 2, null: false
-    t.decimal "tax_rate", precision: 10, scale: 2, null: false
-    t.decimal "line_total", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
