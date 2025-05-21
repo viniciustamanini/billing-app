@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-profile_types %w[customer employee administrator]
+profile_types = %w[customer employee administrator]
 
 profile_types.each do |type|
   ProfileType.find_or_create_by!(name: type)
