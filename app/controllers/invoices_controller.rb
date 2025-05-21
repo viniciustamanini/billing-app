@@ -21,14 +21,11 @@ class InvoicesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html
-      format.turbo_stream { head :no_content }
-    end
+    @invoice = @profile.invoices.includes(:invoice_items, :invoice_status).find(params[:id])
   end
 
   def new_item
-    index = Time.now.to_i
+    index = Time.now.to_i + rand(1000)
     @item = InvoiceItem.new
     render turbo_stream: turbo_stream.append(
       "items",

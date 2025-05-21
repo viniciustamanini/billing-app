@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [] do
         get "customer_dashboard", to: "customer_dashboard#index_for_company", as: :customer_dashboard
         get "invoices/new_item", to: "invoices#new_item", as: :new_invoice_item
-        resources :invoices
+        resources :invoices, only: %i[index new create show]
       end
       resources :customers, controller: "customers", only: %i[new create] do
         collection do

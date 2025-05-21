@@ -87,22 +87,24 @@
 
         <div class="space-y-4">
           <% @upcoming_invoices.each do |invoice| %>
-            <div class="flex items-center justify-between py-2 border-b">
-              <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
-                  <i class="material-symbols-outlined text-white">receipt</i>
+            <%= link_to company_profile_invoice_path(@company, @profile, invoice) do %>
+              <div class="flex items-center justify-between py-2 border-b">
+                <div class="flex items-center gap-4">
+                  <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
+                    <i class="material-symbols-outlined text-white">receipt</i>
+                  </div>
+                  <div>
+                    <h3 class="font-medium"><%= invoice.profile.company.name %></h3>
+                    <p class="text-sm text-gray-500"><%= invoice.due_date.strftime("%d/%m/%Y") %></p>
+                  </div>
                 </div>
-                <div>
-                  <h3 class="font-medium"><%= invoice.profile.company.name %></h3>
-                  <p class="text-sm text-gray-500"><%= invoice.due_date.strftime("%d/%m/%Y") %></p>
+                <div class="flex items-center gap-2">
+                  <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">A VENCER</span>
+                  <span class="font-medium">R$
+                    <%= invoice.total_amount %></span>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">A VENCER</span>
-                <span class="font-medium">R$
-                  <%= invoice.total_amount %></span>
-              </div>
-            </div>
+            <% end %>
           <% end %>
         </div>
 
