@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_21_062810) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_21_071137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -130,9 +130,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_062810) do
     t.string "first_name", limit: 50
     t.string "last_name", limit: 100
     t.string "email", default: "", null: false
+    t.bigint "segment_id"
     t.index ["company_id"], name: "index_profiles_on_company_id"
     t.index ["cpf"], name: "index_profiles_on_cpf"
     t.index ["profile_type_id"], name: "index_profiles_on_profile_type_id"
+    t.index ["segment_id"], name: "index_profiles_on_segment_id"
     t.index ["user_id", "company_id", "profile_type_id"], name: "index_profiles_on_user_company_and_type", unique: true
     t.index ["user_id", "company_id"], name: "unique_default_profile_per_user", unique: true, where: "(default_profile = true)"
     t.index ["user_id"], name: "index_profiles_on_user_id"
@@ -215,6 +217,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_062810) do
   add_foreign_key "payments", "payment_statuses"
   add_foreign_key "profiles", "companies"
   add_foreign_key "profiles", "profile_types"
+  add_foreign_key "profiles", "segments"
   add_foreign_key "profiles", "users"
   add_foreign_key "renegotiations", "profiles", column: "canceled_by_profile_id"
   add_foreign_key "renegotiations", "profiles", column: "decided_by_profile_id"

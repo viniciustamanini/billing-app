@@ -1,0 +1,5 @@
+class AddSegmentToProfiles < ActiveRecord::Migration[8.0]
+  def change
+    add_reference :profiles, :segment, foreign_key: true
+  end
+end
