@@ -7,7 +7,7 @@ development:
   <<: *default
   database: billing_app_development
   username: <%= Rails.application.credentials.dig(:development, :username) %>
-  username: <%= Rails.application.credentials.dig(:development, :password) %>
+  password: <%= Rails.application.credentials.dig(:development, :password) %>
 
 test:
   <<: *default
