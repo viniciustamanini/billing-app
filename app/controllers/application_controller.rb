@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
+  add_flash_types :success, :error, :info, :warning
+
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end

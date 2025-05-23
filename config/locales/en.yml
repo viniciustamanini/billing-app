@@ -26,3 +26,11 @@ en:
   set_as_default_profile: "Set as default profile?"
   email_info: "This email will be used to send notifications."
   collapse_sidebar: "Collapse sidebar"
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      short: "%m/%d"
+      long: "%B %d, %Y"
+  time:
+    formats:
+      default: "%m/%d/%Y %H:%M"
