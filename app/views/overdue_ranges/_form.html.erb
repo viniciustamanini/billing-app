@@ -1,56 +1,56 @@
-<%= form_with model: [@company, @overdue_range], local: true do |f| %>
-  <% if @overdue_range.errors.any? %>
-    <%= render "shared/toast",
-    message: "Erro ao salvar: #{@overdue_range.errors.full_messages.to_sentence}",
-    icon: "error" %>
+<!-- app/views/overdue_ranges/_form.html.erb -->
+<div class="bg-white rounded-lg shadow border border-gray-300/70 p-8">
+  <%= form_with model: [@company, @overdue_range], local: true do |f| %>
+    <% if @overdue_range.errors.any? %>
+      <%= render "shared/toast",
+      message: "Erro ao salvar: #{@overdue_range.errors.full_messages.to_sentence}",
+      icon: "error" %>
+    <% end %>
+    <!-- Descrição -->
+    <div class="mb-6">
+      <%= f.label :name,
+              "Descrição da faixa",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :name,
+                   required: true,
+                   class:
+                     "w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-500 focus:ring-yellow-200" %>
+    </div>
+    <!-- Dias de atraso -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div>
+        <%= f.label :days_from,
+                "Dias de atraso (de)",
+                class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :days_from,
+                       min: 0,
+                       class:
+                         "w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-500 focus:ring-yellow-200" %>
+      </div>
+
+      <div>
+        <%= f.label :days_to,
+                "Dias de atraso (até)",
+                class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :days_to,
+                       min: 0,
+                       class:
+                         "w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-500 focus:ring-yellow-200" %>
+      </div>
+    </div>
+    <!-- Ativo? -->
+    <div class="mb-6 flex items-center gap-2">
+      <%= f.check_box :active,
+                  class:
+                    "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
+      <%= f.label :active, "Faixa ativa", class: "text-sm text-gray-700" %>
+    </div>
+    <!-- Ações -->
+    <div class="flex gap-4 justify-end">
+      <%= f.submit (@overdue_range.new_record? ? "Salvar faixa" : "Atualizar faixa"),
+               class: "btn-primary" %>
+
+      <%= link_to "Cancelar", company_segments_path(@company), class: "btn-secondary" %>
+    </div>
   <% end %>
-
-  <div class="mb-4">
-    <%= f.label :name,
-            "Descrição da faixa",
-            class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :name,
-                 class:
-                   "w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200",
-                 required: true %>
-  </div>
-
-  <div class="mb-4 flex gap-4">
-    <div class="flex-1">
-      <%= f.label :days_from,
-              "Dias de atraso (de)",
-              class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.number_field :days_from,
-                     class:
-                       "w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200",
-                     min: 0 %>
-    </div>
-    <div class="flex-1">
-      <%= f.label :days_to,
-              "Dias de atraso (até)",
-              class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.number_field :days_to,
-                     class:
-                       "w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200",
-                     min: 0 %>
-    </div>
-  </div>
-
-  <div class="mb-4 flex items-center gap-2">
-    <%= f.check_box :active,
-                class:
-                  "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
-    <%= f.label :active, "Faixa ativa", class: "text-sm text-gray-700" %>
-  </div>
-
-  <div class="mt-6 flex gap-3">
-    <%= f.submit(
-      @overdue_range.new_record? ? "Salvar Faixa" : "Atualizar Faixa",
-      class:
-        "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm",
-    ) %>
-    <%= link_to "Cancelar",
-    company_segments_path(@company),
-    class: "text-gray-600 hover:text-gray-800 underline" %>
-  </div>
-<% end %>
+</div>

@@ -1,9 +1,11 @@
 <div class="container">
-  <h1 class="mb-4">Nova Faixa de Atraso</h1>
   <%= render "form", overdue_range: @overdue_range %>
 
   <hr class="divider-horizontal">
 
   <h2 class="text-lg font-semibold mb-2">Faixas já cadastradas</h2>
-  <%= render "list" %>
+  <%= render "list",
+  company: @company,
+  overdue_ranges: @overdue_ranges,
+  show_header_btn: false %>
 </div>
