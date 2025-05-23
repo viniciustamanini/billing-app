@@ -27,9 +27,9 @@
   </head>
 
   <body data-controller="sidebar">
-      <% flash.each do |type, message| %>
-        <%= render partial: "shared/toast", locals: { message: message, show_undo: false } %>
-      <% end %>
+    <% flash.each do |type, message| %>
+      <%= render "shared/toast", message: message, icon: type, show_undo: false %>
+    <% end %>
     </div>
 
     <nav class="navbar sidebar-expanded" data-sidebar-target="navbar">

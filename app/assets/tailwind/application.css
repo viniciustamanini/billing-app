@@ -201,11 +201,11 @@
   }
 
   .btn-primary {
-    @apply w-full content-center bg-[var(--color-gold)] p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-[var(--color-gold-hover)];
+    @apply content-center bg-[var(--color-gold)] p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-[var(--color-gold-hover)];
   }
 
   .btn-secondary {
-    @apply w-full content-center p-2 py-2 border border-[var(--color-gold-hover)] text-[var(--color-gold-hover)] bg-transparent rounded cursor-pointer hover:bg-[var(--color-gold-hover)] hover:text-black transition;
+    @apply content-center p-2 py-2 border border-[var(--color-gold-hover)] text-[var(--color-gold-hover)] bg-transparent rounded cursor-pointer hover:bg-[var(--color-gold-hover)] hover:text-black transition;
   }
 
   .btn-icon {
