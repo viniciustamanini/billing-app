@@ -15,7 +15,7 @@ class RenegotiationsController < ApplicationController
 
   def create
     segment = @invoice.profile.segment
-    calc    = Renegotiation::Calculator.call(
+    calc    = RenegotiationService::Calculator.call(
                 invoice: @invoice,
                 segment: segment,
                 params:  renegotiation_params.slice(:strategy, :installments)
@@ -23,7 +23,7 @@ class RenegotiationsController < ApplicationController
 
     return render json: { error: calc.error }, status: :unprocessable_entity if calc.error
 
-    result = Renegotiation::Propose.new(
+    result = RenegotiationService::Propose.new(
                proposer: current_profile,
                invoice:  @invoice,
                params:   {
