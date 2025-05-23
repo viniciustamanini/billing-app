@@ -1,4 +1,44 @@
-<div>
-  <h1 class="font-bold text-4xl">Invoices#index</h1>
-  <p>Find me in app/views/invoices/index.html.erb</p>
+<div class="bg-white rounded-lg shadow border border-gray-300/70 p-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900">Faturas</h1>
+    <%= link_to "+ Nova fatura",
+    new_company_profile_invoice_path(@company, @profile),
+    class:
+      "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-md shadow" %>
+  </div>
+
+  <table class="min-w-full text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+        <th class="px-3 py-2">Emissão</th>
+        <th class="px-3 py-2">Vencimento</th>
+        <th class="px-3 py-2">Valor (R$)</th>
+        <th class="px-3 py-2">Status</th>
+        <th class="px-3 py-2 text-right">Ações</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @invoices.each do |inv| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-3 py-2"><%= l(inv.issued_date) %></td>
+          <td class="px-3 py-2"><%= l(inv.due_date) %></td>
+          <td class="px-3 py-2">
+            R<%= number_to_currency(inv.total_amount, unit: "", separator: ",", delimiter: ".") %>
+          </td>
+          <td class="px-3 py-2"><%= inv.invoice_status.name.titleize %></td>
+          <td class="px-3 py-2 text-right space-x-2">
+            <%= link_to company_profile_invoice_path(@company, @profile, inv),
+                  class: "inline-flex items-center justify-center w-6 h-6 text-blue-600 hover:text-blue-800" do %>
+              <i class="material-icons text-base">visibility</i>
+            <% end %>
+
+            <%= link_to edit_company_profile_invoice_path(@company, @profile, inv),
+                  class: "inline-flex items-center justify-center w-6 h-6 text-yellow-600 hover:text-yellow-800" do %>
+              <i class="material-icons text-base">edit</i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

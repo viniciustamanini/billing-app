@@ -1,10 +1,27 @@
-<h1 class="text-xl font-bold mb-4">Editar Vencimento da Fatura</h1>
+<div
+  class="
+    max-w-lg mx-auto bg-white rounded-lg shadow border border-gray-300/70 p-8
+  "
+>
+  <h1 class="text-xl font-semibold text-gray-900 mb-6">Editar vencimento</h1>
 
-<%= form_with model: [@company, @profile, @invoice], local: true do |f| %>
-  <div class="mb-4">
-    <%= f.label :due_date, "Nova data de vencimento" %>
-    <%= f.date_field :due_date, class: "input-primary" %>
-  </div>
+  <%= form_with model: [@company, @profile, @invoice], local: true do |f| %>
+    <div class="mb-6">
+      <%= f.label :due_date,
+              "Nova data de vencimento",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :due_date,
+                   class:
+                     "w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-500 focus:ring-yellow-200" %>
+    </div>
 
-  <%= f.submit "Atualizar", class: "btn btn-primary" %>
-<% end %>
+    <div class="flex gap-4">
+      <%= f.submit "Atualizar",
+               class:
+                 "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-md shadow" %>
+      <%= link_to "Cancelar",
+      company_profile_invoice_path(@company, @profile, @invoice),
+      class: "self-center text-gray-600 hover:text-gray-800 underline" %>
+    </div>
+  <% end %>
+</div>

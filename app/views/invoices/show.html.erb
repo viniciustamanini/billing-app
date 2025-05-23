@@ -1,52 +1,65 @@
-<h1 class="text-xl font-bold mb-4">Detalhes da Fatura</h1>
-<div class="mt-6 flex justify-between">
-  <%= link_to t("Renegociar"),
-  options_company_profile_invoice_renegotiation_path(
-    @company,
-    @profile,
-    @invoice,
-  ),
-  class: "btn-primary" %>
+<div
+  class="
+    max-w-3xl mx-auto bg-white rounded-lg shadow border border-gray-300/70 p-8
+  "
+>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900">
+      Fatura #<%= @invoice.id %>
+    </h1>
 
-  <%= link_to "Editar",
-  edit_company_profile_invoice_path(@company, @profile, @invoice),
-  class: "btn btn-primary" %>
-</div>
+    <div class="flex gap-3">
+      <%= link_to "Renegociar",
+      options_company_profile_invoice_renegotiation_path(
+        @company,
+        @profile,
+        @invoice,
+      ),
+      class:
+        "bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md shadow" %>
 
-<div class="mb-4">
-  <p><strong>Data de emissão:</strong>
-    <%= @invoice.issued_date.strftime("%d/%m/%Y") %></p>
-  <p><strong>Vencimento:</strong>
-    <%= @invoice.due_date.strftime("%d/%m/%Y") %></p>
-  <p><strong>Status:</strong>
-    <%= @invoice.invoice_status.name.titleize %></p>
-  <p><strong>Valor total:</strong>
-    R$
-    <%= number_to_currency(
-      @invoice.total_amount,
-      unit: "",
-      separator: ",",
-      delimiter: ".",
-    ) %></p>
-</div>
-
-<h2 class="text-lg font-semibold mt-6 mb-2">Itens da Fatura</h2>
-<table class="table-auto w-full text-left">
-  <thead>
-    <tr class="bg-gray-100">
-      <th class="px-4 py-2">Descrição</th>
-      <th class="px-4 py-2">Quantidade</th>
-      <th class="px-4 py-2">Preço Unitário</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @invoice.invoice_items.each do |item| %>
-      <tr class="border-b">
-        <td class="px-4 py-2"><%= item.description %></td>
-        <td class="px-4 py-2"><%= item.quantity %></td>
-        <td class="px-4 py-2">R$
-          <%= number_to_currency(item.unit_price, unit: "", separator: ",", delimiter: ".") %></td>
+      <%= link_to "Editar vencimento",
+      edit_company_profile_invoice_path(@company, @profile, @invoice),
+      class: "bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md shadow" %>
+    </div>
+  </div>
+  <!-- detalhes -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+    <p><strong>Emissão:</strong>
+      <%= l(@invoice.issued_date) %></p>
+    <p><strong>Vencimento:</strong>
+      <%= l(@invoice.due_date) %></p>
+    <p><strong>Status:</strong>
+      <%= @invoice.invoice_status.name.titleize %></p>
+    <p><strong>Valor total:</strong>
+      R<%= number_to_currency(
+        @invoice.total_amount,
+        unit: "",
+        separator: ",",
+        delimiter: ".",
+      ) %>
+    </p>
+  </div>
+  <!-- itens -->
+  <h2 class="text-lg font-medium text-gray-800 mb-3">Itens da fatura</h2>
+  <table class="min-w-full text-sm">
+    <thead>
+      <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+        <th class="px-3 py-2">Descrição</th>
+        <th class="px-3 py-2">Quantidade</th>
+        <th class="px-3 py-2">Preço unit. (R$)</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @invoice.invoice_items.each do |item| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-3 py-2"><%= item.description %></td>
+          <td class="px-3 py-2"><%= item.quantity %></td>
+          <td class="px-3 py-2">
+            R<%= number_to_currency(item.unit_price, unit: "", separator: ",", delimiter: ".") %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
