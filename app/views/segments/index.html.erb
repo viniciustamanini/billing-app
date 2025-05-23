@@ -1,119 +1,98 @@
+<!-- app/views/segments/index.html.erb -->
+<div class="flex gap-6 xl:gap-8">
+  <!-- =============== SEGMENTAÇÕES (2/3) =============== -->
+  <div class="bg-white rounded-lg shadow border border-gray-300/70 flex-1">
+    <div class="p-6">
+      <!-- Header -->
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <h1 class="text-2xl font-semibold text-gray-900 flex-1">
+          Segmentações
+        </h1>
+        <!-- Search box -->
+        <div class="relative w-64">
+          <%= form_with url: company_segments_path(@company),
+                        method: :get,
+                        local:  true do |f| %>
+            <%= f.text_field :search,
+                         placeholder: "Buscar por descrição",
+                         class:
+                           "w-full rounded border-gray-300 pl-4 pr-9 py-2 text-sm focus:ring-2 focus:ring-yellow-400" %>
+          <% end %>
+          <i
+            class="
+              material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2
+              text-gray-500
+            "
+          >search</i>
+        </div>
 
-<div class="flex gap-4">
-  <!-- SEGMENTS TABLE -->
-  <div class="bg-white rounded-md shadow-sm border border-gray-200 w-2/3">
-    <div class="p-4">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="text-2xl font-semibold text-gray-800">Segmentações</h1>
-      <%= form_with url: company_segments_path(@company), method: :get, local: true, class: "mb-3 flex gap-2" do |f| %>
-        <%= f.text_field :search,
-                      placeholder: "Buscar por descrição",
-                      class:
-                        "w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring focus:ring-yellow-300" %>
-      <% end %>
-      <% if params[:search].present? %>
-        <%= link_to "Limpar filtro",
-        company_segments_path(@company),
-        class: "text-red-600 text-sm hover:underline" %>
-      <% end %>
-      <%= link_to "+ Cadastrar",
-      new_company_segment_path(@company),
-      class:
-        "btn-primary" %>
-    </div>
+        <% if params[:search].present? %>
+          <%= link_to "Limpar filtro",
+          company_segments_path(@company),
+          class: "text-xs text-red-600 hover:underline" %>
+        <% end %>
 
-      <table class="w-full text-sm text-left text-gray-700 mt-4">
-        <thead>
-          <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
-            <th class="px-4 py-2">Nome</th>
-            <th class="px-4 py-2">Descrição</th>
-            <th class="px-4 py-2">Faixa de atraso</th>
-            <th class="px-4 py-2"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @segments.any? %>
-            <% @segments.each do |segment| %>
-              <tr class="border-b hover:bg-gray-50">
-                <td class="px-4 py-2"><%= segment.name %></td>
-                <td class="px-4 py-2"><%= segment.description.presence || "-" %></td>
-                <td class="px-4 py-2"><%= segment.overdue_range&.name || "—" %></td>
-                <td class="px-4 py-2 space-x-2">
-                  <%= link_to "Editar",
-                  edit_company_segment_path(@company, segment),
-                  class: "text-sm text-blue-600 hover:underline" %>
-                <% if segment.active? %>
-                  <%= button_to "Inativar",
-                        deactivate_company_segment_path(@company, segment),
-                        method: :patch,
-                        data:   { confirm: "Tem certeza?" },
-                        class:  "text-red-600" %>
-                <% else %>
-                  <%= button_to "Ativar",
-                      activate_company_segment_path(@company, segment),
-                      method: :patch,
-                      class:  "text-green-600" 
-                    %>
-                <% end %>
+        <%= link_to "+ Cadastrar nova",
+        new_company_segment_path(@company),
+        class: "btn-primary whitespace-nowrap" %>
+      </div>
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+              <th class="px-3 py-2 font-semibold">Nome</th>
+              <th class="px-3 py-2 font-semibold">Descrição</th>
+              <th class="px-3 py-2 font-semibold">Faixa&nbsp;de&nbsp;atraso</th>
+              <th class="px-3 py-2 w-24">Acoes</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% if @segments.any? %>
+              <% @segments.each do |segment| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-3 py-2"><%= segment.name %></td>
+                  <td class="px-3 py-2"><%= segment.description.presence || "—" %></td>
+                  <td class="px-3 py-2"><%= segment.overdue_range&.name || "—" %></td>
+                  <td class="px-3 py-2 text-right space-x-2">
+                    <!-- edit -->
+                    <%= link_to edit_company_segment_path(@company, segment),
+                          class: "inline-flex items-center justify-center w-6 h-6 rounded text-blue-600 hover:text-blue-800" do %>
+                      <i class="material-symbols-outlined text-base">edit</i>
+                    <% end %>
+                    <!-- activate / deactivate -->
+                    <% if segment.active? %>
+                      <%= button_to deactivate_company_segment_path(@company, segment),
+                            method: :patch,
+                            data:   { confirm: "Tem certeza?" },
+                            class:  "inline-flex items-center justify-center w-6 h-6 rounded text-red-600 hover:text-red-800" do %>
+                        <i class="material-symbols-outlined text-base">visibility_off</i>
+                      <% end %>
+                    <% else %>
+                      <%= button_to activate_company_segment_path(@company, segment),
+                            method: :patch,
+                            class:  "inline-flex items-center justify-center w-6 h-6 rounded text-green-600 hover:text-green-800" do %>
+                        <i class="material-symbols-outlined text-base">visibility</i>
+                      <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="py-6 text-center text-gray-500 italic">
+                  Nenhuma segmentação encontrada
                 </td>
               </tr>
             <% end %>
-          <% else %>
-            <tr>
-              <td colspan="4" class="text-center text-gray-500 italic py-4">Nenhuma segmentação encontrada</td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <!-- OVERDUE RANGES SIDE PANEL -->
-  <div class="bg-white rounded-md shadow-sm border border-gray-200 w-1/3">
-    <div class="p-4">
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="text-lg font-medium text-gray-700">Faixas de atraso</h2>
-        <%= link_to "ver todas..",
-        company_overdue_ranges_path(@company),
-        class: "text-sm text-yellow-600 hover:underline" %>
-        <%= link_to "+ Adicionar nova faixa",
-        new_company_overdue_range_path(@company),
-        class: "text-sm text-yellow-600 hover:underline",
-        title: "Nova faixa" %>
+          </tbody>
+        </table>
       </div>
-
-      <table class="w-full text-sm text-left text-gray-700">
-        <thead>
-          <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
-            <th class="px-4 py-2">Descrição</th>
-            <th class="px-4 py-2 text-right">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @overdue_ranges.each do |range| %>
-            <tr class="border-b hover:bg-gray-50">
-              <td class="px-4 py-2"><%= range.name %></td>
-              <td class="px-4 py-2 text-right">
-                <%= link_to "Editar",
-                edit_company_overdue_range_path(@company, range),
-                class: "text-sm text-blue-600 hover:underline" %>
-                <% if range.active? %>
-                  <%= button_to "Inativar",
-                        deactivate_company_overdue_range_path(@company, range),
-                        method: :patch,
-                        data:   { confirm: "Tem certeza?" },
-                        class:  "text-red-600" %>
-                <% else %>
-                  <%= button_to "Ativar",
-                      activate_company_overdue_range_path(@company, range),
-                      method: :patch,
-                      class:  "text-green-600" 
-                    %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
     </div>
   </div>
+  <!-- ============ OVERDUE RANGES side panel (1/3) ============ -->
+  <%= render "overdue_ranges/list",
+  company: @company,
+  overdue_ranges: @overdue_ranges,
+  show_header_btn: true %>
 </div>
