@@ -15,8 +15,10 @@ class OverdueRangesController < ApplicationController
     @overdue_range = @company.overdue_ranges.new(overdue_range_params)
 
     if @overdue_range.save
-      redirect_to company_segments_path, flash: { success: "Overdue range created" }
+      flash[:success] = "Overdue range created"
+      redirect_to edit_company_overdue_range_path(@company, @overdue_range)
     else
+      flash.now[:error] = @overdue_range.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
@@ -26,8 +28,10 @@ class OverdueRangesController < ApplicationController
 
   def update
     if @overdue_range.update(overdue_range_params)
-      redirect_to company_segments_path, flash: { success: "Overdue range updated" }
+      flash[:success] = "Overdue range updated"
+      redirect_to edit_company_overdue_range_path(@company, @overdue_range)
     else
+      flash.now[:error] = @overdue_range.errors.full_messages.to_sentence
       render :edit, status: :unprocessable_entity
     end
   end

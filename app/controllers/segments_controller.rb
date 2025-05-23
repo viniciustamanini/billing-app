@@ -21,8 +21,10 @@ class SegmentsController < ApplicationController
     @segment = @company.segments.new(segment_params)
 
     if @segment.save
-      redirect_to company_segments_path, notice: "Segment created"
+      flash[:success] = "Segment created"
+      redirect_to company_segments_path
     else
+      flash.now[:error] = @segment.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
@@ -32,8 +34,10 @@ class SegmentsController < ApplicationController
 
   def update
     if @segment.update(segment_params)
-      redirect_to company_segments_path, notice: "Segment updated"
+      flash[:success] = "Segment updated"
+      redirect_to company_segments_path
     else
+      flash.now[:error] = @segment.errors.full_messages.to_sentence
       render :edit, status: :unprocessable_entity
     end
   end
@@ -50,10 +54,11 @@ class SegmentsController < ApplicationController
 
   def toggle_active(value, message)
     if @segment.update(active: value)
-      redirect_to company_segments_path, notice: message
+      flash[:success] = message
+      redirect_to company_segments_path
     else
-      redirect_to company_segments_path(@company),
-      alert:  @segment.errors.full_messages.to_sentence
+      flash.now[:error] = @segment.errors.full_messages.to_sentence
+      redirect_to company_segments_path
     end
   end
 
