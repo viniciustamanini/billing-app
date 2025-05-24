@@ -1,4 +1,4 @@
-<div class="p-6 space-y-6">
+<div class="space-y-6">
   <!-- Top four cards -->
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
     <%= render "shared/cards/stat_card",
@@ -25,47 +25,70 @@
     subtitle: "Dados referentes ao dia 20/03",
     percentage: 62 %>
 
-    <%= render "shared/cards/pie_card",
-    title: "Inadimplência",
-    percentage: 14 %>
+    <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: 14 %>
   </div>
-
   <!-- Chart section -->
   <%= render "shared/cards/chart_section" %>
-
   <!-- Late customers section -->
   <div>
     <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
     <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
       <% 8.times do |i| %>
-        <div class="bg-white rounded-lg shadow p-3 flex items-center justify-center border-2 border-yellow-400 relative">
+        <div
+          class="
+            bg-white rounded-lg shadow p-3 flex items-center justify-center border-2
+            border-yellow-400 relative
+          "
+        >
           <i class="material-symbols-outlined text-3xl">person_pin</i>
           <% if i == 0 %>
-            <div class="absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+            <div
+              class="
+                absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
+                whitespace-nowrap
+              "
+            >
               John Doe<br>45 dias em atraso
             </div>
           <% end %>
         </div>
       <% end %>
-      
       <!-- List clients button -->
-      <div class="bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center justify-center relative">
+      <div
+        class="
+          bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center
+          justify-center relative
+        "
+      >
         <i class="material-symbols-outlined text-3xl">groups</i>
-        <div class="absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+        <div
+          class="
+            absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
+            whitespace-nowrap
+          "
+        >
           Listar clientes
         </div>
       </div>
-      
       <!-- Add client button -->
-      <div class="bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center justify-center relative">
+      <div
+        class="
+          bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center
+          justify-center relative
+        "
+      >
         <i class="material-symbols-outlined text-3xl">add</i>
-        <div class="absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+        <div
+          class="
+            absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
+            whitespace-nowrap
+          "
+        >
           Adicionar novo cliente
         </div>
       </div>
     </div>
   </div>
-  
   <!-- Bottom two-column grid -->
   <div class="grid lg:grid-cols-2 gap-6">
     <%= render "shared/cards/progress_bar_group",
@@ -76,7 +99,7 @@
       { label: "61 a 90", percentage: 56 },
       { label: "91 a 120", percentage: 27 },
       { label: "120 a 160", percentage: 45 },
-      { label: "Nunca pagos", percentage: 3 }
+      { label: "Nunca pagos", percentage: 3 },
     ] %>
 
     <div class="space-y-6">
@@ -93,4 +116,4 @@
       icon: "pie_chart" %>
     </div>
   </div>
-</div> 
+</div>
