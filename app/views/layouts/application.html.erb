@@ -33,58 +33,75 @@
     </div>
 
     <nav class="navbar sidebar-expanded" data-sidebar-target="navbar">
-      <div class="navbar-content-container">
-        <div class="navbar-column navbar-col-1">
-          <h1 class="text-black font-bold"><%= @company_name %>
-            -
-            <%= @profile_type %>
-            dashboard</h1>
-        </div>
-
-        <div class="navbar-column navbar-col-2">
-          <% unless customer_profile_type?(@profile_type) %>
-            <div class="relative inline-block">
-              <%= form_with url: company_customers_path(@company), method: :get, local: true, class: "mb-3 flex gap-2" do |f| %>
-                <%= f.text_field :search,
-                    placeholder: t("search_customer"),
-                    class: "navbar-search pr-10"
-                  %>
-              <% end %>
-              <% if params[:search].present? %>
-                <%= link_to "Limpar filtro",
-                company_customers_path(@company),
-                class: "text-red-600 text-sm hover:underline" %>
-              <% end %>
-              <i
-                class="
-                  material-symbols-outlined absolute right-2 top-1/2 transform -translate-y-1/2
-                "
-              >search</i>
+      <div class="max-w-screen-2xl mx-auto w-full px-4">
+        <div class="navbar-content-container">
+          <!-- Column 1: Dashboard Title with Icon -->
+          <div class="navbar-column navbar-col-1">
+            <div class="flex items-center gap-3 truncate">
+              <i class="material-symbols-outlined text-[var(--color-gold)] text-2xl flex-shrink-0">space_dashboard</i>
+              <h1 class="text-black font-semibold text-lg truncate">
+                <%= current_profile_display_name %>
+              </h1>
             </div>
-          <% end %>
-        </div>
-
-        <div class="navbar-column navbar-col-3 flex items-center space-x-4">
-          <div>
-            <%= link_to t("switch_profile"), choose_profile_path, class: "btn-primary" %>
           </div>
 
-          <button class="text-gray-600">
-            <i class="material-symbols-outlined">visibility</i>
-          </button>
+          <!-- Column 2: Search Field (centered) -->
+          <div class="navbar-column navbar-col-2">
+            <% unless customer_profile_type?(@profile_type) %>
+              <div class="flex justify-center w-full">
+                <div class="relative max-w-full">
+                  <%= form_with url: company_customers_path(@company), method: :get, local: true, class: "flex flex-col items-center" do |f| %>
+                    <div class="relative w-full">
+                      <%= f.text_field :search,
+                          placeholder: t("search_customer"),
+                          value: params[:search],
+                          class: "navbar-search"
+                        %>
+                      <div class="absolute right-0 top-1/2 transform -translate-y-1/2 flex items-center gap-1 pr-3">
+                        <% if params[:search].present? %>
+                          <%= link_to company_customers_path(@company),
+                              class: "text-gray-400 hover:text-gray-600 transition-colors",
+                              title: "Limpar filtro" do %>
+                            <i class="material-symbols-outlined text-xl">backspace</i>
+                          <% end %>
+                        <% end %>
+                        <i class="material-symbols-outlined text-gray-400">search</i>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
 
-          <button class="text-gray-600">
-            <i class="material-symbols-outlined">notifications</i>
-          </button>
+          <!-- Column 3: User Actions and Info -->
+          <div class="navbar-column navbar-col-3">
+            <div class="flex items-center justify-end gap-2 lg:gap-4">
+              <!-- Switch Profile Button -->
+              <%= link_to t("switch_profile"), choose_profile_path, class: "btn-primary text-sm px-2 lg:px-3 py-2 whitespace-nowrap" %>
 
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 flex items-center justify-center">
-              <i class="material-symbols-outlined">account_circle</i>
+              <!-- Action Icons -->
+              <div class="flex items-center gap-2 lg:gap-3">
+                <button class="text-gray-600 hover:text-gray-800 transition-colors" title="Visualizar">
+                  <i class="material-symbols-outlined text-xl">visibility</i>
+                </button>
+
+                <button class="text-gray-600 hover:text-gray-800 transition-colors" title="Notificações">
+                  <i class="material-symbols-outlined text-xl">notifications</i>
+                </button>
+              </div>
+
+              <!-- User Info with Dropdown -->
+              <div class="flex items-center gap-1 lg:gap-2 pl-2 lg:pl-3 border-l border-gray-300">
+                <div class="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                  <i class="material-symbols-outlined text-gray-600 text-2xl">account_circle</i>
+                </div>
+                <span class="font-medium text-gray-800 text-sm truncate max-w-[120px] lg:max-w-[160px]">
+                  <%= current_user.full_name %>
+                </span>
+                <i class="material-symbols-outlined text-gray-500 text-lg flex-shrink-0">expand_more</i>
+              </div>
             </div>
-            <span class="font-medium">
-              <%= current_user.full_name %>
-            </span>
-            <i class="material-symbols-outlined">expand_more</i>
           </div>
         </div>
       </div>

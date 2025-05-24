@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   before_action :set_locale
+  before_action :set_profile_data, if: :user_signed_in?
 
   add_flash_types :success, :error, :info, :warning
 
@@ -26,6 +27,25 @@ class ApplicationController < ActionController::Base
   helper_method :current_profile
 
   private
+
+  def set_profile_data
+    return unless current_profile
+
+    @current_profile = current_profile
+    @company = @current_profile.company
+    @company_name = @company&.name
+    @profile_type = @current_profile.profile_type.name
+    @profile_type_display = case @profile_type
+                           when 'administrator'
+                             'Admin'
+                           when 'employee'
+                             'Funcionário'
+                           when 'customer'
+                             'Cliente'
+                           else
+                             @profile_type.capitalize
+                           end
+  end
 
   def layout_by_resource
     if devise_controller?
