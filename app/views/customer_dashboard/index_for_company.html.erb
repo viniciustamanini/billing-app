@@ -6,7 +6,11 @@
         <%# User Info Card %>
         <div class="bg-white rounded-lg shadow p-6">
           <div class="flex items-center gap-4 mb-6">
-            <div class=" w-12 h-12 rounded bg-yellow-500 flex items-center justify-center ">
+            <div
+              class="
+                w-12 h-12 rounded bg-[var(--color-gold)] flex items-center justify-center
+              "
+            >
               <i class="material-symbols-outlined text-black">person</i>
             </div>
             <div>
@@ -76,7 +80,7 @@
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-medium">Próximos vencimentos</h2>
           <% if admin_profile_type?(@current_profile.profile_type.name) %>
-            <%= link_to t("New"),
+            <%= link_to t("+"),
             new_company_profile_invoice_path(@company, @profile),
             class: "btn-primary" %>
           <% end %>
@@ -116,7 +120,7 @@
           <% end %>
         </div>
 
-        <%= render "shared/pagy_nav" %>
+        <%= render "shared/pagy_nav" if @invoices.any? %>
 
         <div class="mt-4 flex items-center justify-between">
           <div class="flex items-center gap-6">
