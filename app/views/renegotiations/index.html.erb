@@ -1,0 +1,112 @@
+<!-- app/views/renegotiations/index.html.erb Lists renegotiations with text
+search + status-id filter -->
+<div class="flex gap-4">
+  <!-- RENEGOTIATIONS TABLE ------------------------------------------------>
+  <div class="bg-white rounded-md shadow-sm border border-gray-200 flex-grow">
+    <div class="p-4">
+      <!-- header & search ------------------------------------------------->
+      <div
+        class="
+          flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4
+        "
+      >
+        <h1 class="text-2xl font-semibold text-gray-800">Renegociações</h1>
+
+        <%= form_with url: company_renegotiations_path(@company),
+                      method: :get,
+                      local:  true,
+                      class:  "flex gap-2 w-full lg:w-auto" do |f| %>
+
+          <%# ---------- status-id select -------------------------------- -%>
+          <%= f.select :status_id,
+                   options_for_select(renegotiation_status_options, @status_id || "all"),
+                   {},
+                   class:
+                     "w-32 rounded-md border border-gray-300
+                                              px-2 py-2 shadow-sm focus:ring-yellow-300" %>
+
+          <%# ---------- free-text search -------------------------------- -%>
+          <%= f.text_field :search,
+                       value: @query,
+                       placeholder: "Buscar por cliente",
+                       class:
+                         "flex-grow lg:w-64 rounded-md border border-gray-300
+                                                                                               px-3 py-2 shadow-sm focus:ring-yellow-300" %>
+
+          <%= f.submit "Buscar", class: "btn-primary w-28 lg:w-auto" %>
+        <% end %>
+
+        <% if @query.present? || (@status_id.present? && @status_id != "all") %>
+          <%= link_to "Limpar filtro",
+          company_renegotiations_path(@company),
+          class: "text-red-600 text-sm hover:underline" %>
+        <% end %>
+
+        <%= link_to "+ Novo acordo", root_path, class: "btn-primary" %>
+      </div>
+      <!-- table ----------------------------------------------------------->
+      <table class="w-full text-sm text-left text-gray-700 mt-4">
+        <thead>
+          <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
+            <th class="px-4 py-2">Cliente</th>
+            <th class="px-4 py-2">Valor proposto</th>
+            <th class="px-4 py-2">Novo vencimento</th>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2">Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if @renegotiations.any? %>
+            <% @renegotiations.each do |r| %>
+              <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2"><%= r.customer.full_name %></td>
+                <td class="px-4 py-2">
+                  R$
+                  <%= number_to_currency(
+                    r.proposed_total_amount,
+                    unit: "",
+                    separator: ",",
+                    delimiter: ".",
+                  ) %>
+                </td>
+                <td class="px-4 py-2"><%= l(r.proposed_due_date) %></td>
+                <td class="px-4 py-2">
+                  <% badge_classes = {
+                    "approved" => "bg-green-100 text-green-800",
+                    "rejected" => "bg-red-100 text-red-800",
+                    "pending" => "bg-yellow-100 text-yellow-800",
+                  } %>
+                  <span
+                    class="
+                      px-2 py-1 text-xs font-semibold rounded <%= badge_classes[r.renegotiation_status.name] ||
+                                    'bg-gray-100 text-gray-800' %>
+                    "
+                  >
+                    <%= r.renegotiation_status.name.humanize %>
+                  </span>
+                </td>
+                <td class="px-4 py-2 space-x-2 whitespace-nowrap">
+                  <%= link_to "Ver",
+                  company_renegotiation_path(@company, r),
+                  class: "text-sm text-blue-600 hover:underline" %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="5" class="text-center text-gray-500 italic py-4">
+                Nenhuma renegociação encontrada
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <!-- pagy nav -------------------------------------------------------->
+      <%# Pagy automatically keeps current params (search & status_id) %>
+      <div class="mt-4">
+        <%= pagy_nav(@pagy) if @renegotiations.any? %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<!-- _pie_card.html.erb (for negotiations / default pie) -->
+<% subtitle ||= nil %>
+<% href ||= root_path %>
+
+<%= link_to href do %>
+  <div class="relative rounded-lg shadow p-6 <%= bg %> text-black">
+    <i
+      class="
+        material-symbols-outlined absolute top-4 right-4 text-black/70 hover:text-black
+      "
+    >open_in_new</i>
+
+    <h2 class="text-lg font-semibold mb-1"><%= title %></h2>
+    <% if subtitle.present? %>
+      <p class="text-sm mb-3"><%= subtitle %></p>
+    <% end %>
+
+    <div class="flex items-center justify-center h-36">
+      <div
+        class="
+          relative w-32 h-32 flex items-center justify-center rounded-full border-8
+          <%= border %>
+        "
+      >
+        <span class="text-3xl font-bold"><%= percentage %>%</span>
+      </div>
+    </div>
+  </div>
+<% end %>

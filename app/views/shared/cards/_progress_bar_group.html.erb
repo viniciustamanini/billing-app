@@ -1,0 +1,20 @@
+<!-- _progress_bar_group.html.erb -->
+<div class="bg-yellow-400 rounded-lg shadow p-6 relative text-black">
+  <i class="material-symbols-outlined absolute top-4 right-4">open_in_new</i>
+  <h2 class="text-lg font-semibold mb-4"><%= title %></h2>
+
+  <div class="space-y-3">
+    <% (bars || {}).each do |label, stats| %>
+      <div class="flex items-center">
+        <div class="w-32 text-sm"><%= label.name %></div>
+        <div
+          class="flex-1 bg-gray-200 rounded-full h-4"
+          title="<%= stats[:total] %> faturas pagas"
+        >
+          <div class="bg-black h-4 rounded-full" style="width:<%= stats[:percent] %>%"></div>
+        </div>
+        <div class="ml-2 text-sm"><%= stats[:percent] %>%</div>
+      </div>
+    <% end %>
+  </div>
+</div>

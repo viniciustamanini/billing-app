@@ -58,6 +58,13 @@
   }
 }
 
+@layer utilities {
+  .tooltip {
+    @apply absolute bottom-full mb-1 hidden group-hover:block
+           bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-20;
+  }
+}
+
 @layer components {
   .navbar {
     @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-white h-[var(--navbar-height)] w-full fixed

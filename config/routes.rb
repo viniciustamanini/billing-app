@@ -11,14 +11,15 @@ Rails.application.routes.draw do
       collection do
         get :modal_new, to: "companies#modal_new"
       end
+      resources :renegotiations, only: :index
 
       # TODO maybe the customer_dashboard and customer controller should be just one
       resources :profiles, only: [] do
         get "customer_dashboard", to: "customer_dashboard#index_for_company", as: :customer_dashboard
         get "invoices/new_item", to: "invoices#new_item", as: :new_invoice_item
         resources :invoices, only: %i[index new create show edit update] do
-          resource :renegotiation, controller: "renegotiations", only: %i[create] do
-            get :options
+          resources :renegotiation, only: %i[create] do
+            get :options, on: :collection
           end
         end
       end

@@ -8,6 +8,17 @@ class CompanyDashboardController < ApplicationController
     @company_name = @company.name
     @profile_type = @current_profile.profile_type.name
     @late_customers = LateCustomer.new(@company).call
+    @renegotiations = CompanyRenegotiations.new(@company).call
+    @total_renegotiations = @renegotiations.size
+    approved_count = @renegotiations.approved.count
+    @approved_renegotiation_percentage =
+      if @total_renegotiations.zero?
+        0
+      else
+        (approved_count * 100 / @total_renegotiations).round(2)
+      end
+
+    @payment_bars = CompanyOverduePaymentBars.new(@company).call
 
     render "company_dashboard/#{@profile_type}_dashboard"
   end

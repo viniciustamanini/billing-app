@@ -34,3 +34,10 @@ pt:
   time:
     formats:
       default: "%d/%m/%Y %H:%M"
+  renegotiation_statuses:
+    pending: "Pendente"
+    approved: "Aprovada"
+    rejected: "Rejeitada"
+    canceled: "Cancelada"
+    expired: "Expirada"
+    completed: "Concluída"

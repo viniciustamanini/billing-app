@@ -1,0 +1,17 @@
+<!-- _widget_link_card.html.erb (notifications / segmentações, etc.) -->
+<%= link_to href do %>
+  <div class="bg-white rounded-lg shadow p-6 relative">
+    <div class="absolute top-4 right-4">
+      <i class="material-symbols-outlined">open_in_new</i>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="bg-yellow-400 p-2 rounded">
+        <i class="material-symbols-outlined"><%= icon %></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-medium"><%= title %></h2>
+        <p class="text-sm text-gray-600"><%= subtitle %></p>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -14,6 +14,7 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = @profile.invoices.new(invoice_params)
+    @invoice.company = @company
     if @invoice.save
       redirect_to company_profile_customer_dashboard_path(@company, @profile), notice: "Invoice created"
     else
@@ -71,7 +72,7 @@ class InvoicesController < ApplicationController
 
   def invoice_params
     params.require(:invoice).permit(
-      :issued_date, :due_date, :total_amount, :invoice_status_id,
+      :issued_date, :due_date, :total_amount, :invoice_status_id, :company_id,
       invoice_items_attributes: [
         :id, :description, :quantity, :unit_price, :_destroy
       ]

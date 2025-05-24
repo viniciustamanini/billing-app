@@ -110,13 +110,15 @@
 
         <div class="mt-4 flex items-center justify-between">
           <p class="text-gray-600">Fatura atual: R$ 1.760,45</p>
-          <div class="flex items-center gap-4">
-            <div>
-              <%= link_to t("New"),
-              new_company_profile_invoice_path(@company, @profile),
-              class: "btn-primary" %>
+          <% if admin_profile_type?(@current_profile.profile_type.name) %>
+            <div class="flex items-center gap-4">
+              <div>
+                <%= link_to t("New"),
+                new_company_profile_invoice_path(@company, @profile),
+                class: "btn-primary" %>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
       </div>
 

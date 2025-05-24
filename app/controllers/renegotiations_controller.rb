@@ -1,7 +1,24 @@
 class RenegotiationsController < ApplicationController
+  include Pagy::Backend
+
   before_action :authenticate_user!
-  before_action :set_invoice
+  before_action :set_invoice, except: %i[index]
   before_action :set_company
+
+  def index
+    @query = params[:search].to_s.strip
+    @status_id = params[:status_id].presence
+
+    scope = @company.renegotiations
+      .includes(:profile)
+      .order(created_at: :desc)
+
+    if @status_id.present? && @status_id != "all"
+      scope = scope.where(renegotiation_status_id: @status_id)
+    end
+
+    @pagy, @renegotiations = pagy(scope, items: 10)
+  end
 
   def options
     segment = @invoice.profile.segment
@@ -15,7 +32,8 @@ class RenegotiationsController < ApplicationController
 
   def create
     segment = @invoice.profile.segment
-    calc    = RenegotiationService::Calculator.call(
+    calc    = RenegotiationService::
+      Calculator.call(
                 invoice: @invoice,
                 segment: segment,
                 params:  renegotiation_params.slice(:strategy, :installments)
