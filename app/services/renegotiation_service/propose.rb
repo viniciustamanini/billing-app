@@ -9,9 +9,9 @@ module RenegotiationService
     end
 
     def call
-      proposed_date = @params[:proposed_due_date].to_date rescue nil
-      if proposed_date.nil? || proposed_date < Date.current
-        return Result.new(false, nil, "Data da renegociação deve ser maior ou igual à data atual")
+      proposed_date = parse_date(@params[:proposed_due_date]) || Date.current
+      if proposed_date < Date.current
+        return Result.new(false, nil, "Data da renegociação deve ser maior ou igual à data de hoje")
       end
 
       ActiveRecord::Base.transaction do
@@ -39,7 +39,6 @@ module RenegotiationService
           invoice = Invoice.create!(
             profile: @invoice.profile,
             company: @invoice.company,
-            issued_date: Date.current,
             total_amount: per_installment,
             due_date: due_date,
             original_due_date: due_date,
@@ -60,6 +59,13 @@ module RenegotiationService
       end
     rescue StandardError => e
       Result.new(false, nil, e.message)
+    end
+
+    private
+
+    def parse_date(date)
+      return nil if date.blank?
+      Date.parse(date.to_s) rescue nil
     end
   end
 end

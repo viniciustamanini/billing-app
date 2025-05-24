@@ -5,6 +5,8 @@ class Invoice < ApplicationRecord
   belongs_to :company
   has_many :invoice_items, dependent: :destroy
   has_one :renegotiation
+  has_many :invoice_renegotiations, dependent: :destroy
+  has_many :renegotiations, through: :invoice_renegotiations
 
   accepts_nested_attributes_for :invoice_items, allow_destroy: true
 
@@ -26,7 +28,13 @@ class Invoice < ApplicationRecord
   scope :upcoming, -> { where("due_date >= ?", Date.current) }
 
   def renegotiated?
-    parant_renegotiation_id.present?
+    parent_renegotiation_id.present?
+  end
+
+  def has_pending_renegotiation?
+    renegotiations.joins(:renegotiation_status)
+        .where(renegotiation_statuses: { name: "pending" })
+        .exists?
   end
 
   private

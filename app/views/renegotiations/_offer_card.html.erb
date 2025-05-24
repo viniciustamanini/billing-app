@@ -11,24 +11,21 @@
     <%= offer[:installments] %>x</p>
   <p><strong>Vencimento:</strong>
     <%= begin
-      l(Date.parse(offer[:schedule].first.to_s))
+      l(Date.parse((offer[:schedule]&.first || Date.current).to_s))
     rescue StandardError
       "-"
     end %></p>
 
-  <%= button_to company_profile_invoice_renegotiation_path(@company, @invoice),
-    method: :post,
-    params: {
-      strategy: offer[:strategy],
-      installments: offer[:installments],
-      reason: "Proposta via simulação",
-      proposed_due_date: Date.current,
-    },
-    form_class: "mt-3",
-    class: "btn-primary",
-    data: {
-      turbo_confirm: "Confirmar envio desta proposta?"
-    } do %>
+  <button
+    type="button"
+    class="btn-primary mt-3"
+    data-action="click->options#submitRenegotiation"
+    data-strategy="<%= offer[:strategy] %>"
+    data-installments="<%= offer[:installments] %>"
+    data-total-amount="<%= offer[:total_amount] %>"
+    data-due-date="<%= (offer[:schedule]&.first || Date.current).to_s %>"
+    data-confirm="Confirmar envio desta proposta?"
+  >
     Propor renegociação
-  <% end %>
+  </button>
 </div>

@@ -2,22 +2,74 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="options"
 export default class extends Controller {
-  static targets = ["select", "card"];
+  static targets = ["select", "card", "dueDate"];
 
-  update(event) {
-    const option = event.target.selectedOptions[0];
+  connect() {
+    console.log("Options controller connected");
+  }
 
-    const strategy = option.dataset.strategy;
-    const installments = option.dataset.installments;
-    const html = option.dataset.offerHtml;
+  updateOffer(event) {
+    const select = event.target;
+    const segmentId = select.dataset.segmentId;
+    const installments = select.value;
+    const dueDate = this.dueDateTarget.value;
+    const url = select.dataset.segmentUrl;
 
-    // Atualiza campos ocultos
-    document.querySelector("input[name='strategy']").value = strategy;
-    document.querySelector("input[name='installments']").value = installments;
+    this.fetchOfferUpdate(url, segmentId, installments, dueDate);
+  }
 
-    // Atualiza card
-    const segmentId = event.target.dataset.segmentId;
-    const card = document.querySelector(`#segment-${segmentId}-offer`);
-    if (card) card.innerHTML = html;
+  updateAllOffers() {
+    const dueDate = this.dueDateTarget.value;
+
+    this.selectTargets.forEach((select) => {
+      const segmentId = select.dataset.segmentId;
+      const installments = select.value;
+      const url = select.dataset.segmentUrl;
+
+      this.fetchOfferUpdate(url, segmentId, installments, dueDate);
+    });
+  }
+
+  fetchOfferUpdate(url, segmentId, installments, dueDate) {
+    fetch(`${url}?installments=${installments}&proposed_due_date=${dueDate}`, {
+      headers: {
+        Accept: "text/html",
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    })
+      .then((response) => response.text())
+      .then((html) => {
+        const cardElement = document.getElementById(
+          `segment-${segmentId}-offer`,
+        );
+        if (cardElement) {
+          cardElement.innerHTML = html;
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating offer:", error);
+      });
+  }
+
+  submitRenegotiation(event) {
+    const button = event.currentTarget;
+    const confirmMessage = button.dataset.confirm;
+
+    if (confirmMessage && !confirm(confirmMessage)) {
+      return;
+    }
+
+    const form = document.getElementById("renegotiation_form");
+
+    form.querySelector('input[name="strategy"]').value =
+      button.dataset.strategy;
+    form.querySelector('input[name="installments"]').value =
+      button.dataset.installments;
+    form.querySelector('input[name="total_amount"]').value =
+      button.dataset.totalAmount;
+    form.querySelector('input[name="proposed_due_date"]').value =
+      button.dataset.dueDate;
+
+    form.submit();
   }
 }

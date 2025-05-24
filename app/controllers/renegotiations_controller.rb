@@ -23,11 +23,13 @@ class RenegotiationsController < ApplicationController
   def options
     customer_segment = @invoice.profile.segment
     segments = @company.segments.active
+    proposed_due_date = params[:proposed_due_date].presence || Date.current
 
     @offers_by_segment = segments.index_with do |seg|
       RenegotiationService::Calculator.all_offers(
-        invoice:  @invoice,
-        segment:  seg
+        invoice: @invoice,
+        segment: seg,
+        proposed_due_date: proposed_due_date
       )
     end
 
@@ -35,6 +37,42 @@ class RenegotiationsController < ApplicationController
       format.json { render json: @offers_by_segment }
       format.html
     end
+  end
+
+  def recalculate
+    segment = @company.segments.find(params[:segment_id])
+    installments = params[:installments].to_i
+    proposed_due_date = params[:proposed_due_date].presence || Date.current.to_s
+
+    installments = installments.clamp(1, segment.max_installments)
+
+    calc = RenegotiationService::Calculator.call(
+      invoice: @invoice,
+      segment: segment,
+      params: {
+        strategy: segment.interest_strategy || @company.default_interest_strategy,
+        installments: installments,
+        proposed_due_date: proposed_due_date
+      }
+    )
+
+    if calc.error
+      offer = {
+        strategy: segment.interest_strategy || @company.default_interest_strategy,
+        installments: installments,
+        schedule: [ Date.parse(proposed_due_date) ],
+        total_amount: @invoice.total_amount
+      }
+    else
+      offer = {
+        strategy: segment.interest_strategy || @company.default_interest_strategy,
+        installments: installments,
+        schedule: calc.schedule,
+        total_amount: calc.total_amount
+      }
+    end
+
+    render partial: "offer_card", locals: { offer: offer, company: @company, invoice: @invoice }
   end
 
   def render_offer
@@ -56,7 +94,7 @@ class RenegotiationsController < ApplicationController
       current_profile,
       invoice: @invoice,
       params: {
-        total_amount: calc.total_amount,
+        total_amount: params[:total_amount] || calc.total_amount,
         proposed_due_date: params[:proposed_due_date],
         installments: calc.schedule.size,
         reason: params[:reason],
@@ -64,10 +102,14 @@ class RenegotiationsController < ApplicationController
       }
     ).call
 
-    if result.success?
-      render json: { id: result.renegotiation.id }, status: :created
-    else
-      render json: { error: result.error }, status: :unprocessable_entity
+    respond_to do |format|
+      if result.success?
+        format.html { redirect_to company_renegotiations_path(@company), notice: "Renegociação proposta com sucesso!" }
+        format.json { render json: { id: result.renegotiation.id }, status: :created }
+      else
+        format.html { redirect_to options_company_profile_invoice_renegotiation_path(@company, @invoice), alert: result.error }
+        format.json { render json: { error: result.error }, status: :unprocessable_entity }
+      end
     end
   end
 

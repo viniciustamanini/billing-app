@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         resources :invoices, only: %i[index new create show edit update] do
           resource :renegotiation, controller: "renegotiations", only: %i[create] do
             get :options
+            get :recalculate
           end
         end
       end

@@ -57,7 +57,7 @@ module RenegotiationService
 
     def build_schedule
       months = @params[:installments].to_i.clamp(1, @segment.max_installments)
-      first_due = Date.parse(@params[:proposed_due_date]) rescue @invoice.due_date
+      first_due = parse_date(@params[:proposed_due_date]) || Date.current
       due_dates = []
 
       case selected_strategy
@@ -83,17 +83,22 @@ module RenegotiationService
       @params[:strategy].presence || @segment&.interest_strategy.presence || @invoice.company.default_interest_strategy || "flat_late_fee"
     end
 
-    def self.all_offers(invoice:, segment:)
+    def self.all_offers(invoice:, segment:, proposed_due_date: nil)
       (1..segment.max_installments).map do |n|
         calc = call(
           invoice: invoice,
           segment: segment,
-          params:  { strategy: strategy_for(segment), installments: n }
+          params:  {
+            strategy: strategy_for(segment),
+            installments: n,
+            proposed_due_date: proposed_due_date || Date.current
+          }
         )
         {
           installments:  n,
           total_amount:  calc.total_amount,
           schedule:      calc.schedule,
+          strategy:      strategy_for(segment),
           code:          "#{segment.id}-#{n}"
         }
       end

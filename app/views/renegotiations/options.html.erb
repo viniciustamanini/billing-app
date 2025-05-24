@@ -1,39 +1,48 @@
 <div data-controller="options">
   <h1 class="text-xl font-semibold mb-6">Simulações de renegociação</h1>
 
-  <%= form_with url: company_profile_invoice_renegotiation_path(@company, @invoice),
-              method: :post,
-              data: { turbo_frame: "_top" },
-              local: true do |f| %>
-
-    <div class="mb-6">
-      <%= f.label :proposed_due_date,
-              "Data da primeira parcela",
-              class: "block text-sm font-semibold" %>
-      <%= f.date_field :proposed_due_date, value: Date.current, class: "form-control mt-1" %>
-    </div>
-
+  <div class="mb-6">
+    <label for="proposed_due_date" class="block text-sm font-semibold">Data da primeira parcela</label>
+    <input
+      type="date"
+      id="proposed_due_date"
+      name="proposed_due_date"
+      value="<%= Date.current.to_s %>"
+      class="form-control mt-1"
+      data-options-target="dueDate"
+      data-action="change->options#updateAllOffers"
+    >
+  </div>
+  <!-- Hidden form fields for submission -->
+  <form
+    id="renegotiation_form"
+    action="<%= company_profile_invoice_renegotiation_path(@company, @invoice) %>"
+    method="post"
+    style="display:none;"
+  >
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <%= hidden_field_tag :strategy %>
     <%= hidden_field_tag :installments %>
     <%= hidden_field_tag :reason, "Proposta via simulação" %>
-    <%# <%= f.submit "Propor renegociação", class: "btn-primary" %>
-
-  <% end %>
+    <%= hidden_field_tag :total_amount %>
+    <%= hidden_field_tag :proposed_due_date, Date.current %>
+  </form>
 
   <% @offers_by_segment.each do |segment, offers| %>
+    <% first_offer = offers.first %>
     <div class="mb-8 p-4 border rounded bg-white shadow">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-bold"><%= segment.name %></h2>
 
         <select
-          data-action="change->options#swap"
+          data-action="change->options#updateOffer"
           data-options-target="select"
           data-segment-id="<%= segment.id %>"
-          data-offers="<%= j offers.index_by { |o| o[:installments] }.to_json %>"
+          data-segment-url="<%= recalculate_company_profile_invoice_renegotiation_path(@company, @invoice, segment_id: segment.id) %>"
           class="border rounded px-2 py-1"
         >
-          <% offers.each do |off| %>
-            <option value="<%= off[:installments] %>"><%= off[:installments] %>x</option>
+          <% offers.each_with_index do |off, index| %>
+            <option value="<%= off[:installments] %>" <%= 'selected' if index == 0 %>><%= off[:installments] %>x</option>
           <% end %>
         </select>
       </div>
@@ -43,7 +52,7 @@
         data-options-target="card"
         class="space-y-1 text-sm"
       >
-        <%= render "offer_card", offer: offers.first %>
+        <%= render "offer_card", offer: first_offer, company: @company, invoice: @invoice %>
       </div>
     </div>
   <% end %>
