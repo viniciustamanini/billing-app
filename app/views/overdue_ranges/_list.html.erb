@@ -1,5 +1,5 @@
 <%# ------------------------------------------------------------------------ -%>
-<%#  Shared “Faixas de atraso” table %>
+<%#  Shared "Faixas de atraso" table %>
 <%#  Expected locals: %>
 <%#    company         – current Company object %>
 <%#    overdue_ranges  – collection to display (defaults to @overdue_ranges) %>
@@ -19,12 +19,6 @@
       </h2>
 
       <div class="flex gap-3">
-        <% if show_header_btn %>
-          <%= link_to "ver todas..",
-          company_overdue_ranges_path(company),
-          class: "text-sm text-gray-600 hover:text-yellow-600 hover:underline" %>
-        <% end %>
-
         <%= link_to "+ Adicionar",
         new_company_overdue_range_path(company),
         class: "text-sm text-yellow-600 hover:underline",
@@ -52,31 +46,42 @@
               </span>
               <%= range.name %>
             </td>
-            <td class="px-3 py-2 text-right space-x-2">
-              <!-- edit -->
-              <%= link_to edit_company_overdue_range_path(company, range),
-                    class: "inline-flex items-center justify-center w-6 h-6 rounded text-blue-600 hover:text-blue-800" do %>
-                <i class="material-symbols-outlined text-base">edit</i>
-              <% end %>
-              <!-- activate / deactivate -->
-              <% if range.active? %>
-                <%= button_to deactivate_company_overdue_range_path(company, range),
-                      method: :patch,
-                      data:   { confirm: "Tem certeza?" },
-                      class:  "inline-flex items-center justify-center w-6 h-6 rounded text-red-600 hover:text-red-800" do %>
-                  <i class="material-symbols-outlined text-base">visibility_off</i>
+            <td class="px-3 py-2">
+              <div class="flex items-center justify-end gap-2">
+                <!-- edit -->
+                <%= link_to edit_company_overdue_range_path(company, range),
+                      class: "inline-flex items-center justify-center w-6 h-6 rounded text-blue-600 hover:text-blue-800" do %>
+                  <i class="material-symbols-outlined text-base">edit</i>
                 <% end %>
-              <% else %>
-                <%= button_to activate_company_overdue_range_path(company, range),
-                      method: :patch,
-                      class:  "inline-flex items-center justify-center w-6 h-6 rounded text-green-600 hover:text-green-800" do %>
-                  <i class="material-symbols-outlined text-base">visibility</i>
+                <!-- activate / deactivate -->
+                <% if range.active? %>
+                  <%= button_to deactivate_company_overdue_range_path(company, range),
+                        method: :patch,
+                        data:   { confirm: "Tem certeza?" },
+                        class:  "inline-flex items-center justify-center w-6 h-6 rounded text-red-600 hover:text-red-800" do %>
+                    <i class="material-symbols-outlined text-base">visibility_off</i>
+                  <% end %>
+                <% else %>
+                  <%= button_to activate_company_overdue_range_path(company, range),
+                        method: :patch,
+                        class:  "inline-flex items-center justify-center w-6 h-6 rounded text-green-600 hover:text-green-800" do %>
+                    <i class="material-symbols-outlined text-base">visibility</i>
+                  <% end %>
                 <% end %>
-              <% end %>
+              </div>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
+    
+    <!-- bottom link -->
+    <% if show_header_btn %>
+      <div class="flex justify-end mt-4">
+        <%= link_to "ver todas..",
+        company_overdue_ranges_path(company),
+        class: "text-sm text-blue-500 hover:text-blue-700 hover:underline" %>
+      </div>
+    <% end %>
   </div>
 </div>

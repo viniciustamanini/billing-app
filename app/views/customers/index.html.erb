@@ -1,5 +1,21 @@
 <div class="bg-white rounded-md shadow-sm border border-gray-200">
   <div class="p-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-xl font-semibold text-gray-900">
+        Clientes
+      </h1>
+      
+      <%= link_to modal_new_company_customers_path(@company, format: :html),
+        data: {
+          turbo_frame: "modal-frame", 
+          action: "turbo:frame-load->modal#open" 
+        },
+        class: "btn-primary" do %>
+        + Adicionar cliente
+      <% end %>
+    </div>
+    
     <table class="w-full text-sm text-left text-gray-700">
       <thead>
         <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">

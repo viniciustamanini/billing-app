@@ -130,7 +130,15 @@
 
       <%= checkbox[:include_active_customer, "Incluir clientes ativos"] %>
       <%= checkbox[:include_inactive_customer, "Incluir clientes inativos"] %>
-      <%= checkbox[:active, "Segmento ativo"] %>
+      
+      <!-- Active checkbox with default checked -->
+      <div class="flex items-center gap-2">
+        <%= f.check_box :active,
+                    { checked: @segment.new_record? ? true : @segment.active },
+                    class:
+                      "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
+        <%= f.label :active, "Segmento ativo", class: "text-sm text-gray-700" %>
+      </div>
     </div>
     <!-- Actions -->
     <div class="flex gap-4 justify-end">

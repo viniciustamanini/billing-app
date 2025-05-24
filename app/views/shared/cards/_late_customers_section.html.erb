@@ -1,0 +1,50 @@
+<div>
+  <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
+
+  <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
+    <% late_customers.each do |customer| %>
+      <%= link_to company_profile_customer_dashboard_path(company, customer) do %>
+        <div
+          class="
+            group relative bg-white rounded-lg shadow p-3 border-2 border-yellow-400 flex
+            items-center justify-center
+          "
+        >
+          <i class="material-symbols-outlined text-3xl">person_pin</i>
+          <!-- Hover tooltip -->
+          <span class="tooltip"><%= customer.full_name %>
+            — dias</span>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= link_to company_customers_path(@company) do %>
+      <div
+        class="
+          bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center
+          justify-center
+        "
+        title="Listar clientes"
+      >
+        <i class="material-symbols-outlined text-3xl">groups</i>
+      </div>
+    <% end %>
+
+    <%= link_to modal_new_company_customers_path(company, format: :html),
+      data: {
+        turbo_frame: "modal-frame", 
+        action: "turbo:frame-load->modal#open" 
+      } do %>
+      <div
+        class="
+          bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center
+          justify-center
+        "
+        title="Adicionar novo cliente"
+      >
+        <i class="material-symbols-outlined text-3xl">add</i>
+      </div>
+    <% end %>
+  </div>
+</div>
+
