@@ -1,10 +1,6 @@
 <div class="bg-white rounded-lg shadow border border-gray-300/70 p-8">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-semibold text-gray-900">Faturas</h1>
-    <%= link_to "+ Nova fatura",
-    new_company_profile_invoice_path(@company, @profile),
-    class:
-      "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-md shadow" %>
   </div>
 
   <table class="min-w-full text-sm">
@@ -18,7 +14,7 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
-      <% @invoices.each do |inv| %>
+      <% (@invoices || {}).each do |inv| %>
         <tr class="hover:bg-gray-50">
           <td class="px-3 py-2"><%= l(inv.issued_date) %></td>
           <td class="px-3 py-2"><%= l(inv.due_date) %></td>
