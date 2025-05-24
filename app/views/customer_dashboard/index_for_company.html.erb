@@ -1,88 +1,78 @@
 <div class="flex">
   <div class="flex-1 overflow-auto">
     <div class="grid grid-cols-3 gap-6">
-      <%# User Info Card %>
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center gap-4 mb-6">
-          <div class=" w-12 h-12 rounded bg-yellow-500 flex items-center justify-center ">
-            <i class="material-symbols-outlined text-black">person</i>
-          </div>
-          <div>
-            <h2 class="text-lg font-semibold">
-              <%= @customer_name %>
-            </h2>
-            <p class="text-gray-500"><%= @customer_email %></p>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <div>
-            <h3 class="font-medium">Status da conta</h3>
-            <p class="text-green-500"><%= @status %></p>
-          </div>
-
-          <div class="flex justify-between">
-            <div>
-              <h3 class="font-medium">Valor pago</h3>
-              <p>R$
-                <%= @paid_invoices_value %></p>
+      <%# Left Column: User Info + History %>
+      <div class="space-y-6">
+        <%# User Info Card %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center gap-4 mb-6">
+            <div class=" w-12 h-12 rounded bg-yellow-500 flex items-center justify-center ">
+              <i class="material-symbols-outlined text-black">person</i>
             </div>
             <div>
-              <h3 class="font-medium">A vencer</h3>
-              <p>R$
-                <%= @upcoming_invoices_value %></p>
+              <h2 class="text-lg font-semibold">
+                <%= @customer_name %>
+              </h2>
+              <p class="text-gray-500"><%= @customer_email %></p>
             </div>
           </div>
 
-          <div>
-            <h3 class="font-medium">Última negociação</h3>
-            <p>--</p>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-medium">Status da conta</h3>
+              <p
+                class="<%= @days_most_overdue.positive? ? "text-red-500" : "text-green-500" %>"
+              ><%= @days_most_overdue.positive? ? "Em atraso" : "Em dia" %></p>
+            </div>
+
+            <div class="flex justify-between">
+              <div>
+                <h3 class="font-medium">Valor pago</h3>
+                <p>R$
+                  <%= @paid_invoices_value %></p>
+              </div>
+              <div>
+                <h3 class="font-medium">A vencer</h3>
+                <p>R$
+                  <%= @upcoming_invoices_value %></p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-medium">Última negociação</h3>
+              <p>--</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="bg-white rounded-lg shadow p-6 col-span-2">
-        <div class="flex items-center gap-2 mb-4">
-          <i class="material-symbols-outlined text-yellow-500">history</i>
-          <h2 class="text-lg font-medium">Histórico</h2>
-        </div>
+        <%# History Card %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center gap-2 mb-4">
+            <i class="material-symbols-outlined text-yellow-500">history</i>
+            <h2 class="text-lg font-medium">Histórico</h2>
+          </div>
 
-        <table class="w-full">
-          <thead>
-            <tr class="text-left">
-              <th class="pb-4">Descrição</th>
-              <th class="pb-4">Data</th>
-            </tr>
-          </thead>
-          <tbody class="text-gray-600">
-            <% 4.times do %>
-              <tr>
-                <td class="py-2">Pagamento realizado para Empresa TAL com valor de R$455,90</td>
-                <td class="py-2">16/01/2025</td>
+          <table class="w-full">
+            <thead>
+              <tr class="text-left">
+                <th class="pb-4">Descrição</th>
+                <th class="pb-4">Data</th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="text-gray-600">
+              <% 4.times do %>
+                <tr>
+                  <td class="py-2">Pagamento realizado para Empresa TAL com valor de R$455,90</td>
+                  <td class="py-2">16/01/2025</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <%# Payment Info Cards %>
+      <%# Middle Column: Próximos vencimentos %>
       <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center gap-2">
-            <i class="material-symbols-outlined text-red-500">radio_button_checked</i>
-            <h2 class="text-lg font-medium">Dia recorrente de pagamento</h2>
-          </div>
-          <span class="text-4xl font-bold text-yellow-500"><%= @recurring_payment_day || "--" %></span>
-        </div>
-
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-medium">Dias em atraso</h2>
-          <span class="text-4xl font-bold">0</span>
-        </div>
-      </div>
-
-      <%# Next Due Dates %>
-      <div class="bg-white rounded-lg shadow p-6 col-span-2">
         <h2 class="text-lg font-medium mb-4">Próximos vencimentos</h2>
 
         <div class="space-y-4">
@@ -116,12 +106,16 @@
           <% end %>
         </div>
 
-        <%= render 'shared/pagy_nav' %>
+        <%= render "shared/pagy_nav" %>
 
         <div class="mt-4 flex items-center justify-between">
           <div class="flex items-center gap-6">
-            <p class="text-gray-600">Valor pendente: R$ <%= @pending_invoices_value %></p>
-            <p class="<%= @overdue_invoices_value > 0 ? 'text-red-600' : 'text-gray-600' %>">Valor vencido: R$ <%= @overdue_invoices_value %></p>
+            <p class="text-gray-600">Valor pendente: R$
+              <%= @pending_invoices_value %></p>
+            <p
+              class="<%= @overdue_invoices_value > 0 ? 'text-red-600' : 'text-gray-600' %>"
+            >Valor vencido: R$
+              <%= @overdue_invoices_value %></p>
           </div>
           <% if admin_profile_type?(@current_profile.profile_type.name) %>
             <div class="flex items-center gap-4">
@@ -135,51 +129,70 @@
         </div>
       </div>
 
-      <%# Payment Statement %>
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-2">
-            <i class="material-symbols-outlined text-yellow-500">receipt</i>
-            <h2 class="text-lg font-medium">Extrato de Pagamentos</h2>
+      <%# Right Column: Payment Info + Statement %>
+      <div class="space-y-6">
+        <%# Payment Info Cards %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+              <i class="material-symbols-outlined text-red-500">radio_button_checked</i>
+              <h2 class="text-lg font-medium">Dia recorrente de pagamento</h2>
+            </div>
+            <span class="text-4xl font-bold text-yellow-500"><%= @recurring_payment_day || "--" %></span>
           </div>
-          <button class="text-gray-400">
-            <i class="material-symbols-outlined">filter_list</i>
-          </button>
+
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-medium">Dias em atraso</h2>
+            <span class="text-4xl font-bold">0</span>
+          </div>
         </div>
 
-        <div class="space-y-4">
-          <h3 class="font-medium">Jan. 2025</h3>
-          <% 3.times do %>
-            <div class="flex items-center justify-between py-2">
-              <div class="flex items-center gap-2">
-                <i class="material-symbols-outlined text-green-500">check_circle</i>
-                <div>
-                  <h4 class="font-medium">Empresa TAL</h4>
-                  <p class="text-sm text-gray-500">14/01/2025</p>
-                </div>
-              </div>
-              <span class="font-medium">R$ 499,99</span>
+        <%# Payment Statement %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <i class="material-symbols-outlined text-yellow-500">receipt</i>
+              <h2 class="text-lg font-medium">Extrato de Pagamentos</h2>
             </div>
-          <% end %>
+            <button class="text-gray-400">
+              <i class="material-symbols-outlined">filter_list</i>
+            </button>
+          </div>
 
-          <h3 class="font-medium pt-4">Dez. 2024</h3>
-          <% @paid_invoices.each do |invoice| %>
-            <div class="flex items-center justify-between py-2">
-              <div class="flex items-center gap-2">
-                <i class="material-symbols-outlined text-green-500">check_circle</i>
-                <div>
-                  <h4 class="font-medium"><%= invoice.profile.company.name %></h4>
-                  <p class="text-sm text-gray-500"><%= invoice.due_date.strftime("%d/%m/%Y") %></p>
+          <div class="space-y-4">
+            <h3 class="font-medium">Jan. 2025</h3>
+            <% 3.times do %>
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-2">
+                  <i class="material-symbols-outlined text-green-500">check_circle</i>
+                  <div>
+                    <h4 class="font-medium">Empresa TAL</h4>
+                    <p class="text-sm text-gray-500">14/01/2025</p>
+                  </div>
                 </div>
+                <span class="font-medium">R$ 499,99</span>
               </div>
-              <span class="font-medium">R$
-                <%= invoice.total_amount %></span>
-            </div>
-          <% end %>
-        </div>
+            <% end %>
 
-        <div class="mt-4 text-center">
-          <button class="text-yellow-500 font-medium">Ver mais</button>
+            <h3 class="font-medium pt-4">Dez. 2024</h3>
+            <% @paid_invoices.each do |invoice| %>
+              <div class="flex items-center justify-between py-2">
+                <div class="flex items-center gap-2">
+                  <i class="material-symbols-outlined text-green-500">check_circle</i>
+                  <div>
+                    <h4 class="font-medium"><%= invoice.profile.company.name %></h4>
+                    <p class="text-sm text-gray-500"><%= invoice.due_date.strftime("%d/%m/%Y") %></p>
+                  </div>
+                </div>
+                <span class="font-medium">R$
+                  <%= invoice.total_amount %></span>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="mt-4 text-center">
+            <button class="text-yellow-500 font-medium">Ver mais</button>
+          </div>
         </div>
       </div>
     </div>
