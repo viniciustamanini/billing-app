@@ -23,7 +23,7 @@ search + status-id filter -->
                    {},
                    class:
                      "w-32 rounded-md border border-gray-300
-                                                                  px-2 py-2 shadow-sm focus:ring-yellow-300" %>
+                                                                                                px-2 py-2 shadow-sm focus:ring-yellow-300" %>
 
           <%# ---------- free-text search -------------------------------- -%>
           <%= f.text_field :search,
@@ -31,7 +31,7 @@ search + status-id filter -->
                        placeholder: "Buscar por cliente",
                        class:
                          "flex-grow lg:w-64 rounded-md border border-gray-300
-                                                                                                                   px-3 py-2 shadow-sm focus:ring-yellow-300" %>
+                                                                                                                                                 px-3 py-2 shadow-sm focus:ring-yellow-300" %>
 
           <%= f.submit "Buscar", class: "btn-primary w-28 lg:w-auto" %>
         <% end %>
@@ -104,10 +104,7 @@ search + status-id filter -->
         </tbody>
       </table>
       <!-- pagy nav -------------------------------------------------------->
-      <%# Pagy automatically keeps current params (search & status_id) %>
-      <div class="mt-4">
-        <%= pagy_nav(@pagy) if @renegotiations.any? %>
-      </div>
+      <%= render "shared/pagy_nav" if @renegotiations.any? %>
     </div>
   </div>
 </div>

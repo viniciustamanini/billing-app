@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def profile_root_path(profile = nil)
     profile ||= current_user.profiles.find_by(id: session[:active_profile_id])
 

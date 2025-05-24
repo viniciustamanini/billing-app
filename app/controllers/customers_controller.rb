@@ -1,4 +1,6 @@
 class CustomersController < ProfilesController
+  include Pagy::Backend
+
   def index
     @customers = @company.profiles
       .left_joins(:user)
@@ -15,7 +17,7 @@ class CustomersController < ProfilesController
       .references(:user)
     end
 
-    @customers
+    @pagy, @customers = pagy(@customers, items: 10)
   end
 
   private
