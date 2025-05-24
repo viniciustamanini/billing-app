@@ -1,4 +1,5 @@
 class CustomerDashboardController < ApplicationController
+  include Pagy::Backend
   before_action :authenticate_user!
   before_action :set_company, only: %i[index_for_company]
 
@@ -45,14 +46,16 @@ class CustomerDashboardController < ApplicationController
       flash: { error: "Nao autorizado." } and return
     end
 
-    @invoices = Invoice
+    invoices_query = Invoice
       .includes(:invoice_status, profile: :company)
       .where(profile_id: customer_profile.id)
       .order(:due_date)
 
-    @overdue_invoices = @invoices.overdue
-    @upcoming_invoices = @invoices.upcoming
-    @paid_invoices = @invoices.paid
+    @pagy, @invoices = pagy(invoices_query, items: 5)
+
+    @overdue_invoices = invoices_query.overdue
+    @upcoming_invoices = invoices_query.upcoming
+    @paid_invoices = invoices_query.paid
     @paid_invoices_value = @paid_invoices.sum(:total_amount)
     @upcoming_invoices_value = @upcoming_invoices.sum(:total_amount)
 

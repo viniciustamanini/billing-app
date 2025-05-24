@@ -116,6 +116,8 @@
           <% end %>
         </div>
 
+        <%= render 'shared/pagy_nav' %>
+
         <div class="mt-4 flex items-center justify-between">
           <p class="text-gray-600">Fatura atual: R$ 1.760,45</p>
           <% if admin_profile_type?(@current_profile.profile_type.name) %>
