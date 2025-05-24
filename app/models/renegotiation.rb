@@ -3,6 +3,7 @@ class Renegotiation < ApplicationRecord
   belongs_to :proposed_by_profile
   belongs_to :decided_by_profile
   belongs_to :renegotiation_status
+  belongs_to :company
 
   has_many :child_invoices,
         class_name: "Invoice",

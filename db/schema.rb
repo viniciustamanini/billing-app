@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_21_071137) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_022533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_071137) do
     t.bigint "parent_renegotiation_id"
     t.integer "installment_number"
     t.integer "installment_count"
+    t.bigint "company_id", null: false
+    t.index ["company_id"], name: "index_invoices_on_company_id"
     t.index ["invoice_status_id"], name: "index_invoices_on_invoice_status_id"
     t.index ["paid_at"], name: "index_invoices_on_paid_at"
     t.index ["parent_renegotiation_id", "installment_number"], name: "idx_invoices_installments"
@@ -164,7 +166,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_071137) do
     t.datetime "expired_at"
     t.datetime "canceled_at"
     t.datetime "completed_at"
+    t.bigint "company_id"
     t.index ["canceled_by_profile_id"], name: "index_renegotiations_on_canceled_by_profile_id"
+    t.index ["company_id"], name: "index_renegotiations_on_company_id"
     t.index ["decided_by_profile_id"], name: "index_renegotiations_on_decided_by_profile_id"
     t.index ["proposed_by_profile_id"], name: "index_renegotiations_on_proposed_by_profile_id"
     t.index ["renegotiation_status_id"], name: "index_renegotiations_on_renegotiation_status_id"
@@ -208,6 +212,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_071137) do
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_renegotiations", "invoices"
   add_foreign_key "invoice_renegotiations", "renegotiations"
+  add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "invoice_statuses"
   add_foreign_key "invoices", "profiles"
   add_foreign_key "invoices", "renegotiations", column: "parent_renegotiation_id"
@@ -219,6 +224,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_071137) do
   add_foreign_key "profiles", "profile_types"
   add_foreign_key "profiles", "segments"
   add_foreign_key "profiles", "users"
+  add_foreign_key "renegotiations", "companies"
   add_foreign_key "renegotiations", "profiles", column: "canceled_by_profile_id"
   add_foreign_key "renegotiations", "profiles", column: "decided_by_profile_id"
   add_foreign_key "renegotiations", "profiles", column: "proposed_by_profile_id"
