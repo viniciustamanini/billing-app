@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_041736) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_155255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -154,21 +154,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_041736) do
     t.date "proposed_due_date", null: false
     t.text "reason"
     t.bigint "renegotiation_status_id", null: false
-    t.date "decision_date", null: false
+    t.date "decision_date"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "proposed_by_profile_id", null: false
     t.bigint "decided_by_profile_id"
-    t.bigint "canceled_by_profile_id", null: false
+    t.bigint "canceled_by_profile_id"
     t.decimal "original_total_amount", precision: 10, scale: 2
     t.datetime "paid_at"
     t.datetime "expired_at"
     t.datetime "canceled_at"
     t.datetime "completed_at"
     t.bigint "company_id"
+    t.integer "installments", null: false
+    t.bigint "customer_profile_id", null: false
     t.index ["canceled_by_profile_id"], name: "index_renegotiations_on_canceled_by_profile_id"
     t.index ["company_id"], name: "index_renegotiations_on_company_id"
+    t.index ["customer_profile_id"], name: "index_renegotiations_on_customer_profile_id"
     t.index ["decided_by_profile_id"], name: "index_renegotiations_on_decided_by_profile_id"
     t.index ["proposed_by_profile_id"], name: "index_renegotiations_on_proposed_by_profile_id"
     t.index ["renegotiation_status_id"], name: "index_renegotiations_on_renegotiation_status_id"
@@ -227,6 +230,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_041736) do
   add_foreign_key "profiles", "users"
   add_foreign_key "renegotiations", "companies"
   add_foreign_key "renegotiations", "profiles", column: "canceled_by_profile_id"
+  add_foreign_key "renegotiations", "profiles", column: "customer_profile_id"
   add_foreign_key "renegotiations", "profiles", column: "decided_by_profile_id"
   add_foreign_key "renegotiations", "profiles", column: "proposed_by_profile_id"
   add_foreign_key "renegotiations", "renegotiation_statuses"
