@@ -66,6 +66,57 @@
                          "w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-500 focus:ring-yellow-200" %>
       </div>
     </div>
+    <!-- Interest strategy
+    -------------------------------------------------------------->
+    <div class="mb-4">
+      <%= f.label :interest_strategy,
+              "Estratégia de juros",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+      <%= f.select :interest_strategy,
+               Segment::STRATEGIES.map { |s| [s.humanize, s] },
+               {},
+               class:
+                 "w-full rounded-md border-gray-300 shadow-sm
+                                               focus:border-yellow-500 focus:ring focus:ring-yellow-200" %>
+    </div>
+    <!-- Interest rate
+    ------------------------------------------------------------------>
+    <div class="mb-4">
+      <%= f.label :interest_rate,
+              "Taxa de juros (%)",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :interest_rate,
+                     step: 0.001,
+                     class:
+                       "w-full rounded-md border-gray-300 shadow-sm
+                                                     focus:border-yellow-500 focus:ring focus:ring-yellow-200" %>
+    </div>
+    <!-- Settlement-discount percent
+    ---------------------------------------------------->
+    <div class="mb-4">
+      <%= f.label :discount_percent,
+              "Desconto para quitação (%)",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :discount_percent,
+                     step: 0.001,
+                     class:
+                       "w-full rounded-md border-gray-300 shadow-sm
+                                                     focus:border-yellow-500 focus:ring focus:ring-yellow-200" %>
+    </div>
+    <!-- Máx. parcelas da renegociação
+    --------------------------------------->
+    <div class="mb-4">
+      <%= f.label :max_installments,
+              "Máx. de parcelas",
+              class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :max_installments,
+                     min: 1,
+                     max: 60,
+                     class:
+                       "w-full rounded-md border-gray-300 shadow-sm
+                                         focus:border-yellow-500 focus:ring focus:ring-yellow-200" %>
+    </div>
     <!-- Checkboxes -->
     <div class="mb-6 space-y-3">
       <% checkbox = ->(attr, label) do %>

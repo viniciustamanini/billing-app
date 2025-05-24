@@ -4,6 +4,7 @@ class Invoice < ApplicationRecord
   belongs_to :parent_renegotiation, optional: true
   belongs_to :company
   has_many :invoice_items, dependent: :destroy
+  has_one :renegotiation
 
   accepts_nested_attributes_for :invoice_items, allow_destroy: true
 

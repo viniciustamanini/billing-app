@@ -10,4 +10,8 @@ class InvoiceStatus < ApplicationRecord
   def self.overdue
     find_by!(name: "overdue")
   end
+
+  def self.issued
+    find_by!(name: "issued")
+  end
 end

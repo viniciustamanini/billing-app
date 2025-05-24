@@ -1,12 +1,31 @@
-<!-- app/views/renegotiations/options.html.erb -->
-<h2 class="text-2xl font-bold mb-4">Opções de Renegociação</h2>
+<div data-controller="options">
+  <h1 class="text-xl font-semibold mb-6">Simulações de renegociação</h1>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <% @offers.each do |offer| %>
-    <%= render partial: "renegotiations/offer_card",
-    locals: {
-      offer: offer,
-      invoice: @invoice,
-    } %>
+  <% @offers_by_segment.each do |segment, offers| %>
+    <div class="mb-8 p-4 border rounded bg-white shadow">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold"><%= segment.name %></h2>
+
+        <select
+          data-action="change->options#swap"
+          data-options-target="select"
+          data-segment-id="<%= segment.id %>"
+          data-offers="<%= j offers.index_by { |o| o[:installments] }.to_json %>"
+          class="border rounded px-2 py-1"
+        >
+          <% offers.each do |off| %>
+            <option value="<%= off[:installments] %>"><%= off[:installments] %>x</option>
+          <% end %>
+        </select>
+      </div>
+
+      <div
+        id="segment-<%= segment.id %>-offer"
+        data-options-target="card"
+        class="space-y-1 text-sm"
+      >
+        <%= render "offer_card", offer: offers.first %>
+      </div>
+    </div>
   <% end %>
 </div>

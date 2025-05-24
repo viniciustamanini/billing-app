@@ -8,6 +8,9 @@ class Segment < ApplicationRecord
   validate :debt_max_greater_than_debt_min
   validates :interest_rate, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }
   validates :discount_percent, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }
+  validates :interest_strategy, inclusion: { in: STRATEGIES }
+
+  scope :active, -> { where(active: true) }
 
   def interest_rule
     {

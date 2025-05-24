@@ -72,7 +72,11 @@ class SegmentsController < ApplicationController
 
   def segment_params
     params.require(:segment).permit(
-      :name, :description, :overdue_range_id, :debt_min, :debt_max,
-      :include_active_customer, :include_inactive_customer, :active)
+      :name, :description, :overdue_range_id,
+      :debt_min, :debt_max,
+      :interest_rate, :interest_strategy, :discount_percent,
+      :max_installments, :include_active_customer,
+      :include_inactive_customer, :active
+    )
   end
 end

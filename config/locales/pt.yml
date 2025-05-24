@@ -41,3 +41,14 @@ pt:
     canceled: "Cancelada"
     expired: "Expirada"
     completed: "Concluída"
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Validação falhou: %{errors}"
+    models:
+      renegotiation: "Renegociação"
+    attributes:
+      renegotiation:
+        proposed_total_amount: "Valor proposto"
+        proposed_due_date: "Data de vencimento"
+        installments: "Parcelas"

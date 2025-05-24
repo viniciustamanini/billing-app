@@ -1,14 +1,17 @@
 class Renegotiation < ApplicationRecord
   belongs_to :renegotiation_status
-  belongs_to :proposed_by_profile
-  belongs_to :decided_by_profile
-  belongs_to :renegotiation_status
+  belongs_to :proposed_by_profile, class_name: "Profile"
+  belongs_to :decided_by_profile, class_name: "Profile", optional: true
+  belongs_to :canceled_by_profile, class_name: "Profile", optional: true
+  belongs_to :customer_profile, class_name: "Profile"
   belongs_to :company
 
   has_many :child_invoices,
         class_name: "Invoice",
         foreign_key: :parent_renegotiation_id,
         inverse_of: :parent_renegotiation
+
+  validates :installments, numericality: { only_integer: true, greater_than: 0 }
 
   RenegotiationStatus::STATUS_CODES.each do |code|
     scope code, -> {

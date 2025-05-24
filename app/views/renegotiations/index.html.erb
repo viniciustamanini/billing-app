@@ -23,7 +23,7 @@ search + status-id filter -->
                    {},
                    class:
                      "w-32 rounded-md border border-gray-300
-                                              px-2 py-2 shadow-sm focus:ring-yellow-300" %>
+                                                                  px-2 py-2 shadow-sm focus:ring-yellow-300" %>
 
           <%# ---------- free-text search -------------------------------- -%>
           <%= f.text_field :search,
@@ -31,7 +31,7 @@ search + status-id filter -->
                        placeholder: "Buscar por cliente",
                        class:
                          "flex-grow lg:w-64 rounded-md border border-gray-300
-                                                                                               px-3 py-2 shadow-sm focus:ring-yellow-300" %>
+                                                                                                                   px-3 py-2 shadow-sm focus:ring-yellow-300" %>
 
           <%= f.submit "Buscar", class: "btn-primary w-28 lg:w-auto" %>
         <% end %>
@@ -60,7 +60,7 @@ search + status-id filter -->
           <% if @renegotiations.any? %>
             <% @renegotiations.each do |r| %>
               <tr class="border-b hover:bg-gray-50">
-                <td class="px-4 py-2"><%= r.customer.full_name %></td>
+                <td class="px-4 py-2"><%= r.customer_profile.full_name %></td>
                 <td class="px-4 py-2">
                   R$
                   <%= number_to_currency(
@@ -88,7 +88,8 @@ search + status-id filter -->
                 </td>
                 <td class="px-4 py-2 space-x-2 whitespace-nowrap">
                   <%= link_to "Ver",
-                  company_renegotiation_path(@company, r),
+                  # company_renegotiation_path(@company, r),
+                  root_path,
                   class: "text-sm text-blue-600 hover:underline" %>
                 </td>
               </tr>
