@@ -44,11 +44,11 @@ class RenegotiationsController < ApplicationController
 
   def create
     segment = @invoice.profile.segment
-    calc    = RenegotiationService::Calculator.call(
-                invoice: @invoice,
-                segment: segment,
-                params:  renegotiation_params.slice(:strategy, :installments)
-              )
+    calc = RenegotiationService::Calculator.call(
+      invoice: @invoice,
+      segment: segment,
+      params:  renegotiation_params.slice(:strategy, :installments)
+    )
 
     return render json: { error: calc.error }, status: :unprocessable_entity if calc.error
 
@@ -56,11 +56,11 @@ class RenegotiationsController < ApplicationController
       current_profile,
       invoice: @invoice,
       params: {
-        proposed_total_amount: calc.proposed_total_amount,
-        proposed_due_date: calc.proposed_due_date,
-        installments: calc.installments,
-        schedule: calc.schedule,
-        reason: params[:reason]
+        total_amount: calc.total_amount,
+        proposed_due_date: params[:proposed_due_date],
+        installments: calc.schedule.size,
+        reason: params[:reason],
+        schedule: calc.schedule
       }
     ).call
 
@@ -105,6 +105,6 @@ class RenegotiationsController < ApplicationController
   end
 
   def renegotiation_params
-    params.permit(:strategy, :installments, :company_id, :reason, :profile_id)
+    params.permit(:strategy, :installments, :company_id, :reason, :profile_id, :proposed_due_date)
   end
 end

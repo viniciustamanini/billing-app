@@ -14,4 +14,8 @@ class InvoiceStatus < ApplicationRecord
   def self.issued
     find_by!(name: "issued")
   end
+
+  def self.draft
+    find_by!(name: "draft")
+  end
 end

@@ -57,20 +57,26 @@ module RenegotiationService
 
     def build_schedule
       months = @params[:installments].to_i.clamp(1, @segment.max_installments)
+      first_due = Date.parse(@params[:proposed_due_date]) rescue @invoice.due_date
       due_dates = []
 
       case selected_strategy
       when "settlement_discount"
-        # Single bullet payment
-        due_dates << @invoice.due_date
+        due_dates << first_due
       else
-        # Equal installments: generate monthly due dates
         months.times do |i|
-          due_dates << @invoice.due_date + i.months
+          due_dates << first_due + i.months
         end
       end
 
       due_dates
+    end
+
+    private
+
+    def parse_date(date)
+      return nil if date.blank?
+      Date.parse(date.to_s) rescue nil
     end
 
     def selected_strategy

@@ -1,6 +1,25 @@
 <div data-controller="options">
   <h1 class="text-xl font-semibold mb-6">Simulações de renegociação</h1>
 
+  <%= form_with url: company_profile_invoice_renegotiation_path(@company, @invoice),
+              method: :post,
+              data: { turbo_frame: "_top" },
+              local: true do |f| %>
+
+    <div class="mb-6">
+      <%= f.label :proposed_due_date,
+              "Data da primeira parcela",
+              class: "block text-sm font-semibold" %>
+      <%= f.date_field :proposed_due_date, value: Date.current, class: "form-control mt-1" %>
+    </div>
+
+    <%= hidden_field_tag :strategy %>
+    <%= hidden_field_tag :installments %>
+    <%= hidden_field_tag :reason, "Proposta via simulação" %>
+    <%# <%= f.submit "Propor renegociação", class: "btn-primary" %>
+
+  <% end %>
+
   <% @offers_by_segment.each do |segment, offers| %>
     <div class="mb-8 p-4 border rounded bg-white shadow">
       <div class="flex justify-between items-center mb-4">

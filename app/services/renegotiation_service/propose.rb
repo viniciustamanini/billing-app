@@ -9,23 +9,33 @@ module RenegotiationService
     end
 
     def call
+      proposed_date = @params[:proposed_due_date].to_date rescue nil
+      if proposed_date.nil? || proposed_date < Date.current
+        return Result.new(false, nil, "Data da renegociação deve ser maior ou igual à data atual")
+      end
+
       ActiveRecord::Base.transaction do
         reneg = Renegotiation.create!(
           company: @invoice.company,
           proposed_by_profile: @proposer,
           customer_profile: @invoice.profile,
-          proposed_total_amount: @params[:proposed_total_amount],
-          proposed_due_date: @params[:proposed_due_date],
+          proposed_total_amount: @params[:total_amount],
+          proposed_due_date: proposed_date,
           reason: @params[:reason],
           installments: @params[:installments],
           renegotiation_status: RenegotiationStatus.pending
         )
 
-        total = BigDecimal(@params[:proposed_total_amount].to_s)
+        InvoiceRenegotiation.create!(invoice: @invoice, renegotiation: reneg)
+
+        total = BigDecimal(@params[:total_amount].to_s)
         count = @params[:installments].to_i.clamp(1, 60)
         per_installment = (total / count).round(2)
 
-        @params[:schedule].each_with_index do |due_date, index|
+        first_due_date = proposed_date
+        due_dates = (0...count).map { |i| first_due_date >> i }
+
+        due_dates.each_with_index do |due_date, index|
           invoice = Invoice.create!(
             profile: @invoice.profile,
             company: @invoice.company,
@@ -36,7 +46,7 @@ module RenegotiationService
             parent_renegotiation_id: reneg.id,
             installment_number: index + 1,
             installment_count: count,
-            invoice_status: InvoiceStatus.issued
+            invoice_status: InvoiceStatus.draft
           )
 
           invoice.invoice_items.create!(

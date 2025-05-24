@@ -21,7 +21,8 @@
     params: {
       strategy: offer[:strategy],
       installments: offer[:installments],
-      reason: "Proposta via simulação"
+      reason: "Proposta via simulação",
+      proposed_due_date: Date.current,
     },
     form_class: "mt-3",
     class: "btn-primary",
