@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_022533) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_041736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -187,8 +187,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_022533) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "interest_rate", precision: 6, scale: 3, default: "0.0"
-    t.string "interest_stategy", default: "simple"
+    t.string "interest_strategy", default: "flat_late_fee"
     t.decimal "discount_percent", precision: 6, scale: 3, default: "0.0"
+    t.integer "max_installments", default: 1, null: false
     t.index ["company_id"], name: "index_segments_on_company_id"
     t.index ["overdue_range_id"], name: "index_segments_on_overdue_range_id"
   end
