@@ -119,7 +119,10 @@
         <%= render 'shared/pagy_nav' %>
 
         <div class="mt-4 flex items-center justify-between">
-          <p class="text-gray-600">Fatura atual: R$ 1.760,45</p>
+          <div class="flex items-center gap-6">
+            <p class="text-gray-600">Valor pendente: R$ <%= @pending_invoices_value %></p>
+            <p class="<%= @overdue_invoices_value > 0 ? 'text-red-600' : 'text-gray-600' %>">Valor vencido: R$ <%= @overdue_invoices_value %></p>
+          </div>
           <% if admin_profile_type?(@current_profile.profile_type.name) %>
             <div class="flex items-center gap-4">
               <div>

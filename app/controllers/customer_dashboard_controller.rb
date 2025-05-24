@@ -58,6 +58,8 @@ class CustomerDashboardController < ApplicationController
     @paid_invoices = invoices_query.paid
     @paid_invoices_value = @paid_invoices.sum(:total_amount)
     @upcoming_invoices_value = @upcoming_invoices.sum(:total_amount)
+    @overdue_invoices_value = @overdue_invoices.sum(:total_amount)
+    @pending_invoices_value = @upcoming_invoices_value + @overdue_invoices_value
 
     overdue_min_date = @overdue_invoices.minimum(:due_date)
     @days_most_overdue = overdue_min_date ? (Date.current - overdue_min_date).to_i : 0
