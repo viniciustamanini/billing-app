@@ -9,17 +9,22 @@ class CustomerDashboardController < ApplicationController
     profile_ids = profiles.pluck(:id)
 
     @recurring_payment_day = current_user.recurring_payment_day()
-    @invoices = Invoice
+    
+    invoices_query = Invoice
       .includes(:invoice_status, :profile)
       .where(profile_id: profile_ids)
       .order(:due_date)
 
+    @pagy, @invoices = pagy(invoices_query, items: 5)
+
     # TODO add a filter by invoice status
-    @overdue_invoices = @invoices.overdue
-    @upcoming_invoices = @invoices.upcoming
-    @paid_invoices = @invoices.paid
+    @overdue_invoices = invoices_query.overdue
+    @upcoming_invoices = invoices_query.upcoming
+    @paid_invoices = invoices_query.paid
     @paid_invoices_value = @paid_invoices.sum(:total_amount)
     @upcoming_invoices_value = @upcoming_invoices.sum(:total_amount)
+    @overdue_invoices_value = @overdue_invoices.sum(:total_amount)
+    @pending_invoices_value = @upcoming_invoices_value + @overdue_invoices_value
 
     overdue_min_date = @overdue_invoices.minimum(:due_date)
     @days_most_overdue = overdue_min_date ? (Date.current - overdue_min_date).to_i : 0
