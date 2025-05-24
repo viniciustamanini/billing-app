@@ -86,7 +86,8 @@
         <h2 class="text-lg font-medium mb-4">Próximos vencimentos</h2>
 
         <div class="space-y-4">
-          <% @upcoming_invoices.each do |invoice| %>
+          <% @invoices.each do |invoice| %>
+            <% badge = due_date_status_badge(invoice.due_date) %>
             <%= link_to company_profile_invoice_path(@company, @profile, invoice) do %>
               <div class="flex items-center justify-between py-2 border-b">
                 <div class="flex items-center gap-4">
@@ -99,7 +100,9 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-sm">A VENCER</span>
+                  <span class="<%= badge[:class]%> px-2 py-1 rounded text-sm">
+                    <%= badge[:title] %>
+                  </span>
                   <span class="font-medium">R$
                     <%= invoice.total_amount %></span>
                 </div>
