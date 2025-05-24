@@ -18,8 +18,8 @@ Rails.application.routes.draw do
         get "customer_dashboard", to: "customer_dashboard#index_for_company", as: :customer_dashboard
         get "invoices/new_item", to: "invoices#new_item", as: :new_invoice_item
         resources :invoices, only: %i[index new create show edit update] do
-          resources :renegotiation, only: %i[create] do
-            get :options, on: :collection
+          resource :renegotiation, controller: "renegotiations", only: %i[create] do
+            get :options
           end
         end
       end
