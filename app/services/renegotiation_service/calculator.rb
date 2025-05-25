@@ -37,7 +37,6 @@ module RenegotiationService
         error: nil
       )
     rescue StandardError => e
-      Rails.logger.error("[Renegotiation::Calculator] #{e.class} - #{e.message}")
       Result.new(error: e.message)
     end
 
@@ -120,7 +119,6 @@ module RenegotiationService
       else
         segment_rate = safe_decimal(@segment&.interest_rate)
         company_rate = safe_decimal(@invoice.company.default_interest_rate)
-        Rails.logger.info "[Calculator] Strategy is not settlement_discount. Calculated segment_rate: #{segment_rate}, company_rate: #{company_rate}"
         if segment_rate <= 0 && company_rate <= 0
           raise "Interest rate must be set either in the segment or as company default"
         end
