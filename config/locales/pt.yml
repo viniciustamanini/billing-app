@@ -92,6 +92,13 @@ pt:
         proposed_total_amount: "Valor proposto"
         proposed_due_date: "Data de vencimento"
         installments: "Parcelas"
+      renegotiation_status:
+        pending: "Pendente"
+        approved: "Aprovada"
+        rejected: "Rejeitada"
+        canceled: "Cancelada"
+        expired: "Expirada"
+        completed: "Concluída"
       segment:
         name: "Nome"
         description: "Descrição"

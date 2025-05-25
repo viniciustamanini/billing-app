@@ -34,10 +34,14 @@ en:
   time:
     formats:
       default: "%m/%d/%Y %H:%M"
-  renegotiation_statuses:
-    pending: "Pending"
-    approved: "Approved"
-    rejected: "Rejected"
-    canceled: "Canceled"
-    expired: "Expired"
-    completed: "Completed"
+  activerecord:
+    models:
+      renegotiation_status: "Renegotiation Status"
+    attributes:
+      renegotiation_status:
+        pending: "Pending"
+        approved: "Approved"
+        rejected: "Rejected"
+        canceled: "Canceled"
+        expired: "Expired"
+        completed: "Completed"

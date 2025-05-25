@@ -1,7 +1,10 @@
 class Invoice < ApplicationRecord
   belongs_to :profile
   belongs_to :invoice_status
-  belongs_to :parent_renegotiation, optional: true
+  belongs_to :parent_renegotiation,
+            class_name: "Renegotiation",
+            foreign_key: :parent_renegotiation_id,
+            optional: true
   belongs_to :company
   has_many :invoice_items, dependent: :destroy
   has_one :renegotiation
@@ -33,7 +36,7 @@ class Invoice < ApplicationRecord
 
   def has_pending_renegotiation?
     renegotiations.joins(:renegotiation_status)
-        .where(renegotiation_statuses: { name: "pending" })
+        .where(renegotiation_statuses: { name: RenegotiationStatus.pending.name })
         .exists?
   end
 

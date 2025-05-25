@@ -1,0 +1,172 @@
+<div class="space-y-6">
+  <div class="bg-white rounded-2xl shadow p-6">
+    <h2 class="text-2xl font-bold mb-4">Detalhes da Renegociação</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div>
+        <p class="text-sm text-gray-500">Status</p>
+        <p class="font-semibold">
+          <%= t(
+            ".#{@renegotiation.status_name}",
+            scope: "activerecord.attributes.renegotiation_status",
+          ) %>
+        </p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Proposto por</p>
+        <p class="font-semibold"><%= @renegotiation.proposed_by_profile.full_name %></p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Cliente</p>
+        <p class="font-semibold"><%= @renegotiation.customer_profile.full_name %></p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Data da Proposta</p>
+        <p class="font-semibold"><%= l @renegotiation.created_at.to_date %></p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Valor Original Total</p>
+        <%# Placeholder for original total amount - you will need to calculate this %>
+        <p class="font-semibold"><%= number_to_currency(@renegotiation.original_total_amount) %></p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Valor Proposto Total</p>
+        <p class="font-semibold"><%= number_to_currency(@renegotiation.proposed_total_amount) %></p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Número de Parcelas</p>
+        <p class="font-semibold"><%= @renegotiation.installments %></p>
+      </div>
+      <%#  <div> %>
+      <%#   <p class="text-sm text-gray-500">Desconto</p> %>
+      <%#   <p class="font-semibold"><%= number_to_percentage(@renegotiation.discount_percentage, precision: 2) </p> %>
+      <%# </div> %>
+      <%# <div> %>
+      <%#   <p class="text-sm text-gray-500">Juros</p> %>
+      <%#   <p class="font-semibold"><%= number_to_percentage(@renegotiation.interest_percentage, precision: 2) </p> %>
+      <%# </div> %>
+    </div>
+
+    <%# Action Buttons %>
+    <% if @renegotiation.pending? %>
+      <div class="flex space-x-4 mt-6">
+        <% if current_profile == @renegotiation.proposed_by_profile %>
+          <%# Proposer (agent/company user) can cancel %>
+          <%= button_to "Cancelar Proposta",
+          cancel_company_renegotiation_path(@company, @renegotiation),
+          method: :patch,
+          class: "btn-secondary",
+          data: {
+            turbo_confirm: "Tem certeza que deseja cancelar esta proposta?",
+          } %>
+        <% elsif current_profile == @renegotiation.customer_profile %>
+          <%# Customer can accept or reject %>
+          <%= button_to "Aceitar Proposta",
+          accept_company_renegotiation_path(@company, @renegotiation),
+          method: :patch,
+          class: "btn-success",
+          data: {
+            turbo_confirm: "Tem certeza que deseja aceitar esta proposta?",
+          } %>
+          <%= button_to "Rejeitar Proposta",
+          reject_company_renegotiation_path(@company, @renegotiation),
+          method: :patch,
+          class: "btn-danger",
+          data: {
+            turbo_confirm: "Tem certeza que deseja rejeitar esta proposta?",
+          } %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <hr class="my-6">
+
+    <%# Original Invoices %>
+    <h3 class="text-xl font-bold mb-4">Documentos Originais Renegociados</h3>
+    <% original_invoices = @renegotiation.invoice_renegotiations.map(&:invoice) %>
+    <% if original_invoices.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+              <th class="px-3 py-2">ID da Fatura</th>
+              <th class="px-3 py-2">Data de Emissão</th>
+              <th class="px-3 py-2">Data de Vencimento Original</th>
+              <th class="px-3 py-2 text-right">Valor Original (R$)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% original_invoices.each do |invoice| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-3 py-2"><%= link_to invoice.id,
+                  company_profile_invoice_path(@company, invoice.profile, invoice),
+                  class: "text-blue-600 hover:underline" %></td>
+                <td class="px-3 py-2"><%= l invoice.issued_date %></td>
+                <td class="px-3 py-2"><%= l invoice.original_due_date %></td>
+                <td class="px-3 py-2 text-right"><%= number_to_currency(invoice.total_amount) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-gray-500">Nenhuma fatura original encontrada para esta renegociação.</p>
+    <% end %>
+
+    <hr class="my-6">
+
+    <h3 class="text-xl font-bold mb-4">Novas Faturas Geradas</h3>
+    <p class="text-gray-500">As novas faturas serão validas apenas após a aprovação da renegociação.</p>
+    <% generated_invoices = @renegotiation.child_invoices %>
+    <% if (generated_invoices || {}).any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+              <th class="px-3 py-2">ID da Fatura</th>
+              <th class="px-3 py-2">Data de Emissão</th>
+              <th class="px-3 py-2">Data de Vencimento</th>
+              <th class="px-3 py-2 text-right">Valor (R$)</th>
+              <th class="px-3 py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% (generated_invoices || {}).each do |invoice| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-3 py-2"><%= link_to invoice.id,
+                  company_profile_invoice_path(@company, invoice.profile, invoice),
+                  class: "text-blue-600 hover:underline" %></td>
+                <td class="px-3 py-2"><%= l invoice.issued_date %></td>
+                <td class="px-3 py-2"><%= l invoice.due_date %></td>
+                <td class="px-3 py-2 text-right"><%= number_to_currency(invoice.total_amount) %></td>
+                <td class="px-3 py-2"><%= invoice.invoice_status.name.humanize %></td>
+              </tr>
+              <%# Invoice Items for each generated invoice - uncomment and adapt if needed %>
+              <% if invoice.invoice_items.any? %>
+                <tr>
+                  <td colspan="5" class="p-0">
+                    <div class="p-2 bg-gray-50">
+                      <h4 class="text-xs font-semibold mb-1">Itens da Fatura #
+                        <%= invoice.id %></h4>
+                      <ul class="list-disc list-inside pl-4 text-xs">
+                        <% invoice.invoice_items.each do |item| %>
+                          <li><%= item.description %>
+                            -
+                            <%= item.quantity %>
+                            x
+                            <%= number_to_currency(item.unit_price) %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-gray-500">Nenhuma nova fatura gerada.</p>
+    <% end %>
+  </div>
+</div>

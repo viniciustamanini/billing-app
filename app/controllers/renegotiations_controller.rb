@@ -4,6 +4,7 @@ class RenegotiationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_invoice, except: %i[index]
   before_action :set_company
+  before_action :set_renegotiation, only: %i[show cancel accept reject]
 
   def index
     @query = params[:search].to_s.strip
@@ -13,15 +14,11 @@ class RenegotiationsController < ApplicationController
       .includes(:customer_profile)
       .order(created_at: :desc)
 
-    if @status_id.present? && @status_id != "all"
-      scope = scope.where(renegotiation_status_id: @status_id)
-    end
-
+    scope = scope.where(renegotiation_status_id: @status_id) if @status_id.present? && @status_id != "all"
     @pagy, @renegotiations = pagy(scope, items: 10)
   end
 
   def options
-    customer_segment = @invoice.profile.segment
     segments = @company.segments.active
     proposed_due_date = params[:proposed_due_date].presence || Date.current
 
@@ -41,10 +38,8 @@ class RenegotiationsController < ApplicationController
 
   def recalculate
     segment = @company.segments.find(params[:segment_id])
-    installments = params[:installments].to_i
+    installments = params[:installments].to_i.clamp(1, segment.max_installments)
     proposed_due_date = params[:proposed_due_date].presence || Date.current.to_s
-
-    installments = installments.clamp(1, segment.max_installments)
 
     calc = RenegotiationService::Calculator.call(
       invoice: @invoice,
@@ -77,25 +72,15 @@ class RenegotiationsController < ApplicationController
 
   def create
     segment = @company.segments.find(renegotiation_params[:segment_id])
-    Rails.logger.info "[Renegotiation] Segment: #{segment.inspect}"
-
-    calculator_params = renegotiation_params.slice(:strategy, :installments, :proposed_due_date)
 
     calc = RenegotiationService::Calculator.call(
       invoice: @invoice,
       segment: segment,
-      params: calculator_params
+      params: renegotiation_params.slice(:strategy, :installments, :proposed_due_date)
     )
 
     if calc.error
-      respond_to do |format|
-        format.html do
-          flash.now[:error] = calc.error
-          render turbo_stream: turbo_stream.update("flash", partial: "shared/toast", locals: { message: calc.error, icon: "error" })
-        end
-        format.json { render json: { error: calc.error }, status: :unprocessable_entity }
-      end
-      return
+      render_error(calc.error) and return
     end
 
     result = RenegotiationService::Propose.new(
@@ -110,24 +95,43 @@ class RenegotiationsController < ApplicationController
       }
     ).call
 
-    respond_to do |format|
-      if result.success?
-        format.html { redirect_to company_renegotiations_path(@company), notice: "Renegociação proposta com sucesso!" }
-        format.json { render json: { id: result.renegotiation.id }, status: :created }
-      else
-        format.html do
-          flash.now[:error] = result.error
-          render turbo_stream: turbo_stream.update("flash", partial: "shared/toast", locals: { message: result.error, icon: "error" })
-        end
-        format.json { render json: { error: result.error }, status: :unprocessable_entity }
-      end
+    if result.success?
+      redirect_to company_renegotiations_path(@company), notice: "Renegociação proposta com sucesso!"
+    else
+      render_error(result.error)
     end
+  end
+
+  def show
+    @original_invoices = @renegotiation.invoice_renegotiations.map(&:invoice)
+    @generated_invoices = @renegotiation.child_invoices
+  end
+
+  def cancel
+    result = RenegotiationService::Cancel.new(current_profile, @renegotiation).call
+    redirect_to company_renegotiation_path(@company, @renegotiation), notice: result.success? ? "Renegociação cancelada." : result.error
+  end
+
+  def accept
+    result = RenegotiationService::Accept.new(current_profile, @renegotiation).call
+    redirect_to company_renegotiation_path(@company, @renegotiation), notice: result.success? ? "Renegociação aceita." : result.error
+  end
+
+  def reject
+    result = RenegotiationService::Reject.new(current_profile, @renegotiation).call
+    redirect_to company_renegotiation_path(@company, @renegotiation), notice: result.success? ? "Renegociação rejeitada." : result.error
   end
 
   private
 
+  def set_renegotiation
+    @renegotiation = @company.renegotiations.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to company_renegotiations_path(@company), alert: "Renegociação não encontrada."
+  end
+
   def set_invoice
-    @invoice = Invoice.find(params[:invoice_id])
+    @invoice = @company.invoices.find(params[:invoice_id]) if params[:invoice_id]
   end
 
   def set_company
@@ -146,5 +150,15 @@ class RenegotiationsController < ApplicationController
       :invoice_id,
       :segment_id
     )
+  end
+
+  def render_error(message)
+    respond_to do |format|
+      format.html do
+        flash.now[:error] = message
+        render turbo_stream: turbo_stream.update("flash", partial: "shared/toast", locals: { message: message, icon: "error" })
+      end
+      format.json { render json: { error: message }, status: :unprocessable_entity }
+    end
   end
 end

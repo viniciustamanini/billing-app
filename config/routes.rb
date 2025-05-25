@@ -11,7 +11,13 @@ Rails.application.routes.draw do
       collection do
         get :modal_new, to: "companies#modal_new"
       end
-      resources :renegotiations, only: :index
+      resources :renegotiations, only: [:index, :show] do
+        member do
+          patch :cancel
+          patch :accept
+          patch :reject
+        end
+      end
 
       # TODO maybe the customer_dashboard and customer controller should be just one
       resources :profiles, only: [] do

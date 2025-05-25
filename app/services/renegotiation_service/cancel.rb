@@ -2,21 +2,21 @@ module RenegotiationService
   class Cancel
     Result = Struct.new(:success?, :renegotiation, :error)
 
-    def initialize(requester, renegotiation:, params:)
+    def initialize(requester, renegotiation)
       @renegotiation = renegotiation
       @requester = requester
-      @params = params
     end
 
     def call
-      return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending
-      Result.new(false, @renegotiation, "Only proposer can cancel") unless @renegotiation.proposed_by_profile_id(@requester.id)
+      return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending?
+      Result.new(false, @renegotiation, "Only proposer can cancel") unless @renegotiation.proposed_by_profile_id = @requester.id
 
+      Rails.logger.info("Cancelling renegotiation #{@renegotiation.id} by #{@requester.id}")
       ActiveRecord::Base.transaction do
         @renegotiation.update!(
           renegotiation_status: RenegotiationStatus.canceled,
-          cancelled_by_profile: @requester,
-          cancellation_date: Time.current,
+          canceled_by_profile: @requester,
+          canceled_at: Time.current,
         )
       end
 

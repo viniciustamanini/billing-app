@@ -2,13 +2,13 @@ module RenegotiationService
   class Accept
     Result = Struct.new(:success?, :renegotiation, :error)
 
-    def initialize(decider, renegotiation:, params:)
+    def initialize(decider, renegotiation)
       @renegotiation = renegotiation
       @decider = decider
     end
 
     def call
-      return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending
+      return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending?
       return Result.new(false, @renegotiation, "You are the proposer") unless @renegotiation.decision_perding_for?(@decider)
 
       ActiveRecord::Base.transaction do

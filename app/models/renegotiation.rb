@@ -7,6 +7,7 @@ class Renegotiation < ApplicationRecord
   belongs_to :company
   belongs_to :segment
 
+  has_many :invoice_renegotiations
   has_many :child_invoices,
         class_name: "Invoice",
         foreign_key: :parent_renegotiation_id,
@@ -19,12 +20,16 @@ class Renegotiation < ApplicationRecord
         joins(:renegotiation_status)
         .where(renegotiation_statuses: { name: code })
     }
+
+    define_method("#{code}?") do
+      renegotiation_status.name == code
+    end
   end
 
   delegate :name, to: :renegotiation_status, prefix: :status
   delegate :customer?, to: :proposed_by_profile, prefix: :proposer
 
   def decision_perding_for?(profile)
-    status_name == "pending" && (profile.customer? ^ proposer_customer?)
+    status_name == RenegotiationStatus.pending.name && (profile.customer? ^ proposer_customer?)
   end
 end
