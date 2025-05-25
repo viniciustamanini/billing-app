@@ -1,50 +1,54 @@
-<div>
-  <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
+<div class="bg-[var(--color-gold)] rounded-xl shadow-lg p-4">
+  <h2 class="text-base font-bold text-black px-2 mb-4">Maiores atrasos</h2>
 
-  <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
-    <% late_customers.each do |customer| %>
-      <%= link_to company_profile_customer_dashboard_path(company, customer) do %>
-        <div
-          class="
-            group relative bg-white rounded-lg shadow p-3 border-2 border-yellow-400 flex
-            items-center justify-center
-          "
-        >
-          <i class="material-symbols-outlined text-3xl">person_pin</i>
-          <!-- Hover tooltip -->
-          <span class="tooltip"><%= customer.full_name %>
-            — dias</span>
-        </div>
-      <% end %>
-    <% end %>
-
-    <%= link_to company_customers_path(@company) do %>
-      <div
-        class="
-          bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center
-          justify-center
-        "
-        title="Listar clientes"
-      >
-        <i class="material-symbols-outlined text-3xl">groups</i>
+  <div>
+    <div class="flex items-center justify-between">
+      <!-- Customer avatars -->
+      <div class="flex gap-x-4">
+        <% late_customers.each do |customer| %>
+          <%= link_to company_profile_customer_dashboard_path(company, customer) do %>
+            <div class="relative group">
+              <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-center border border-transparent hover:border-[var(--color-gold)] hover:shadow-lg transition-all duration-200 w-14 h-14">
+                <i class="material-symbols-outlined text-2xl text-gray-700">person_pin</i>
+              </div>
+              <!-- Hover tooltip -->
+              <div class="opacity-0 group-hover:opacity-100 absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 transition-opacity duration-200">
+                <%= customer.full_name %> — dias
+              </div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
-    <% end %>
 
-    <%= link_to modal_new_company_customers_path(company, format: :html),
-      data: {
-        turbo_frame: "modal-frame", 
-        action: "turbo:frame-load->modal#open" 
-      } do %>
-      <div
-        class="
-          bg-white rounded-lg shadow p-3 border border-gray-200 flex items-center
-          justify-center
-        "
-        title="Adicionar novo cliente"
-      >
-        <i class="material-symbols-outlined text-3xl">add</i>
+      <!-- Action buttons -->
+      <div class="flex gap-x-2 ml-6 border-l border-black/10 pl-6">
+        <%= link_to company_customers_path(@company) do %>
+          <div class="relative group">
+            <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-center border border-transparent hover:border-[var(--color-gold)] hover:shadow-lg transition-all duration-200 w-14 h-14">
+              <i class="material-symbols-outlined text-2xl text-gray-700">groups</i>
+            </div>
+            <div class="opacity-0 group-hover:opacity-100 absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 transition-opacity duration-200">
+              Listar clientes
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to modal_new_company_customers_path(company, format: :html),
+          data: {
+            turbo_frame: "modal-frame", 
+            action: "turbo:frame-load->modal#open" 
+          } do %>
+          <div class="relative group">
+            <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-center border border-transparent hover:border-[var(--color-gold)] hover:shadow-lg transition-all duration-200 w-14 h-14">
+              <i class="material-symbols-outlined text-2xl text-gray-700">add</i>
+            </div>
+            <div class="opacity-0 group-hover:opacity-100 absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 transition-opacity duration-200">
+              Adicionar novo cliente
+            </div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
 </div>
 
