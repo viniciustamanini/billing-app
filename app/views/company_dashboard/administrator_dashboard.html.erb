@@ -1,7 +1,7 @@
 <!-- app/views/admin_dashboard/index.html.erb -->
-<div class="flex flex-col lg:flex-row gap-6 p-6">
-  <!-- Left Column -->
-  <div class="w-full lg:w-1/2 space-y-6">
+<div class="flex flex-col lg:flex-row gap-6">
+  <!-- Left Column (80%) -->
+  <div class="w-full lg:w-[80%] space-y-6">
     <!-- Top two cards -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/stat_card",
@@ -30,8 +30,8 @@
     late_customers: @late_customers,
     company: @company %>
   </div>
-  <!-- Right Column -->
-  <div class="w-full lg:w-1/2 space-y-6">
+  <!-- Right Column (20%) -->
+  <div class="w-full lg:w-[20%] space-y-6">
     <!-- Top two cards -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/pie_card",

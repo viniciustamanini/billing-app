@@ -1,6 +1,6 @@
-<div class="flex flex-col lg:flex-row gap-6 p-6">
-  <!-- Left Column -->
-  <div class="w-full lg:w-1/2 space-y-6">
+<div class="flex flex-col lg:flex-row gap-6">
+  <!-- Left Column (80%) -->
+  <div class="w-full lg:w-[80%] space-y-6">
     <!-- Top two cards -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/stat_card",
@@ -22,46 +22,73 @@
         "Antecipados" => "R$ 3.000,00",
       } %>
     </div>
-
     <!-- Chart section with enhanced styling -->
     <div class="bg-white rounded-xl shadow-sm p-6">
       <%= render "shared/cards/chart_section" %>
     </div>
-
     <!-- Late customers section with modern styling -->
     <div class="bg-white rounded-xl shadow-sm p-6">
       <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
       <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
         <% 8.times do |i| %>
-          <div class="bg-white rounded-lg shadow-sm p-3 flex items-center justify-center border-2 border-[--color-gold] relative hover:shadow-md transition-shadow">
+          <div
+            class="
+              bg-white rounded-lg shadow-sm p-3 flex items-center justify-center border-2
+              border-[--color-gold] relative hover:shadow-md transition-shadow
+            "
+          >
             <i class="material-symbols-outlined text-3xl text-gray-700">person_pin</i>
             <% if i == 0 %>
-              <div class="absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+              <div
+                class="
+                  absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
+                  whitespace-nowrap z-10
+                "
+              >
                 John Doe<br>45 dias em atraso
               </div>
             <% end %>
           </div>
         <% end %>
         <!-- List clients button -->
-        <div class="bg-white rounded-lg shadow-sm p-3 border border-gray-200 flex items-center justify-center relative hover:bg-gray-50 transition-colors cursor-pointer">
+        <div
+          class="
+            bg-white rounded-lg shadow-sm p-3 border border-gray-200 flex items-center
+            justify-center relative hover:bg-gray-50 transition-colors cursor-pointer
+          "
+        >
           <i class="material-symbols-outlined text-3xl text-gray-700">groups</i>
-          <div class="absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+          <div
+            class="
+              absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
+              whitespace-nowrap z-10
+            "
+          >
             Listar clientes
           </div>
         </div>
         <!-- Add client button -->
-        <div class="bg-white rounded-lg shadow-sm p-3 border border-gray-200 flex items-center justify-center relative hover:bg-gray-50 transition-colors cursor-pointer">
+        <div
+          class="
+            bg-white rounded-lg shadow-sm p-3 border border-gray-200 flex items-center
+            justify-center relative hover:bg-gray-50 transition-colors cursor-pointer
+          "
+        >
           <i class="material-symbols-outlined text-3xl text-gray-700">add</i>
-          <div class="absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+          <div
+            class="
+              absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
+              whitespace-nowrap z-10
+            "
+          >
             Adicionar novo cliente
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Right Column -->
-  <div class="w-full lg:w-1/2 space-y-6">
+  <!-- Right Column (15%) -->
+  <div class="w-full lg:w-[20%] space-y-6">
     <!-- Top two cards -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/pie_card",
@@ -71,7 +98,6 @@
 
       <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: 14 %>
     </div>
-
     <!-- Progress bars section -->
     <div class="bg-white rounded-xl shadow-sm p-6">
       <%= render "shared/cards/progress_bar_group",
@@ -85,7 +111,6 @@
         { label: "Nunca pagos", percentage: 3 },
       ] %>
     </div>
-
     <!-- Widget cards with enhanced styling -->
     <div class="space-y-4">
       <%= render "shared/cards/widget_link_card",
