@@ -9,14 +9,14 @@
     <h2 class="text-lg font-medium"><%= title %></h2>
   </div>
 
-  <div class="space-y-3">
+  <div class="space-y-1">
     <% if bars.present? && (bars.is_a?(Hash) ? bars.any? : bars.any?) %>
       <% if bars.is_a?(Hash) %>
         <% bars.each do |range, stats| %>
           <div class="flex items-center">
-            <div class="w-20 text-sm"><%= range.name %></div>
-            <div class="flex-1 bg-gray-200 rounded-full h-4 mx-2">
-              <div class="bg-black h-4 rounded-full" style="width: <%= stats[:percent] %>%"></div>
+            <div class="w-28 text-sm"><%= range.name %></div>
+            <div class="w-[40%] bg-gray-200 rounded-full h-3 mx-2">
+              <div class="bg-black h-3 rounded-full" style="width: <%= stats[:percent] %>%"></div>
             </div>
             <div class="text-sm font-medium w-8 text-right"><%= stats[:percent] %>%</div>
           </div>
@@ -24,9 +24,9 @@
       <% else %>
         <% bars.each do |bar| %>
           <div class="flex items-center">
-            <div class="w-20 text-sm"><%= bar[:label] %></div>
-            <div class="flex-1 bg-gray-200 rounded-full h-4 mx-2">
-              <div class="bg-black h-4 rounded-full" style="width: <%= bar[:percentage] %>%"></div>
+            <div class="w-28 text-sm"><%= bar[:label] %></div>
+            <div class="w-[40%] bg-gray-200 rounded-full h-3 mx-2">
+              <div class="bg-black h-3 rounded-full" style="width: <%= bar[:percentage] %>%"></div>
             </div>
             <div class="text-sm font-medium w-8 text-right"><%= bar[:percentage] %>%</div>
           </div>
