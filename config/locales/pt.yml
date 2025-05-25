@@ -41,14 +41,71 @@ pt:
     canceled: "Cancelada"
     expired: "Expirada"
     completed: "Concluída"
+  segment_strategies:
+    flat_late_fee: "Juros simples"
+    settlement_discount: "Desconto para pagamento"
+    compound: "Juros compostos"
   activerecord:
     errors:
       messages:
         record_invalid: "Validação falhou: %{errors}"
+      models:
+        segment:
+          attributes:
+            interest_rate:
+              blank: "Taxa de juros não pode ficar em branco"
+              not_a_number: "Taxa de juros deve ser um número"
+              greater_than_or_equal_to: "Taxa de juros deve ser maior ou igual a %{count}"
+              less_than_or_equal_to: "Taxa de juros deve ser menor ou igual a %{count}"
+            discount_percent:
+              blank: "Percentual de desconto não pode ficar em branco"
+              not_a_number: "Percentual de desconto deve ser um número"
+              greater_than_or_equal_to: "Percentual de desconto deve ser maior ou igual a %{count}"
+              less_than_or_equal_to: "Percentual de desconto deve ser menor ou igual a %{count}"
+            interest_strategy:
+              inclusion: "Estratégia de juros deve ser uma das seguintes: %{value}"
+            debt_max:
+              must_be_greater: "deve ser maior que o valor mínimo"
+        invoice:
+          attributes:
+            issued_date:
+              blank: "Data de emissão não pode ficar em branco"
+            due_date:
+              blank: "Data de vencimento não pode ficar em branco"
+            total_amount:
+              blank: "Valor total não pode ficar em branco"
+            profile_id:
+              blank: "Perfil não pode ficar em branco"
+        renegotiation:
+          attributes:
+            installments:
+              not_a_number: "Número de parcelas deve ser um número"
+              greater_than: "Número de parcelas deve ser maior que %{count}"
+            proposed_total_amount: "Valor proposto"
+            proposed_due_date: "Data de vencimento"
     models:
       renegotiation: "Renegociação"
+      segment: "Segmentação"
+      invoice: "Fatura"
     attributes:
       renegotiation:
         proposed_total_amount: "Valor proposto"
         proposed_due_date: "Data de vencimento"
         installments: "Parcelas"
+      segment:
+        name: "Nome"
+        description: "Descrição"
+        interest_rate: "Taxa de juros"
+        discount_percent: "Percentual de desconto"
+        interest_strategy: "Estratégia de juros"
+        debt_min: "Valor mínimo da dívida"
+        debt_max: "Valor máximo da dívida"
+        active: "Ativo"
+  errors:
+    messages:
+      blank: "não pode ficar em branco"
+      segment:
+        missing_segment: "Segmento não encontrado"
+        missing_discount_percent: "Segmento deve ter um percentual de desconto configurado"
+        missing_interest_rate: "Taxa de juros deve ser configurada no segmento ou como padrão da empresa"
+        strategy_requires_interest_rate: "Taxa de juros deve ser configurada ao usar a estratégia %{strategy}"

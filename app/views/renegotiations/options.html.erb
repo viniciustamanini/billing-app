@@ -1,18 +1,104 @@
 <div data-controller="options">
-  <h1 class="text-xl font-semibold mb-6">Simulações de renegociação</h1>
+  <div class="max-w-5xl mx-auto">
+    <!-- Customer and Invoice Info Card -->
+    <div class="bg-white rounded-lg shadow border border-gray-300/70 p-6 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Customer Info -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Informações do Cliente</h2>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Nome</label>
+              <p class="text-gray-900"><%= @invoice.profile.full_name %></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Email</label>
+              <p class="text-gray-900"><%= @invoice.profile.email %></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Segmento</label>
+              <p class="text-gray-900"><%= @invoice.profile.segment&.name || "Não definido" %></p>
+            </div>
+          </div>
+        </div>
 
-  <div class="mb-6">
-    <label for="proposed_due_date" class="block text-sm font-semibold">Data da primeira parcela</label>
-    <input
-      type="date"
-      id="proposed_due_date"
-      name="proposed_due_date"
-      value="<%= Date.current.to_s %>"
-      class="form-control mt-1"
-      data-options-target="dueDate"
-      data-action="change->options#updateAllOffers"
-    >
+        <!-- Invoice Info -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Informações da Fatura</h2>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Valor Total</label>
+              <p class="text-gray-900">R$ <%= number_with_precision(@invoice.total_amount, precision: 2) %></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Data de Vencimento</label>
+              <p class="text-gray-900"><%= l(@invoice.due_date, format: :default) %></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Status</label>
+              <p class="text-gray-900"><%= @invoice.invoice_status.name.titleize %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Renegotiation Options -->
+    <div class="bg-white rounded-lg shadow border border-gray-300/70 p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-semibold text-gray-900">Opções de Renegociação</h2>
+        
+        <div class="flex items-center gap-3">
+          <label for="proposed_due_date" class="text-sm font-medium text-gray-700">Data primeira parcela</label>
+          <input
+            type="date"
+            id="proposed_due_date"
+            name="proposed_due_date"
+            value="<%= Date.current.to_s %>"
+            class="rounded-md border-gray-300 pl-3 pr-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+            data-options-target="dueDate"
+            data-action="change->options#updateAllOffers"
+          >
+        </div>
+      </div>
+      
+      <% if @offers_by_segment.any? %>
+        <% @offers_by_segment.each do |segment, offers| %>
+          <% first_offer = offers.first %>
+          <div class="mb-8 p-4 border rounded bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-base font-semibold text-gray-900"><%= segment.name %></h3>
+
+              <select
+                data-action="change->options#updateOffer"
+                data-options-target="select"
+                data-segment-id="<%= segment.id %>"
+                data-segment-url="<%= recalculate_company_profile_invoice_renegotiation_path(@company, @invoice, segment_id: segment.id) %>"
+                class="rounded-md border-gray-300 pl-3 pr-10 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+              >
+                <% offers.each_with_index do |off, index| %>
+                  <option value="<%= off[:installments] %>" <%= 'selected' if index == 0 %>><%= off[:installments] %>x</option>
+                <% end %>
+              </select>
+            </div>
+
+            <div
+              id="segment-<%= segment.id %>-offer"
+              data-options-target="card"
+              class="space-y-4"
+            >
+              <%= render "offer_card", offer: first_offer, company: @company, invoice: @invoice %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="text-center py-8 text-gray-500">
+          <p>Nenhuma opção de renegociação disponível para este cliente.</p>
+        </div>
+      <% end %>
+    </div>
   </div>
+
   <!-- Hidden form fields for submission -->
   <form
     id="renegotiation_form"
@@ -27,33 +113,4 @@
     <%= hidden_field_tag :total_amount %>
     <%= hidden_field_tag :proposed_due_date, Date.current %>
   </form>
-
-  <% @offers_by_segment.each do |segment, offers| %>
-    <% first_offer = offers.first %>
-    <div class="mb-8 p-4 border rounded bg-white shadow">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold"><%= segment.name %></h2>
-
-        <select
-          data-action="change->options#updateOffer"
-          data-options-target="select"
-          data-segment-id="<%= segment.id %>"
-          data-segment-url="<%= recalculate_company_profile_invoice_renegotiation_path(@company, @invoice, segment_id: segment.id) %>"
-          class="border rounded px-2 py-1"
-        >
-          <% offers.each_with_index do |off, index| %>
-            <option value="<%= off[:installments] %>" <%= 'selected' if index == 0 %>><%= off[:installments] %>x</option>
-          <% end %>
-        </select>
-      </div>
-
-      <div
-        id="segment-<%= segment.id %>-offer"
-        data-options-target="card"
-        class="space-y-1 text-sm"
-      >
-        <%= render "offer_card", offer: first_offer, company: @company, invoice: @invoice %>
-      </div>
-    </div>
-  <% end %>
 </div>

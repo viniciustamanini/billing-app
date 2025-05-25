@@ -45,7 +45,8 @@ module RenegotiationService
             parent_renegotiation_id: reneg.id,
             installment_number: index + 1,
             installment_count: count,
-            invoice_status: InvoiceStatus.draft
+            invoice_status: InvoiceStatus.draft,
+            issued_date: Date.current
           )
 
           invoice.invoice_items.create!(

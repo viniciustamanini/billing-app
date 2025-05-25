@@ -22,7 +22,9 @@ module RenegotiationService
     end
 
     def call
-      validate_segment!
+      validation_result = validate_segment!
+      return Result.new(error: validation_result) if validation_result
+
       interest = interest_amount
       schedule = build_schedule
       total = @invoice.total_amount + interest
@@ -84,6 +86,8 @@ module RenegotiationService
     end
 
     def self.all_offers(invoice:, segment:, proposed_due_date: nil)
+      return [] if segment.nil?
+      
       (1..segment.max_installments).map do |n|
         calc = call(
           invoice: invoice,
@@ -111,12 +115,19 @@ module RenegotiationService
     private
 
     def validate_segment!
+      return I18n.t("errors.messages.segment.missing_segment") if @segment.nil?
+      
       if selected_strategy == "settlement_discount"
-        raise "Segment must have a discount percent" if @segment&.discount_percent.nil?
+        return I18n.t("errors.messages.segment.missing_discount_percent") if @segment&.discount_percent.nil?
       else
-        rate = safe_decimal(@segment&.interest_rate || @invoice.company.default_interest_rate)
-        raise "Segment or company must have an interest rate" if rate <= 0
+        segment_rate = safe_decimal(@segment&.interest_rate)
+        company_rate = safe_decimal(@invoice.company.default_interest_rate)
+        
+        if segment_rate <= 0 && company_rate <= 0
+          return I18n.t("errors.messages.segment.missing_interest_rate")
+        end
       end
+      nil
     end
 
     def safe_decimal(value)

@@ -57,12 +57,7 @@ class RenegotiationsController < ApplicationController
     )
 
     if calc.error
-      offer = {
-        strategy: segment.interest_strategy || @company.default_interest_strategy,
-        installments: installments,
-        schedule: [ Date.parse(proposed_due_date) ],
-        total_amount: @invoice.total_amount
-      }
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/toast", locals: { message: calc.error, icon: "error" })
     else
       offer = {
         strategy: segment.interest_strategy || @company.default_interest_strategy,
@@ -70,9 +65,8 @@ class RenegotiationsController < ApplicationController
         schedule: calc.schedule,
         total_amount: calc.total_amount
       }
+      render partial: "offer_card", locals: { offer: offer, company: @company, invoice: @invoice }
     end
-
-    render partial: "offer_card", locals: { offer: offer, company: @company, invoice: @invoice }
   end
 
   def render_offer
@@ -88,7 +82,16 @@ class RenegotiationsController < ApplicationController
       params:  renegotiation_params.slice(:strategy, :installments)
     )
 
-    return render json: { error: calc.error }, status: :unprocessable_entity if calc.error
+    if calc.error
+      respond_to do |format|
+        format.html do
+          flash.now[:error] = calc.error
+          render turbo_stream: turbo_stream.update("flash", partial: "shared/toast", locals: { message: calc.error, icon: "error" })
+        end
+        format.json { render json: { error: calc.error }, status: :unprocessable_entity }
+      end
+      return
+    end
 
     result = RenegotiationService::Propose.new(
       current_profile,
@@ -107,7 +110,10 @@ class RenegotiationsController < ApplicationController
         format.html { redirect_to company_renegotiations_path(@company), notice: "Renegociação proposta com sucesso!" }
         format.json { render json: { id: result.renegotiation.id }, status: :created }
       else
-        format.html { redirect_to options_company_profile_invoice_renegotiation_path(@company, @invoice), alert: result.error }
+        format.html do
+          flash.now[:error] = result.error
+          render turbo_stream: turbo_stream.update("flash", partial: "shared/toast", locals: { message: result.error, icon: "error" })
+        end
         format.json { render json: { error: result.error }, status: :unprocessable_entity }
       end
     end
