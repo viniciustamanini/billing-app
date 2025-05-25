@@ -48,9 +48,9 @@ class OverdueRangesController < ApplicationController
 
   def toggle_active(value, message)
     if @overdue_range.update(active: value)
-      redirect_to company_segments_path, flash: { success: message }
+      redirect_to company_overdue_ranges_path(@company), flash: { success: message }
     else
-      redirect_to company_segments_path(@company),
+      redirect_to company_overdue_ranges_path(@company),
       flash: { error: @overdue_range.errors.full_messages.to_sentence }
     end
   end

@@ -23,7 +23,7 @@ module ApplicationHelper
 
   def current_profile_display_name
     return "Dashboard" unless @company_name && @profile_type_display
-    
+
     if customer_profile_type?(@profile_type)
       "#{@profile_type_display}"
     else

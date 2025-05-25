@@ -1,11 +1,12 @@
 <!-- _progress_bar_group.html.erb -->
+<% href ||= profile_root_path %>
 <div class="bg-yellow-400 rounded-lg shadow p-6 relative">
-  <a href="#" class="absolute top-4 right-4">
+  <a href="<%= href %>" class="absolute top-4 right-4">
     <i class="material-symbols-outlined">open_in_new</i>
   </a>
-  
+
   <h2 class="text-lg font-medium mb-4"><%= title %></h2>
-  
+
   <div class="space-y-3">
     <% if bars.is_a?(Hash) %>
       <% bars.each do |range, stats| %>
