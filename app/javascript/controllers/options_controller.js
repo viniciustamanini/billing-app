@@ -4,9 +4,7 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["select", "card", "dueDate"];
 
-  connect() {
-    console.log("Options controller connected");
-  }
+  connect() {}
 
   updateOffer(event) {
     const select = event.target;
@@ -65,10 +63,12 @@ export default class extends Controller {
       button.dataset.strategy;
     form.querySelector('input[name="installments"]').value =
       button.dataset.installments;
-    form.querySelector('input[name="total_amount"]').value =
-      button.dataset.totalAmount;
+    form.querySelector('input[name="proposed_total_amount"]').value =
+      button.dataset.proposedTotalAmount;
     form.querySelector('input[name="proposed_due_date"]').value =
       button.dataset.dueDate;
+    form.querySelector('input[name="segment_id"]').value =
+      button.dataset.segmentId;
 
     form.submit();
   }

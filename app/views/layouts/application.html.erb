@@ -27,9 +27,9 @@
   </head>
 
   <body data-controller="sidebar">
-    <% flash.each do |type, message| %>
-      <%= render "shared/toast", message: message, icon: type, show_undo: false %>
-    <% end %>
+    <!-- Flash messages container -->
+    <div id="flash" class="fixed top-4 right-4 z-50">
+      <%= render "shared/toast", message: flash.first&.last, icon: flash.first&.first if flash.any? %>
     </div>
 
     <nav class="navbar sidebar-expanded" data-sidebar-target="navbar">
@@ -224,8 +224,6 @@
             <p class="sidebar-text"><%= t("logout") %></p>
           <% end %>
         </div>
-
-        <% content_for :modal, render("shared/modal") %>
       </div>
 
       <%= render "shared/modal" %>

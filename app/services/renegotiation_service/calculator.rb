@@ -1,12 +1,12 @@
 module RenegotiationService
   class Calculator
     Result = Struct.new(
-      :total_amount,
       :interest,
       :schedule,
       :installments,
       :proposed_due_date,
       :proposed_total_amount,
+      :segment_id,
       :error,
       keyword_init: true
     )
@@ -22,20 +22,18 @@ module RenegotiationService
     end
 
     def call
-      validation_result = validate_segment!
-      return Result.new(error: validation_result) if validation_result
-
+      validate_segment!
       interest = interest_amount
       schedule = build_schedule
       total = @invoice.total_amount + interest
 
       Result.new(
-        total_amount: total,
         interest: interest,
         schedule: schedule,
         installments: @params[:installments].to_i,
         proposed_due_date: schedule.first,
         proposed_total_amount: total,
+        segment_id: @segment.id,
         error: nil
       )
     rescue StandardError => e
@@ -49,7 +47,7 @@ module RenegotiationService
         discount = safe_decimal(@segment&.discount_percent)
         -(@invoice.total_amount * discount / 100).round(2)
       when "compound"
-        raise NotImplementedError, "Compound interest strategy is not supported yet"
+        Result.new(error: "Compound interest strategy is not supported yet")
       else
         rate = safe_decimal(@segment&.interest_rate)
         months = @params[:installments].to_i.clamp(1, @segment.max_installments)
@@ -86,8 +84,6 @@ module RenegotiationService
     end
 
     def self.all_offers(invoice:, segment:, proposed_due_date: nil)
-      return [] if segment.nil?
-      
       (1..segment.max_installments).map do |n|
         calc = call(
           invoice: invoice,
@@ -99,11 +95,12 @@ module RenegotiationService
           }
         )
         {
-          installments:  n,
-          total_amount:  calc.total_amount,
-          schedule:      calc.schedule,
-          strategy:      strategy_for(segment),
-          code:          "#{segment.id}-#{n}"
+          installments: n,
+          proposed_total_amount: calc.proposed_total_amount,
+          schedule: calc.schedule,
+          strategy: strategy_for(segment),
+          segment_id: segment.id,
+          code: "#{segment.id}-#{n}"
         }
       end
     end
@@ -115,19 +112,19 @@ module RenegotiationService
     private
 
     def validate_segment!
-      return I18n.t("errors.messages.segment.missing_segment") if @segment.nil?
-      
-      if selected_strategy == "settlement_discount"
-        return I18n.t("errors.messages.segment.missing_discount_percent") if @segment&.discount_percent.nil?
+      current_strategy = selected_strategy
+
+      if current_strategy == "settlement_discount"
+        discount_percent = safe_decimal(@segment&.discount_percent)
+        raise "Segment must have a discount percent for settlement_discount strategy" if discount_percent <= 0
       else
         segment_rate = safe_decimal(@segment&.interest_rate)
         company_rate = safe_decimal(@invoice.company.default_interest_rate)
-        
+        Rails.logger.info "[Calculator] Strategy is not settlement_discount. Calculated segment_rate: #{segment_rate}, company_rate: #{company_rate}"
         if segment_rate <= 0 && company_rate <= 0
-          return I18n.t("errors.messages.segment.missing_interest_rate")
+          raise "Interest rate must be set either in the segment or as company default"
         end
       end
-      nil
     end
 
     def safe_decimal(value)

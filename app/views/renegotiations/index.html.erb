@@ -1,6 +1,6 @@
 <!-- app/views/renegotiations/index.html.erb Lists renegotiations with text
 search + status-id filter -->
-<div class="flex gap-4">
+<div class="flex gap-4 h-[89vh]">
   <!-- RENEGOTIATIONS TABLE ------------------------------------------------>
   <div class="bg-white rounded-md shadow-sm border border-gray-200 flex-grow">
     <div class="p-4">
@@ -23,7 +23,7 @@ search + status-id filter -->
                    {},
                    class:
                      "w-32 rounded-md border border-gray-300
-                                                                                                px-2 py-2 shadow-sm focus:ring-yellow-300" %>
+                                                                                                          px-2 py-2 shadow-sm focus:ring-yellow-300" %>
 
           <%# ---------- free-text search -------------------------------- -%>
           <%= f.text_field :search,
@@ -31,7 +31,7 @@ search + status-id filter -->
                        placeholder: "Buscar por cliente",
                        class:
                          "flex-grow lg:w-64 rounded-md border border-gray-300
-                                                                                                                                                 px-3 py-2 shadow-sm focus:ring-yellow-300" %>
+                                                                                                                                                           px-3 py-2 shadow-sm focus:ring-yellow-300" %>
 
           <%= f.submit "Buscar", class: "btn-primary w-28 lg:w-auto" %>
         <% end %>

@@ -2,14 +2,16 @@ module RenegotiationService
   class Propose
     Result = Struct.new(:success?, :renegotiation, :error)
 
-    def initialize(proposer, invoice:, params:)
+    def initialize(proposer, invoice:, segment:, params:)
       @proposer = proposer
       @invoice = invoice
+      @segment = segment
       @params = params
     end
 
     def call
       proposed_date = parse_date(@params[:proposed_due_date]) || Date.current
+      Rails.logger.info "[Propose] Validating segment. Params: #{@params[:proposed_total_amount]}"
       if proposed_date < Date.current
         return Result.new(false, nil, "Data da renegociação deve ser maior ou igual à data de hoje")
       end
@@ -19,16 +21,17 @@ module RenegotiationService
           company: @invoice.company,
           proposed_by_profile: @proposer,
           customer_profile: @invoice.profile,
-          proposed_total_amount: @params[:total_amount],
+          proposed_total_amount: @params[:proposed_total_amount],
           proposed_due_date: proposed_date,
           reason: @params[:reason],
           installments: @params[:installments],
-          renegotiation_status: RenegotiationStatus.pending
+          renegotiation_status: RenegotiationStatus.pending,
+          segment_id: @segment.id
         )
 
         InvoiceRenegotiation.create!(invoice: @invoice, renegotiation: reneg)
 
-        total = BigDecimal(@params[:total_amount].to_s)
+        total = BigDecimal(@params[:proposed_total_amount].to_s)
         count = @params[:installments].to_i.clamp(1, 60)
         per_installment = (total / count).round(2)
 

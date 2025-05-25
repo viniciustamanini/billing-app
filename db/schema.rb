@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_155255) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_25_051749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -169,12 +169,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_155255) do
     t.bigint "company_id"
     t.integer "installments", null: false
     t.bigint "customer_profile_id", null: false
+    t.bigint "segment_id", null: false
     t.index ["canceled_by_profile_id"], name: "index_renegotiations_on_canceled_by_profile_id"
     t.index ["company_id"], name: "index_renegotiations_on_company_id"
     t.index ["customer_profile_id"], name: "index_renegotiations_on_customer_profile_id"
     t.index ["decided_by_profile_id"], name: "index_renegotiations_on_decided_by_profile_id"
     t.index ["proposed_by_profile_id"], name: "index_renegotiations_on_proposed_by_profile_id"
     t.index ["renegotiation_status_id"], name: "index_renegotiations_on_renegotiation_status_id"
+    t.index ["segment_id"], name: "index_renegotiations_on_segment_id"
   end
 
   create_table "segments", force: :cascade do |t|
@@ -234,6 +236,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_155255) do
   add_foreign_key "renegotiations", "profiles", column: "decided_by_profile_id"
   add_foreign_key "renegotiations", "profiles", column: "proposed_by_profile_id"
   add_foreign_key "renegotiations", "renegotiation_statuses"
+  add_foreign_key "renegotiations", "segments"
   add_foreign_key "segments", "companies"
   add_foreign_key "segments", "overdue_ranges"
 end

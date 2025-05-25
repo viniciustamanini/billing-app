@@ -25,8 +25,12 @@
       <% end %>
 
       <%= link_to "+ Cadastrar novo",
-      new_company_customer_path(@company),
-      class: "btn-primary whitespace-nowrap" %>
+          modal_new_company_customers_path(@company, format: :html),
+          data: {
+            turbo_frame: "modal-frame",
+            action: "turbo:frame-load->modal#open"
+          },
+          class: "btn-primary" %>
     </div>
     <!-- Table -->
     <div class="overflow-x-auto">

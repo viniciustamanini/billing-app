@@ -1,15 +1,26 @@
 <div
   id="modal-container"
   data-controller="modal"
-  class="
-    fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden
-  "
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden"
 >
-  <turbo-frame
-    id="modal-frame"
-    data-action="turbo:frame-load->modal#open"
-    class="max-w-md w-full"
+  <div 
+    class="relative bg-white rounded-lg shadow-xl border-2 border-[var(--color-gold)] max-w-2xl w-full mx-4"
+    data-action="click->modal#handleContentClick"
   >
-    <!-- Modal content will be loaded here -->
-  </turbo-frame>
+    <button
+      type="button"
+      class="absolute -top-4 -right-4 rounded-full bg-white w-8 h-8 flex items-center justify-center shadow-lg hover:bg-gray-100 border border-gray-200"
+      data-action="click->modal#close"
+    >
+      <i class="material-symbols-outlined text-gray-500">close</i>
+    </button>
+
+    <turbo-frame
+      id="modal-frame"
+      data-action="turbo:frame-load->modal#open"
+      class="block w-full"
+    >
+      <!-- Modal content will be loaded here -->
+    </turbo-frame>
+  </div>
 </div>

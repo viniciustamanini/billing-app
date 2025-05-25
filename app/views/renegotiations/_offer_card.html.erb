@@ -2,7 +2,7 @@
   <p><strong>Valor total:</strong>
     R$
     <%= number_with_precision(
-      offer[:total_amount],
+      offer[:proposed_total_amount],
       precision: 2,
       delimiter: ".",
       separator: ",",
@@ -22,8 +22,9 @@
     data-action="click->options#submitRenegotiation"
     data-strategy="<%= offer[:strategy] %>"
     data-installments="<%= offer[:installments] %>"
-    data-total-amount="<%= offer[:total_amount] %>"
+    data-proposed-total-amount="<%= offer[:proposed_total_amount] %>"
     data-due-date="<%= (offer[:schedule]&.first || Date.current).to_s %>"
+    data-segment-id="<%= offer[:segment_id] %>"
     data-confirm="Confirmar envio desta proposta?"
   >
     Propor renegociação

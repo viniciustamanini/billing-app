@@ -21,14 +21,14 @@
             </div>
           </div>
         </div>
-
         <!-- Invoice Info -->
         <div>
           <h2 class="text-lg font-semibold text-gray-900 mb-4">Informações da Fatura</h2>
           <div class="space-y-3">
             <div>
               <label class="block text-sm font-medium text-gray-500">Valor Total</label>
-              <p class="text-gray-900">R$ <%= number_with_precision(@invoice.total_amount, precision: 2) %></p>
+              <p class="text-gray-900">R$
+                <%= number_with_precision(@invoice.total_amount, precision: 2) %></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-500">Data de Vencimento</label>
@@ -42,12 +42,11 @@
         </div>
       </div>
     </div>
-
     <!-- Renegotiation Options -->
     <div class="bg-white rounded-lg shadow border border-gray-300/70 p-6">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-semibold text-gray-900">Opções de Renegociação</h2>
-        
+
         <div class="flex items-center gap-3">
           <label for="proposed_due_date" class="text-sm font-medium text-gray-700">Data primeira parcela</label>
           <input
@@ -55,13 +54,16 @@
             id="proposed_due_date"
             name="proposed_due_date"
             value="<%= Date.current.to_s %>"
-            class="rounded-md border-gray-300 pl-3 pr-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+            class="
+              rounded-md border-gray-300 pl-3 pr-3 py-2 text-sm focus:ring-2
+              focus:ring-yellow-400 focus:border-yellow-400
+            "
             data-options-target="dueDate"
             data-action="change->options#updateAllOffers"
           >
         </div>
       </div>
-      
+
       <% if @offers_by_segment.any? %>
         <% @offers_by_segment.each do |segment, offers| %>
           <% first_offer = offers.first %>
@@ -74,7 +76,10 @@
                 data-options-target="select"
                 data-segment-id="<%= segment.id %>"
                 data-segment-url="<%= recalculate_company_profile_invoice_renegotiation_path(@company, @invoice, segment_id: segment.id) %>"
-                class="rounded-md border-gray-300 pl-3 pr-10 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                class="
+                  rounded-md border-gray-300 pl-3 pr-10 py-2 text-sm focus:ring-2
+                  focus:ring-yellow-400 focus:border-yellow-400
+                "
               >
                 <% offers.each_with_index do |off, index| %>
                   <option value="<%= off[:installments] %>" <%= 'selected' if index == 0 %>><%= off[:installments] %>x</option>
@@ -98,7 +103,6 @@
       <% end %>
     </div>
   </div>
-
   <!-- Hidden form fields for submission -->
   <form
     id="renegotiation_form"
@@ -110,7 +114,8 @@
     <%= hidden_field_tag :strategy %>
     <%= hidden_field_tag :installments %>
     <%= hidden_field_tag :reason, "Proposta via simulação" %>
-    <%= hidden_field_tag :total_amount %>
+    <%= hidden_field_tag :proposed_total_amount %>
     <%= hidden_field_tag :proposed_due_date, Date.current %>
+    <%= hidden_field_tag :segment_id %>
   </form>
 </div>

@@ -5,6 +5,7 @@ class Renegotiation < ApplicationRecord
   belongs_to :canceled_by_profile, class_name: "Profile", optional: true
   belongs_to :customer_profile, class_name: "Profile"
   belongs_to :company
+  belongs_to :segment
 
   has_many :child_invoices,
         class_name: "Invoice",

@@ -63,7 +63,8 @@ class RenegotiationsController < ApplicationController
         strategy: segment.interest_strategy || @company.default_interest_strategy,
         installments: installments,
         schedule: calc.schedule,
-        total_amount: calc.total_amount
+        proposed_total_amount: calc.proposed_total_amount,
+        segment_id: segment.id
       }
       render partial: "offer_card", locals: { offer: offer, company: @company, invoice: @invoice }
     end
@@ -75,11 +76,15 @@ class RenegotiationsController < ApplicationController
   end
 
   def create
-    segment = @invoice.profile.segment
+    segment = @company.segments.find(renegotiation_params[:segment_id])
+    Rails.logger.info "[Renegotiation] Segment: #{segment.inspect}"
+
+    calculator_params = renegotiation_params.slice(:strategy, :installments, :proposed_due_date)
+
     calc = RenegotiationService::Calculator.call(
       invoice: @invoice,
       segment: segment,
-      params:  renegotiation_params.slice(:strategy, :installments)
+      params: calculator_params
     )
 
     if calc.error
@@ -96,12 +101,12 @@ class RenegotiationsController < ApplicationController
     result = RenegotiationService::Propose.new(
       current_profile,
       invoice: @invoice,
+      segment: segment,
       params: {
-        total_amount: params[:total_amount] || calc.total_amount,
-        proposed_due_date: params[:proposed_due_date],
+        proposed_total_amount: calc.proposed_total_amount,
+        proposed_due_date: renegotiation_params[:proposed_due_date],
         installments: calc.schedule.size,
-        reason: params[:reason],
-        schedule: calc.schedule
+        reason: renegotiation_params[:reason]
       }
     ).call
 
@@ -125,34 +130,21 @@ class RenegotiationsController < ApplicationController
     @invoice = Invoice.find(params[:invoice_id])
   end
 
-  def calculate_offers(invoice, segment)
-    [
-      build_offer(invoice, segment, strategy: "settlement_discount"),
-      build_offer(invoice, segment, strategy: "flat_late_fee", installments: 3),
-      build_offer(invoice, segment, strategy: "flat_late_fee", installments: 6)
-    ]
-  end
-
-  def build_offer(invoice, segment, strategy:, installments: 1)
-    calc = RenegotiationService::Calculator.call(
-             invoice: invoice,
-             segment: segment,
-             params:  { strategy: strategy, installments: installments }
-           )
-    {
-      code: "#{strategy}-#{installments}",
-      strategy: strategy,
-      installments: (calc.schedule || []).size,
-      schedule: (calc.schedule || []),
-      total_amount: calc.total_amount
-    }
-  end
-
   def set_company
     @company = Company.find(params[:company_id])
   end
 
   def renegotiation_params
-    params.permit(:strategy, :installments, :company_id, :reason, :profile_id, :proposed_due_date)
+    params.permit(
+      :strategy,
+      :installments,
+      :company_id,
+      :reason,
+      :profile_id,
+      :proposed_due_date,
+      :proposed_total_amount,
+      :invoice_id,
+      :segment_id
+    )
   end
 end

@@ -17,7 +17,7 @@ class CustomersController < ProfilesController
       .references(:user)
     end
 
-    @pagy, @customers = pagy(@customers, items: 10)
+    @pagy, @customers = pagy(@customers, items: 15)
   end
 
   private
