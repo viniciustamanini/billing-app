@@ -1,43 +1,77 @@
-<div class="bg-white rounded-md shadow-sm border border-gray-200">
-  <div class="p-4">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-      <h1 class="text-xl font-semibold text-gray-900">
-        Clientes
-      </h1>
-      
-      <%= link_to modal_new_company_customers_path(@company, format: :html),
-        data: {
-          turbo_frame: "modal-frame", 
-          action: "turbo:frame-load->modal#open" 
-        },
-        class: "btn-primary" do %>
-        + Adicionar cliente
-      <% end %>
-    </div>
-    
-    <table class="w-full text-sm text-left text-gray-700">
-      <thead>
-        <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
-          <th class="px-4 py-2">Cpf</th>
-          <th class="px-4 py-2">Nome</th>
-          <th class="px-4 py-2 text-right">Acoes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @customers.each do |customer| %>
-          <tr class="border-b hover:bg-gray-50">
-            <td class="px-4 py-2"><%= customer.cpf %></td>
-            <td class="px-4 py-2"><%= customer.full_name %></td>
-            <td class="px-4 py-2 text-right">
-              <%= link_to "Visualizar",
-              company_profile_customer_dashboard_path(@company, customer),
-              class: "text-sm text-blue-600 hover:underline" %>
-            </td>
-          </tr>
+<div class="h-[89vh] overflow-auto p-6">
+  <div class="bg-white rounded-lg shadow border border-gray-300/70">
+    <div class="p-6">
+      <!-- Header -->
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <h1 class="text-2xl font-semibold text-gray-900 flex-1">
+          Clientes
+        </h1>
+        <!-- Search box -->
+        <div class="relative w-64">
+          <%= form_with url: company_customers_path(@company),
+                        method: :get,
+                        local:  true do |f| %>
+            <%= f.text_field :search,
+                         placeholder: "Buscar por nome ou email",
+                         class:
+                           "w-full rounded border-gray-300 pl-4 pr-9 py-2 text-sm focus:ring-2 focus:ring-yellow-400" %>
+          <% end %>
+          <i class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">search</i>
+        </div>
+
+        <% if params[:search].present? %>
+          <%= link_to "Limpar filtro",
+          company_customers_path(@company),
+          class: "text-xs text-red-600 hover:underline" %>
         <% end %>
-      </tbody>
-    </table>
-    <%= render "shared/pagy_nav" if @customers.any? %>
+
+        <%= link_to "+ Cadastrar novo",
+        new_company_customer_path(@company),
+        class: "btn-primary whitespace-nowrap" %>
+      </div>
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+              <th class="px-3 py-2 font-semibold">Nome</th>
+              <th class="px-3 py-2 font-semibold">Email</th>
+              <th class="px-3 py-2 font-semibold">Status</th>
+              <th class="px-3 py-2 w-24">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% if @customers.any? %>
+              <% @customers.each do |customer| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-3 py-2"><%= customer.full_name %></td>
+                  <td class="px-3 py-2"><%= customer.email %></td>
+                  <td class="px-3 py-2">
+                    <span class="<%= customer.active? ? 'text-green-600' : 'text-red-600' %>">
+                      <%= customer.active? ? 'Ativo' : 'Inativo' %>
+                    </span>
+                  </td>
+                  <td class="px-3 py-2">
+                    <div class="flex items-center justify-end gap-2">
+                      <!-- view -->
+                      <%= link_to company_profile_customer_dashboard_path(@company, customer),
+                            class: "inline-flex items-center justify-center w-6 h-6 rounded text-blue-600 hover:text-blue-800" do %>
+                        <i class="material-symbols-outlined text-base">visibility</i>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="py-6 text-center text-gray-500 italic">
+                  Nenhum cliente encontrado
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
