@@ -1,23 +1,43 @@
+<% dates ||= [] %>
+<% payment_bars ||= {} %>
+
 <div class="bg-black rounded-lg shadow p-6 text-white">
   <div class="flex justify-between mb-6">
     <h2 class="text-lg font-medium">Recebimentos</h2>
+    <!--
     <div class="text-sm">
       <p>Esperado: R$ 62.000,00</p>
       <p>Recebido: R$ 61.450,00</p>
     </div>
+    -->
+    <!-- Dropdown for time range -->
+    <div class="flex justify-end">
+      <%= form_with url: company_dashboard_chart_data_path(@company.id), method: :get, data: { turbo_frame: "_top" }, local: false do %>
+        <select name="range" onchange="this.form.requestSubmit()" class="bg-white text-black border border-gray-600 rounded px-4 py-2 appearance-none pr-8">
+          <% [7, 14, 30].each do |opt| %>
+            <option value="<%= opt %>" <%= 'selected' if opt == @days_range.to_i %>><%= opt %> dias</option>
+          <% end %>
+        </select>
+        <!--
+          <div class="absolute text-black inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+          <i class="material-symbols-outlined text-sm">expand_more</i>
+          </div>
+        -->
+      <% end %>
+    </div>
   </div>
-  
+
   <div class="relative">
     <!-- Chart bars -->
-    <div class="h-48 grid grid-cols-7 gap-4 items-end">
-      <% (1..7).each do |i| %>
+    <div class="h-48 grid grid-cols-<%= dates.size %> gap-4 items-end">
+      <% dates.each do |date| %>
         <div class="flex flex-col items-center">
-          <div class="w-full bg-yellow-400" style="height: <%= rand(10..100) %>%"></div>
-          <span class="text-xs mt-2">29/02</span>
+          <!-- <div class="w-full bg-yellow-400" style="height: <%= payment_bars[date] %>%"></div> -->
+          <span class="text-xs font-bold mt-2"><%= date.strftime("%d/%m") %></span>
         </div>
       <% end %>
     </div>
-    
+
     <!-- Y-axis labels -->
     <div class="absolute left-0 top-0 h-full flex flex-col justify-between pointer-events-none">
       <span class="text-xs">60K</span>
@@ -26,18 +46,5 @@
       <span class="text-xs">0</span>
     </div>
   </div>
-  
-  <!-- Dropdown for time range -->
-  <div class="mt-4 flex justify-end">
-    <div class="relative">
-      <select class="bg-black border border-gray-600 rounded px-4 py-2 appearance-none pr-8">
-        <option>7 dias</option>
-        <option>14 dias</option>
-        <option>30 dias</option>
-      </select>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-        <i class="material-symbols-outlined text-sm">expand_more</i>
-      </div>
-    </div>
-  </div>
+
 </div> 

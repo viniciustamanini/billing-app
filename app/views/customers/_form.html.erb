@@ -1,7 +1,7 @@
 <div class="session-box">
   <%= form_with model: @profile, url: company_customers_path(@company), local: true do |f| %>
     <div class="field field-input-container">
-      <%= f.label :first_name %><br/>
+      <%= f.label :first_name, "Nome" %><br/>
       <%= f.text_field :first_name,
                    autofocus: true,
                    autocomplete: "first-name",
@@ -9,7 +9,7 @@
     </div>
 
     <div class="field field-input-container">
-      <%= f.label :last_name %><br/>
+      <%= f.label :last_name, "Sobrenome" %><br/>
       <%= f.text_field :last_name,
                    autofocus: true,
                    autocomplete: "last-name",

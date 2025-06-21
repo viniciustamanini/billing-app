@@ -33,7 +33,7 @@
     </div>
 
     <nav class="navbar sidebar-expanded" data-sidebar-target="navbar">
-      <div class="max-w-screen-2xl mx-auto w-full px-4">
+      <div class="max-w-screen-xl mx-auto w-full px-4">
         <div class="navbar-content-container">
           <!-- Column 1: Dashboard Title with Icon -->
           <div class="navbar-column navbar-col-1">
@@ -80,7 +80,7 @@
               <!-- Switch Profile Button -->
               <%= link_to t("switch_profile"), choose_profile_path, class: "btn-primary text-sm px-2 lg:px-3 py-2 whitespace-nowrap" %>
 
-              <!-- Action Icons -->
+              <!-- Action Icons
               <div class="flex items-center gap-2 lg:gap-3">
                 <button class="text-gray-600 hover:text-gray-800 transition-colors" title="Visualizar">
                   <i class="material-symbols-outlined text-xl">visibility</i>
@@ -90,6 +90,7 @@
                   <i class="material-symbols-outlined text-xl">notifications</i>
                 </button>
               </div>
+              -->
 
               <!-- User Info with Dropdown -->
               <div class="flex items-center gap-1 lg:gap-2 pl-2 lg:pl-3 border-l border-gray-300">
@@ -142,12 +143,15 @@
               <p class="sidebar-text">Dashboard</p>
             <% end %>
 
+            <!--
             <%= link_to root_path, class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
                 <i class=" material-symbols-outlined text-[var(--color-gold)] ">notifications</i>
               </div>
               <p class="sidebar-text">Configurar notificações</p>
             <% end %>
+            -->
+
 
             <%= link_to company_segments_path(@company), class: "sidebar-link" do %>
               <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
@@ -193,7 +197,8 @@
             </div>
             <p class="sidebar-text"><%= t("collapse_sidebar") %></p>
           </div>
-
+          
+          <!--
           <%= link_to root_path, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">
               <i class=" material-symbols-outlined text-[var(--color-gold)] ">settings</i>
@@ -216,6 +221,7 @@
               <p class="sidebar-text">EN/US</p>
             <% end %>
           <% end %>
+          --->
 
           <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "sidebar-link" do %>
             <div class="sidebar-icon hover:text-[var(--color-gold-hover)]">

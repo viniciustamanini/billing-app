@@ -9,7 +9,7 @@ class CustomerDashboardController < ApplicationController
     profile_ids = profiles.pluck(:id)
 
     @recurring_payment_day = current_user.recurring_payment_day()
-    
+
     invoices_query = Invoice
       .includes(:invoice_status, :profile)
       .where(profile_id: profile_ids)
@@ -58,9 +58,11 @@ class CustomerDashboardController < ApplicationController
 
     @pagy, @invoices = pagy(invoices_query, items: 5)
 
-    @overdue_invoices = invoices_query.overdue
-    @upcoming_invoices = invoices_query.upcoming
+    @overdue_invoices = invoices_query.overdue.where(paid_at: nil)
+    @upcoming_invoices = invoices_query.upcoming.where(paid_at: nil)
     @paid_invoices = invoices_query.paid
+    @pending_invoices = invoices_query.where(paid_at: nil)
+
     @paid_invoices_value = @paid_invoices.sum(:total_amount)
     @upcoming_invoices_value = @upcoming_invoices.sum(:total_amount)
     @overdue_invoices_value = @overdue_invoices.sum(:total_amount)

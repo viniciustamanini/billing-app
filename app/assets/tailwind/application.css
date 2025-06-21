@@ -68,7 +68,7 @@
 @layer components {
   .navbar {
     @apply shadow-[0_4px_6px_-2px_rgba(0,0,0,0.5)] bg-white h-[var(--navbar-height)] w-full fixed
-    flex items-center transition-all duration-300;
+    flex items-center transition-all duration-300 z-99;
   }
 
   .navbar.sidebar-expanded {
@@ -226,11 +226,11 @@
   }
 
   .btn-primary {
-    @apply content-center bg-[var(--color-gold)] p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-[var(--color-gold-hover)];
+    @apply min-w-[95px] text-center content-center bg-[var(--color-gold)] p-2 py-2 text-black font-semibold rounded cursor-pointer hover:bg-[var(--color-gold-hover)];
   }
 
   .btn-secondary {
-    @apply content-center p-2 py-2 border border-[var(--color-gold-hover)] text-[var(--color-gold-hover)] bg-transparent rounded cursor-pointer hover:bg-[var(--color-gold-hover)] hover:text-black transition;
+    @apply min-w-[95px] text-center content-center p-2 py-2 border border-[var(--color-gold-hover)] text-[var(--color-gold-hover)] bg-transparent rounded cursor-pointer hover:bg-[var(--color-gold-hover)] hover:text-black transition;
   }
 
   .btn-icon {
@@ -263,6 +263,10 @@
 
   .card-content {
     @apply p-3;
+  }
+
+  .container {
+    @apply justify-self-center;
   }
 
   .toast-container {

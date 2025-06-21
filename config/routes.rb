@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       collection do
         get :modal_new, to: "companies#modal_new"
       end
-      resources :renegotiations, only: [:index, :show] do
+      resources :renegotiations, only: [ :index, :show ] do
         member do
           patch :cancel
           patch :accept
@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     get "profiles/:id/select", to: "profiles#select", as: :select_profile
     get "customer_dashboard", to: "customer_dashboard#index", as: :customer_dashboard
     get "company_dashboard/:company_id", to: "company_dashboard#index", as: :company_dashboard
+    get "company_dashboard/:company_id/chart_data", to: "company_dashboard#chart_data", as: :company_dashboard_chart_data
 
     root "profiles#choose"
   end

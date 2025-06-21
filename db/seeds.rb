@@ -20,7 +20,7 @@ if Rails.env.development?
   vip = Segment.find_or_create_by!(name: 'VIP', discount_percent: 25, interest_rate: 0.8, company: default_co, overdue_range: default_range)
   regular = Segment.find_or_create_by!(name: 'Standard', discount_percent: 10, interest_rate: 1.2, company: default_co, overdue_range: default_range)
 
-  Profile.by_type("customer").find_each do |p|
-    p.update!(segment: regular) unless p.segment
-  end
+  # Profile.by_type("customer").find_each do |p|
+  #   p.update!(segment: regular) unless p.segment
+  # end
 end

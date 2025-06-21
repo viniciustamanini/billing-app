@@ -16,12 +16,10 @@
     </div>
 
     <div class="flex gap-4">
-      <%= f.submit "Atualizar",
-               class:
-                 "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-md shadow" %>
+      <%= f.submit "Atualizar", class: "btn-primary" %>
       <%= link_to "Cancelar",
       company_profile_invoice_path(@company, @profile, @invoice),
-      class: "self-center text-gray-600 hover:text-gray-800 underline" %>
+      class: "btn-secondary" %>
     </div>
   <% end %>
 </div>

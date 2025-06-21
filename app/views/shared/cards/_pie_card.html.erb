@@ -1,6 +1,7 @@
 <!-- _pie_card.html.erb (for negotiations / default pie) -->
 <% subtitle ||= nil %>
 <% href ||= profile_root_path %>
+<% total ||= 0 %>
 
 <div class="bg-yellow-400 rounded-lg shadow p-6 relative">
   <% if href %>
@@ -10,9 +11,6 @@
   <% end %>
 
   <h2 class="text-lg font-medium mb-1"><%= title %></h2>
-  <% if subtitle %>
-    <p class="text-sm mb-4"><%= subtitle %></p>
-  <% end %>
 
   <div class="relative h-40 flex justify-center items-center">
     <!-- Pie chart representation -->
@@ -24,9 +22,12 @@
     >
       <span class="text-3xl font-bold"><%= percentage %>%</span>
     </div>
-    <% if subtitle && subtitle.include?("total") %>
+    <% if subtitle %>
+      <p class="absolute bottom-0 text-xs"><%= subtitle %></p>
+    <% end %>
+    <% if total > 0 %>
       <div class="absolute bottom-0 text-center w-full">
-        <p class="text-sm">De um total de 162.</p>
+        <p class="text-sm">De um total de <%= total %>.</p>
       </div>
     <% end %>
   </div>

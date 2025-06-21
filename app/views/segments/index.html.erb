@@ -41,10 +41,10 @@
         <table class="min-w-full text-sm">
           <thead>
             <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
-              <th class="px-3 py-2 font-semibold">Nome</th>
-              <th class="px-3 py-2 font-semibold">Descrição</th>
-              <th class="px-3 py-2 font-semibold">Faixa&nbsp;de&nbsp;atraso</th>
-              <th class="px-3 py-2 w-24">Acoes</th>
+              <th class="text-left px-3 py-2 font-semibold">Nome</th>
+              <th class="text-left px-3 py-2 font-semibold">Descrição</th>
+              <th class="text-left px-3 py-2 font-semibold">Faixa de atraso</th>
+              <th class="px-3 py-2 w-24">Açoes</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
@@ -93,7 +93,7 @@
     </div>
   </div>
   <!-- ============ OVERDUE RANGES side panel (1/3) ============ -->
-  <div class="w-[15%]">
+  <div class="w-[20%]">
     <%= render "overdue_ranges/list",
     company: @company,
     overdue_ranges: @overdue_ranges,

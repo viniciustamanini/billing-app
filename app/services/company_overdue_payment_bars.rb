@@ -5,7 +5,6 @@ class CompanyOverduePaymentBars
 
   def call
     total = overdue_invoices.count
-    return {} if total.zero?
 
     @company.overdue_ranges
             .active
@@ -28,7 +27,7 @@ class CompanyOverduePaymentBars
         .where("DATE(paid_at) = ?", Date.current)
         .count
 
-    percent = ((count.to_f / total) * 100).round
+    percent = total.positive? ?  ((count.to_f / total) * 100).round : 0
     { percent: percent, total: count }
   end
 end

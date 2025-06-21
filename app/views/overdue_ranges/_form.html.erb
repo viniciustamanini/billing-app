@@ -47,7 +47,7 @@
     </div>
     <!-- Ações -->
     <div class="flex gap-4 justify-end">
-      <%= f.submit (@overdue_range.new_record? ? "Salvar faixa" : "Atualizar faixa"),
+      <%= f.submit (@overdue_range.new_record? ? "Salvar" : "Atualizar"),
                class: "btn-primary" %>
 
       <%= link_to "Cancelar", company_segments_path(@company), class: "btn-secondary" %>

@@ -119,18 +119,16 @@
     </div>
     <!-- Checkboxes -->
     <div class="mb-6 space-y-3">
-      <% checkbox = ->(attr, label) do %>
-        <div class="flex items-center gap-2">
-          <%= f.check_box attr,
-                      class:
-                        "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
-          <%= f.label attr, label, class: "text-sm text-gray-700" %>
-        </div>
-      <% end %>
+      <div class="flex items-center gap-2">
+        <%= f.check_box :include_active_customer, class: "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
+        <%= f.label :include_active_customer, "Incluir clientes ativos", class: "text-sm text-gray-700" %>
+      </div>
 
-      <%= checkbox[:include_active_customer, "Incluir clientes ativos"] %>
-      <%= checkbox[:include_inactive_customer, "Incluir clientes inativos"] %>
-      
+      <div class="flex items-center gap-2">
+        <%= f.check_box :include_inactive_customer, class: "rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" %>
+        <%= f.label :include_inactive_customer, "Incluir clientes inativos", class: "text-sm text-gray-700" %>
+      </div>
+
       <!-- Active checkbox with default checked -->
       <div class="flex items-center gap-2">
         <%= f.check_box :active,
@@ -143,11 +141,11 @@
     <!-- Actions -->
     <div class="flex gap-4 justify-end">
       <%= f.submit(
-        @segment.new_record? ? "Salvar segmento" : "Atualizar segmento",
+        @segment.new_record? ? "Salvar" : "Atualizar",
         class: "btn-primary",
       ) %>
 
       <%= link_to "Cancelar", company_segments_path(@company), class: "btn-secondary" %>
     </div>
   <% end %>
-  </div
+</div>

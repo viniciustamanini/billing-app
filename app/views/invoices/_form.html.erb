@@ -70,13 +70,12 @@
     <!-- actions -->
     <div class="mt-8 flex gap-4 justify-end">
       <%= f.submit(
-        @invoice.new_record? ? "Salvar fatura" : "Atualizar fatura",
-        class:
-          "bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-md shadow",
+        @invoice.new_record? ? "Salvar" : "Atualizar",
+        class: "btn-primary",
       ) %>
       <%= link_to "Cancelar",
       company_profile_invoices_path(@company, @profile),
-      class: "self-center text-gray-600 hover:text-gray-800 underline" %>
+      class: "btn-secondary" %>
     </div>
   <% end %>
 </div>

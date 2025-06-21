@@ -20,10 +20,27 @@ class CompanyDashboardController < ApplicationController
 
     @payment_bars = CompanyOverduePaymentBars.new(@company).call
 
+    set_chart_dates
+
     render "company_dashboard/#{@profile_type}_dashboard"
   end
 
+  def chart_data
+    set_chart_dates
+
+    render turbo_stream: turbo_stream.replace(
+      "chart_section",
+      partial: "shared/cards/chart_section",
+      locals: { dates: @dates }
+    )
+  end
+
   private
+
+  def set_chart_dates
+    @days_range = (params[:range] || 7).to_i.clamp(1, 30)
+    @dates = @days_range.days.ago.to_date.upto(Date.current).to_a
+  end
 
   def set_current_profile
     @current_profile = current_user.profiles.find_by(id: session[:active_profile_id])

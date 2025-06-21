@@ -6,25 +6,24 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/stat_card",
       title: "Recebimentos",
-      delta: "+18,5%",
-      big_number: "R$ 10.000,00",
+      delta: "0%",
+      big_number: "R$ 0,00",
       small_stats: {
-        "Dentro do prazo" => "R$ 10.000,00",
-        "Em atraso" => "R$ 4.000,00",
+        "Dentro do prazo" => "R$ 0,00",
+        "Em atraso" => "R$ 0,00",
       } %>
 
       <%= render "shared/cards/stat_card",
       title: "Cobranças",
-      delta: "-2,56%",
-      big_number: "R$ 6.000,00",
+      delta: "0%",
+      big_number: "R$ 0,00",
       small_stats: {
-        "Notificações enviadas" => "552",
-        "Inadimplência recuperada" => "R$ 6.000,00",
-        "Antecipados" => "R$ 3.000,00",
+        "Inadimplência recuperada" => "R$ 0,00",
+        "Antecipados" => "R$ 0,00",
       } %>
     </div>
     <!-- Chart section with enhanced styling -->
-    <%= render "shared/cards/chart_section" %>
+    <%= render "shared/cards/chart_section", dates: @dates %>
     <!-- Late customers with modern styling -->
     <%= render "shared/cards/late_customers_section",
     late_customers: @late_customers,
@@ -40,7 +39,7 @@
       href: company_renegotiations_path(@company),
       percentage: @approved_renegotiation_percentage %>
 
-      <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: 14 %>
+      <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: 0 %>
     </div>
     <!-- Progress bars section -->
     <%= render "shared/cards/progress_bar_group",
@@ -49,11 +48,12 @@
     bars: @payment_bars %>
     <!-- Widget cards with enhanced styling -->
     <div class="space-y-4">
-      <%= render "shared/cards/widget_link_card",
-      href: root_path,
-      title: "Configuração de notificações",
-      subtitle: "Mensagens diretas automáticas",
-      icon: "chat" %>
+      <!-- TODO -->
+      <%# <%= render "shared/cards/widget_link_card", %>
+      <%# href: root_path, %>
+      <%# title: "Configuração de notificações", %>
+      <%# subtitle: "Mensagens diretas automáticas", %>
+      <%# icon: "chat" %>
 
       <%= render "shared/cards/widget_link_card",
       href: company_segments_path(@company),
