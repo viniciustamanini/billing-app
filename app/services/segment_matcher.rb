@@ -32,7 +32,7 @@ class SegmentMatcher
     # Find the most overdue invoice for the customer
     most_overdue_invoice = @customer_profile.invoices
       .overdue
-      .where(paid_at: nil)
+      .pending
       .order(:due_date)
       .first
 

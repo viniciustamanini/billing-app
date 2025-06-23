@@ -29,6 +29,29 @@ class Invoice < ApplicationRecord
   scope :paid, -> { where.not(paid_at: nil) }
   scope :overdue, -> { past_due.or(overdue_status) }
   scope :upcoming, -> { where("due_date >= ?", Date.current) }
+  
+  # Exclude invoices that are original to an approved renegotiation
+  scope :without_approved_renegotiations, -> {
+    left_joins(:renegotiations)
+      .joins("LEFT JOIN renegotiation_statuses ON renegotiations.renegotiation_status_id = renegotiation_statuses.id")
+      .where("renegotiation_statuses.name IS NULL OR renegotiation_statuses.name != ?", RenegotiationStatus.approved.name)
+  }
+
+  # Exclude child invoices whose parent_renegotiation is rejected or approved
+  scope :without_rejected_or_approved_parent_renegotiation, -> {
+    left_joins(:parent_renegotiation => :renegotiation_status)
+      .where(
+        'renegotiation_statuses.name IS NULL OR (renegotiation_statuses.name NOT IN (?, ?))',
+        RenegotiationStatus.rejected.name, RenegotiationStatus.approved.name
+      )
+  }
+
+  # Pending invoices: unpaid, not original to an approved renegotiation, not child of a rejected/approved renegotiation
+  scope :pending, -> {
+    where(paid_at: nil)
+      .without_approved_renegotiations
+      .without_rejected_or_approved_parent_renegotiation
+  }
 
   def renegotiated?
     parent_renegotiation_id.present?

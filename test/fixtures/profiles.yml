@@ -9,3 +9,17 @@ one: {}
 #
 two: {}
 # column: value
+
+customer_one:
+  user: one
+  company: one
+  profile_type: customer
+  full_name: "John Customer"
+  email: "john@example.com"
+
+admin_one:
+  user: one
+  company: one
+  profile_type: administrator
+  full_name: "Admin User"
+  email: "admin@example.com"

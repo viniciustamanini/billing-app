@@ -1,7 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+pending:
+  name: pending
 
-two:
-  name: MyString
+approved:
+  name: approved
+
+rejected:
+  name: rejected
+
+canceled:
+  name: canceled
+
+expired:
+  name: expired
+
+completed:
+  name: completed

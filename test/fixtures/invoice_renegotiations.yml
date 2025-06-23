@@ -1,9 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+invoice_with_pending_renegotiation:
   invoice: one
-  renegotiation: one
+  renegotiation: pending_renegotiation
 
-two:
+invoice_with_approved_renegotiation:
   invoice: two
-  renegotiation: two
+  renegotiation: approved_renegotiation
+
+invoice_with_rejected_renegotiation:
+  invoice: one
+  renegotiation: rejected_renegotiation

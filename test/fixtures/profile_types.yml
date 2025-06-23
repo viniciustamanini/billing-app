@@ -9,3 +9,12 @@ one: {}
 #
 two: {}
 # column: value
+
+customer:
+  name: customer
+
+administrator:
+  name: administrator
+
+employee:
+  name: employee

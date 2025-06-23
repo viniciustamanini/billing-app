@@ -1,25 +1,14 @@
 <div
-  class="
-    max-w-3xl mx-auto bg-white rounded-lg shadow border border-gray-300/70 p-8
-  "
->
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-semibold text-gray-900">
-      Fatura #<%= @invoice.id %>
-    </h1>
+    class="
+           max-w-3xl mx-auto bg-white rounded-lg shadow border border-gray-300/70 p-8
+           "
+    >
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-semibold text-gray-900">
+        Fatura #<%= @invoice.id %>
+      </h1>
 
-    <% if admin_profile_type?(current_profile.profile_type.name) %>
       <div class="flex gap-3">
-        <% unless @invoice.paid_at.present? %>
-          <%= button_to "Marcar como Paga",
-            mark_as_paid_company_profile_invoice_path(@company, @profile, @invoice),
-            method: :patch,
-            class: "btn-success",
-            data: {
-              turbo_confirm: "Tem certeza que deseja marcar esta fatura como paga?"
-            } %>
-        <% end %>
-
         <%= link_to "Propor renegociação",
           options_company_profile_invoice_renegotiation_path(
             @company,
@@ -28,59 +17,71 @@
           ),
           class:
           "btn-primary" %>
+        <% if admin_profile_type?(@current_profile.profile_type.name) %>
 
-        <%= link_to "Editar vencimento",
-      edit_company_profile_invoice_path(@company, @profile, @invoice),
-      class: "btn-secondary" %>
+          <% unless @invoice.paid_at.present? %>
+
+            <%= button_to "Marcar como Paga",
+              mark_as_paid_company_profile_invoice_path(@company, @profile, @invoice),
+              method: :patch,
+              class: "btn-success",
+              data: {
+                turbo_confirm: "Tem certeza que deseja marcar esta fatura como paga?"
+              } %>
+          <% end %>
+
+          <%= link_to "Editar vencimento",
+            edit_company_profile_invoice_path(@company, @profile, @invoice),
+            class: "btn-secondary" %>
+        <% end %>
       </div>
-    <% end %>
-  </div>
-  <!-- detalhes -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-    <p><strong>Emissão:</strong>
+    </div>
+    <!-- detalhes -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+      <p><strong>Emissão:</strong>
       <%= l(@invoice.issued_date) %></p>
-    <p><strong>Vencimento:</strong>
+      <p><strong>Vencimento:</strong>
       <%= l(@invoice.due_date) %></p>
-    <p><strong>Status:</strong>
+      <p><strong>Status:</strong>
       <%= invoice_status_translation(@invoice.invoice_status) %></p>
-    <p><strong>Valor total:</strong>
+      <p><strong>Valor total:</strong>
       R<%= number_to_currency(
         @invoice.total_amount,
         unit: "",
         separator: ",",
         delimiter: ".",
       ) %>
-    </p>
-    <% if @invoice.paid_at.present? %>
-      <p class="sm:col-span-2">
+      </p>
+      <% if @invoice.paid_at.present? %>
+        <p class="sm:col-span-2">
         <strong>Status de Pagamento:</strong>
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
           <i class="material-symbols-outlined text-sm mr-1">check_circle</i>
           Paga em <%= l(@invoice.paid_at, format: :long) %>
         </span>
-      </p>
-    <% end %>
-  </div>
-  <!-- itens -->
-  <h2 class="text-lg font-medium text-gray-800 mb-3">Itens da fatura</h2>
-  <table class="min-w-full text-sm">
-    <thead>
-      <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
-        <th class="text-left px-3 py-2">Descrição</th>
-        <th class="text-left px-3 py-2">Quantidade</th>
-        <th class="text-left px-3 py-2">Preço unit. (R$)</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-200">
-      <% @invoice.invoice_items.each do |item| %>
-        <tr class="hover:bg-gray-50">
-          <td class="px-3 py-2"><%= item.description %></td>
-          <td class="px-3 py-2"><%= item.quantity %></td>
-          <td class="px-3 py-2">
-            R$ <%= number_to_currency(item.unit_price, unit: "", separator: ",", delimiter: ".") %>
-          </td>
-        </tr>
+        </p>
       <% end %>
-    </tbody>
-  </table>
+    </div>
+    <!-- itens -->
+    <h2 class="text-lg font-medium text-gray-800 mb-3">Itens da fatura</h2>
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+          <th class="text-left px-3 py-2">Descrição</th>
+          <th class="text-left px-3 py-2">Quantidade</th>
+          <th class="text-left px-3 py-2">Preço unit. (R$)</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @invoice.invoice_items.each do |item| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-3 py-2"><%= item.description %></td>
+            <td class="px-3 py-2"><%= item.quantity %></td>
+            <td class="px-3 py-2">
+              R$ <%= number_to_currency(item.unit_price, unit: "", separator: ",", delimiter: ".") %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 </div>

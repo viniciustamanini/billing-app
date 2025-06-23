@@ -22,10 +22,11 @@ class CustomerDashboardController < ApplicationController
     @overdue_invoices = invoices_query.overdue
     @upcoming_invoices = invoices_query.upcoming
     @paid_invoices = invoices_query.paid
+    @pending_invoices = invoices_query.pending
     @paid_invoices_value = @paid_invoices.sum(:total_amount)
     @upcoming_invoices_value = @upcoming_invoices.sum(:total_amount)
     @overdue_invoices_value = @overdue_invoices.sum(:total_amount)
-    @pending_invoices_value = @upcoming_invoices_value + @overdue_invoices_value
+    @pending_invoices_value = @pending_invoices.sum(:total_amount)
 
     overdue_min_date = @overdue_invoices.minimum(:due_date)
     @days_most_overdue = overdue_min_date ? (Date.current - overdue_min_date).to_i : 0
@@ -59,12 +60,12 @@ class CustomerDashboardController < ApplicationController
     @overdue_invoices = invoices_query.overdue.where(paid_at: nil)
     @upcoming_invoices = invoices_query.upcoming.where(paid_at: nil)
     @paid_invoices = invoices_query.paid
-    @pending_invoices = invoices_query.where(paid_at: nil)
+    @pending_invoices = invoices_query.pending
 
     @paid_invoices_value = @paid_invoices.sum(:total_amount)
     @upcoming_invoices_value = @upcoming_invoices.sum(:total_amount)
     @overdue_invoices_value = @overdue_invoices.sum(:total_amount)
-    @pending_invoices_value = @upcoming_invoices_value + @overdue_invoices_value
+    @pending_invoices_value = @pending_invoices.sum(:total_amount)
 
     overdue_min_date = @overdue_invoices.minimum(:due_date)
     @days_most_overdue = overdue_min_date ? (Date.current - overdue_min_date).to_i : 0
