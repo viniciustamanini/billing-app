@@ -2,7 +2,7 @@ module RenegotiationService
   class Propose
     Result = Struct.new(:success?, :renegotiation, :error)
 
-    def initialize(proposer, invoice:, segment:, params:)
+    def initialize(proposer, invoice:, segment: nil, params:)
       @proposer = proposer
       @invoice = invoice
       @segment = segment
@@ -10,6 +10,18 @@ module RenegotiationService
     end
 
     def call
+      # If no segment provided, use enhanced segmentation logic
+      if @segment.nil?
+        segment_matcher = SegmentMatcher.new(@invoice.company, @invoice.profile, @invoice.total_amount)
+        result = segment_matcher.call
+        
+        if result.success? && result.segments.any?
+          @segment = result.segments.first # Use the first matching segment
+        else
+          return Result.new(false, nil, "Nenhum segmento aplicável encontrado para este cliente")
+        end
+      end
+
       proposed_date = parse_date(@params[:proposed_due_date]) || Date.current
       if proposed_date < Date.current
         return Result.new(false, nil, "Data da renegociação deve ser maior ou igual à data de hoje")

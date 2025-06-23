@@ -19,7 +19,20 @@ class RenegotiationsController < ApplicationController
   end
 
   def options
-    segments = @company.segments.active
+    # Use enhanced segmentation logic
+    segment_matcher = SegmentMatcher.new(@company, @invoice.profile, @invoice.total_amount)
+    result = segment_matcher.call
+
+    if result.success?
+      segments = result.segments
+      @overdue_days = result.overdue_days
+    else
+      # Fallback to all active segments if segmentation fails
+      segments = @company.segments.active
+      @overdue_days = 0
+      flash.now[:warning] = "Erro na segmentação: #{result.error}. Usando todos os segmentos ativos."
+    end
+
     proposed_due_date = params[:proposed_due_date].presence || Date.current
 
     @offers_by_segment = segments.index_with do |seg|
@@ -71,7 +84,20 @@ class RenegotiationsController < ApplicationController
   end
 
   def create
-    segment = @company.segments.find(renegotiation_params[:segment_id])
+    # Handle segment selection
+    if renegotiation_params[:segment_id].present?
+      segment = @company.segments.find(renegotiation_params[:segment_id])
+    else
+      # Use enhanced segmentation logic to find applicable segment
+      segment_matcher = SegmentMatcher.new(@company, @invoice.profile, @invoice.total_amount)
+      result = segment_matcher.call
+      
+      if result.success? && result.segments.any?
+        segment = result.segments.first
+      else
+        render_error("Nenhum segmento aplicável encontrado para este cliente") and return
+      end
+    end
 
     calc = RenegotiationService::Calculator.call(
       invoice: @invoice,

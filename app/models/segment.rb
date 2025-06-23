@@ -12,6 +12,22 @@ class Segment < ApplicationRecord
   validates :interest_strategy, inclusion: { in: STRATEGIES }
 
   scope :active, -> { where(active: true) }
+  
+  # Enhanced segmentation scopes
+  scope :matching_overdue_days, ->(days) {
+    joins(:overdue_range)
+      .where("overdue_ranges.days_from <= ? AND overdue_ranges.days_to >= ?", days, days)
+  }
+  
+  scope :matching_amount, ->(amount) {
+    where("(debt_min IS NULL OR debt_min <= ?) AND (debt_max IS NULL OR debt_max >= ?)", amount, amount)
+  }
+  
+  scope :for_renegotiation, ->(overdue_days, amount) {
+    active
+      .matching_overdue_days(overdue_days)
+      .matching_amount(amount)
+  }
 
   def interest_rule
     {

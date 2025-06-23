@@ -64,6 +64,26 @@
         </div>
       </div>
 
+      <!-- Segmentation Information -->
+      <% if defined?(@overdue_days) %>
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div class="flex items-center gap-2 mb-2">
+            <i class="material-symbols-outlined text-blue-600">info</i>
+            <h3 class="text-sm font-medium text-blue-900">Informações de Segmentação</h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-blue-700 font-medium">Dias em atraso:</span>
+              <span class="text-blue-900"><%= @overdue_days %> dias</span>
+            </div>
+            <div>
+              <span class="text-blue-700 font-medium">Segmentos aplicáveis:</span>
+              <span class="text-blue-900"><%= @offers_by_segment.keys.map(&:name).join(", ") %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <% if @offers_by_segment.any? %>
         <% @offers_by_segment.each do |segment, offers| %>
           <% first_offer = offers.first %>
