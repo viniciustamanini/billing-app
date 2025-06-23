@@ -5,6 +5,20 @@ class Profile < ApplicationRecord
   belongs_to :segment, optional: true
   has_many :invoices, dependent: :destroy
 
+  # Renegotiation associations
+  has_many :proposed_renegotiations, class_name: "Renegotiation", foreign_key: :proposed_by_profile_id
+  has_many :decided_renegotiations, class_name: "Renegotiation", foreign_key: :decided_by_profile_id
+  has_many :canceled_renegotiations, class_name: "Renegotiation", foreign_key: :canceled_by_profile_id
+  has_many :customer_renegotiations, class_name: "Renegotiation", foreign_key: :customer_profile_id
+  
+  # Combined renegotiations (all renegotiations where this profile is involved)
+  def renegotiations
+    Renegotiation.where(
+      "proposed_by_profile_id = ? OR decided_by_profile_id = ? OR canceled_by_profile_id = ? OR customer_profile_id = ?",
+      id, id, id, id
+    )
+  end
+
   validates :first_name, :last_name, presence: true, if: -> { user_id.nil? }
 
   scope :active, -> { where(active: true) }
@@ -27,6 +41,10 @@ class Profile < ApplicationRecord
     else
       email
     end
+  end
+
+  def customer?
+    profile_type.name == "customer"
   end
 
   private
