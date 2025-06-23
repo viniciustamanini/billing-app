@@ -27,11 +27,12 @@ class CompanyDashboardController < ApplicationController
 
   def chart_data
     set_chart_dates
+    @payment_bars = CompanyOverduePaymentBars.new(@company).call
 
     render turbo_stream: turbo_stream.replace(
       "chart_section",
       partial: "shared/cards/chart_section",
-      locals: { dates: @dates }
+      locals: { dates: @dates, payment_bars: @payment_bars }
     )
   end
 
