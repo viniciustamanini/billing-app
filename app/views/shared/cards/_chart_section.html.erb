@@ -15,7 +15,7 @@
       <div class="flex justify-end">
         <%= form_with url: company_dashboard_chart_data_path(@company.id), method: :get, data: { turbo_frame: "chart_section" }, local: false do %>
           <select name="range" onchange="this.form.requestSubmit()" class="bg-white text-black border border-gray-600 rounded px-4 py-2 appearance-none pr-8">
-            <% [7, 14, 30].each do |opt| %>
+            <% [7, 14].each do |opt| %>
               <option value="<%= opt %>" <%= 'selected' if opt == @days_range.to_i %>><%= opt %> dias</option>
             <% end %>
           </select>
@@ -29,23 +29,33 @@
     </div>
 
     <div class="relative">
-      <!-- Chart bars -->
-      <div class="h-48 grid grid-cols-<%= dates.size %> gap-4 items-end">
-        <% dates.each do |date| %>
-          <div class="flex flex-col items-center">
-            <!-- <div class="w-full bg-yellow-400" style="height: <%= payment_bars[date] %>%"></div> -->
-            <span class="text-xs font-bold mt-2"><%= date.strftime("%d/%m") %></span>
-          </div>
-        <% end %>
-      </div>
+      <% if dates.any? %>
+        <!-- Chart bars -->
+        <div class="h-48 grid grid-cols-<%= chart_columns_count(dates.size) %> <%= chart_gap_class(dates.size) %> items-end">
+          <% dates.first(chart_columns_count(dates.size)).each do |date| %>
+            <div class="flex flex-col items-center">
+              <!-- <div class="w-full bg-yellow-400" style="height: <%= payment_bars[date] %>%"></div> -->
+              <span class="<%= chart_text_class(dates.size) %> font-bold mt-2"><%= chart_date_format(dates.size, date) %></span>
+            </div>
+          <% end %>
+        </div>
 
-      <!-- Y-axis labels -->
-      <div class="absolute left-0 top-0 h-full flex flex-col justify-between pointer-events-none">
-        <span class="text-xs">60K</span>
-        <span class="text-xs">40K</span>
-        <span class="text-xs">20K</span>
-        <span class="text-xs">0</span>
-      </div>
+        <!-- Y-axis labels -->
+        <div class="absolute left-0 top-0 h-full flex flex-col justify-between pointer-events-none">
+          <span class="text-xs">60K</span>
+          <span class="text-xs">40K</span>
+          <span class="text-xs">20K</span>
+          <span class="text-xs">0</span>
+        </div>
+      <% else %>
+        <!-- Empty state -->
+        <div class="h-48 flex items-center justify-center">
+          <div class="text-center text-gray-400">
+            <p class="text-sm">Nenhum dado disponível</p>
+            <p class="text-xs mt-1">Selecione um período para visualizar o gráfico</p>
+          </div>
+        </div>
+      <% end %>
     </div>
 
   </div>
