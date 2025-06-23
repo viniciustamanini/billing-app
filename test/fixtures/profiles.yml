@@ -14,12 +14,14 @@ customer_one:
   user: one
   company: one
   profile_type: customer
-  full_name: "John Customer"
+  first_name: "John"
+  last_name: "Customer"
   email: "john@example.com"
 
 admin_one:
   user: one
   company: one
   profile_type: administrator
-  full_name: "Admin User"
+  first_name: "Admin"
+  last_name: "User"
   email: "admin@example.com"
