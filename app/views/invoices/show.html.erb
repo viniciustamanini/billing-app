@@ -8,30 +8,32 @@
       Fatura #<%= @invoice.id %>
     </h1>
 
-    <div class="flex gap-3">
-      <% unless @invoice.paid_at.present? %>
-        <%= button_to "Marcar como Paga",
-        mark_as_paid_company_profile_invoice_path(@company, @profile, @invoice),
-        method: :patch,
-        class: "btn-success",
-        data: {
-          turbo_confirm: "Tem certeza que deseja marcar esta fatura como paga?"
-        } %>
-      <% end %>
+    <% if admin_profile_type?(@profile.profile_type.name) %>
+      <div class="flex gap-3">
+        <% unless @invoice.paid_at.present? %>
+          <%= button_to "Marcar como Paga",
+            mark_as_paid_company_profile_invoice_path(@company, @profile, @invoice),
+            method: :patch,
+            class: "btn-success",
+            data: {
+              turbo_confirm: "Tem certeza que deseja marcar esta fatura como paga?"
+            } %>
+        <% end %>
 
-      <%= link_to "Propor renegociação",
-      options_company_profile_invoice_renegotiation_path(
-        @company,
-        @profile,
-        @invoice,
-      ),
-      class:
-        "btn-primary" %>
+        <%= link_to "Propor renegociação",
+          options_company_profile_invoice_renegotiation_path(
+            @company,
+            @profile,
+            @invoice,
+          ),
+          class:
+          "btn-primary" %>
 
-      <%= link_to "Editar vencimento",
+        <%= link_to "Editar vencimento",
       edit_company_profile_invoice_path(@company, @profile, @invoice),
       class: "btn-secondary" %>
-    </div>
+      </div>
+    <% end %>
   </div>
   <!-- detalhes -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
