@@ -8,8 +8,8 @@ module RenegotiationService
     end
 
     def call
-      return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending?
-      return Result.new(false, @renegotiation, "You are the proposer") unless @renegotiation.decision_perding_for?(@decider)
+      return Result.new(false, @renegotiation, "Renegociação não está pendente") unless @renegotiation.pending?
+      return Result.new(false, @renegotiation, "Você é o proponente") unless @renegotiation.decision_perding_for?(@decider)
 
       ActiveRecord::Base.transaction do
         @renegotiation.update!(

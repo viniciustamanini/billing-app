@@ -8,11 +8,14 @@ module RenegotiationService
     end
 
     def call
-      return Result.new(false, @renegotiation, "Not pending") unless @renegotiation.pending?
-      Result.new(false, @renegotiation, "Only proposer can cancel") unless @renegotiation.proposed_by_profile_id = @requester.id
+      return Result.new(false, @renegotiation, "Renegociação não está pendente") unless @renegotiation.pending?
+      return Result.new(false, @renegotiation, "Apenas o proponente pode cancelar") unless @renegotiation.proposed_by_profile_id == @requester.id
 
       Rails.logger.info("Cancelling renegotiation #{@renegotiation.id} by #{@requester.id}")
       ActiveRecord::Base.transaction do
+        # Delete child invoices since the renegotiation was canceled
+        @renegotiation.child_invoices.destroy_all
+        
         @renegotiation.update!(
           renegotiation_status: RenegotiationStatus.canceled,
           canceled_by_profile: @requester,
