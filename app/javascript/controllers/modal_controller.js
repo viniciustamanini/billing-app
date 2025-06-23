@@ -37,8 +37,7 @@ export default class extends Controller {
 
   handleSubmitEnd(event) {
     const fetchResponse = event.detail.fetchResponse;
-    
-    // Close modal on successful form submission
+
     if (fetchResponse.succeeded) {
       this.close();
     }
