@@ -16,7 +16,22 @@ class CompaniesController < ApplicationController
     @company = CompanyCreator.new(current_user, company_params, default_profile).call
 
     if @company.persisted?
-      redirect_to root_path, flash: { success: "Company was successfuly created!" }
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.append(
+              "toasts",
+              partial: "shared/toast",
+              locals: {
+                message: "Company was successfully created!",
+                icon: "success",
+                show_undo: false
+              }
+            )
+          ]
+        end
+        format.html { redirect_to root_path, flash: { success: "Company was successfully created!" } }
+      end
     else
       flash.now[:error] = "Erro"
       render :modal_new, layout: false, status: :unprocessable_entity

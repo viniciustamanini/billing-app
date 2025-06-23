@@ -1,5 +1,5 @@
 <div class="session-box">
-  <%= form_with model: @company, local: true do |form| %>
+  <%= form_with model: @company do |form| %>
     <% if @company.errors.any? %>
       <% @company.errors.full_messages.each do |message| %>
         <div id="toasts" class="fixed top-4 right-4 z-50 w-80 space-y-4">

@@ -38,10 +38,9 @@ export default class extends Controller {
   handleSubmitEnd(event) {
     const fetchResponse = event.detail.fetchResponse;
     
+    // Close modal on successful form submission
     if (fetchResponse.succeeded) {
-      if (!fetchResponse.response.headers.get("Content-Type")?.includes("turbo-stream")) {
-        this.close();
-      }
+      this.close();
     }
   }
 

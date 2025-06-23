@@ -18,7 +18,22 @@ class ProfilesController < ApplicationController
     @profile.profile_type = @profile_type
 
     if @profile.save
-      redirect_to root_path, notice: "Customer created"
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.append(
+              "toasts",
+              partial: "shared/toast",
+              locals: {
+                message: "Customer created successfully",
+                icon: "success",
+                show_undo: false
+              }
+            )
+          ]
+        end
+        format.html { redirect_to root_path, notice: "Customer created" }
+      end
     else
       render :new, status: :unprocessable_entity
     end
