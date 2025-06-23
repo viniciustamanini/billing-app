@@ -30,10 +30,7 @@ class CustomerDashboardController < ApplicationController
     @days_most_overdue = overdue_min_date ? (Date.current - overdue_min_date).to_i : 0
     @status = @days_most_overdue.positive? ? "Em atraso" : "Em dia"
 
-    @payment_history = Payment
-      .joins(:invoice)
-      .where(invoices: { profile_id: profile_ids })
-      .order(created_at: :desc)
+    @paid_invoices_for_statement = invoices_query.paid.order(paid_at: :desc)
   end
 
   def index_for_company
@@ -72,10 +69,7 @@ class CustomerDashboardController < ApplicationController
     @days_most_overdue = overdue_min_date ? (Date.current - overdue_min_date).to_i : 0
     @status = @days_most_overdue.positive? ? "Em atraso" : "Em dia"
 
-    @payment_history = Payment
-      .joins(:invoice)
-      .where(invoices: { profile_id: customer_profile.id })
-      .order(created_at: :desc)
+    @paid_invoices_for_statement = invoices_query.paid.order(paid_at: :desc)
   end
 
   private
