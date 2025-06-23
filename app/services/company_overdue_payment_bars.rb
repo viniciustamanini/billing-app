@@ -4,12 +4,10 @@ class CompanyOverduePaymentBars
   end
 
   def call
-    total = overdue_invoices.count
-
     @company.overdue_ranges
             .active
             .order(:days_from)
-            .index_with { |range| stats_for(range, total) }
+            .map { |range| stats_for(range) }
   end
 
   private
@@ -20,14 +18,21 @@ class CompanyOverduePaymentBars
         .where(invoice_statuses: { name: "overdue" })
   end
 
-  def stats_for(range, total)
-    count = overdue_invoices
+  def stats_for(range)
+    invoices_in_range = overdue_invoices
         .where("due_date <= ?", Date.current - range.days_from)
-        .where("due_date >  ?", Date.current - range.days_to)
-        .where("DATE(paid_at) = ?", Date.current)
-        .count
+        .where("due_date > ?", Date.current - range.days_to)
 
-    percent = total.positive? ?  ((count.to_f / total) * 100).round : 0
-    { percent: percent, total: count }
+    total_in_range = invoices_in_range.count
+    paid_in_range = invoices_in_range.paid.count
+    
+    percentage = total_in_range.positive? ? ((paid_in_range.to_f / total_in_range) * 100).round : 0
+    
+    {
+      label: "#{range.days_from} a #{range.days_to}",
+      percentage: percentage,
+      total: total_in_range,
+      paid: paid_in_range
+    }
   end
 end

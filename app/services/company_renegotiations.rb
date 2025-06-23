@@ -4,8 +4,7 @@ class CompanyRenegotiations
   end
 
   def call
-    Renegotiation
-      .where(company: @company)
-    ## TODO filter by a date
+    @company.renegotiations
+      .where(created_at: Date.current.beginning_of_month..Date.current.end_of_month)
   end
 end

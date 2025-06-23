@@ -6,6 +6,8 @@
       <!-- Customer avatars -->
       <div class="flex gap-x-4">
         <% late_customers.each do |customer| %>
+          <% overdue_days = customer.invoices.overdue.maximum(:due_date) ? 
+               (Date.current - customer.invoices.overdue.maximum(:due_date)).to_i : 0 %>
           <%= link_to company_profile_customer_dashboard_path(company, customer) do %>
             <div class="relative group">
               <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-center border border-transparent hover:border-[var(--color-gold)] hover:shadow-lg transition-all duration-200 w-14 h-14">
@@ -13,7 +15,7 @@
               </div>
               <!-- Hover tooltip -->
               <div class="opacity-0 group-hover:opacity-100 absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 transition-opacity duration-200">
-                <%= customer.full_name %> — dias
+                <%= customer.full_name %> — <%= overdue_days %> dias
               </div>
             </div>
           <% end %>

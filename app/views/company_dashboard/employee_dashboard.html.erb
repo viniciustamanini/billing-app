@@ -5,21 +5,21 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/stat_card",
       title: "Recebimentos",
-      delta: "+18,5%",
-      big_number: "R$ 10.000,00",
+      delta: @receipts_data[:delta],
+      big_number: number_to_currency(@receipts_data[:total], unit: "R$ "),
       small_stats: {
-        "Dentro do prazo" => "R$ 10.000,00",
-        "Em atraso" => "R$ 4.000,00",
+        "Dentro do prazo" => number_to_currency(@receipts_data[:on_time], unit: "R$ "),
+        "Em atraso" => number_to_currency(@receipts_data[:overdue], unit: "R$ "),
       } %>
 
       <%= render "shared/cards/stat_card",
       title: "Cobranças",
-      delta: "-2,56%",
-      big_number: "R$ 6.000,00",
+      delta: @collections_data[:delta],
+      big_number: number_to_currency(@collections_data[:total], unit: "R$ "),
       small_stats: {
-        "Notificações enviadas" => "552",
-        "Inadimplência recuperada" => "R$ 6.000,00",
-        "Antecipados" => "R$ 3.000,00",
+        "Notificações enviadas" => @collections_data[:notifications_sent].to_s,
+        "Inadimplência recuperada" => number_to_currency(@collections_data[:recovered_overdue], unit: "R$ "),
+        "Antecipados" => number_to_currency(@collections_data[:early_payments], unit: "R$ "),
       } %>
     </div>
     <!-- Chart section with enhanced styling -->
@@ -28,7 +28,7 @@
     <div class="bg-white rounded-xl shadow-sm p-6">
       <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>
       <div class="grid grid-cols-8 lg:grid-cols-10 gap-4">
-        <% 8.times do |i| %>
+        <% @late_customers.each_with_index do |customer, i| %>
           <div
             class="
               bg-white rounded-lg shadow-sm p-3 flex items-center justify-center border-2
@@ -37,17 +37,31 @@
           >
             <i class="material-symbols-outlined text-3xl text-gray-700">person_pin</i>
             <% if i == 0 %>
+              <% overdue_days = customer.invoices.overdue.maximum(:due_date) ? 
+                   (Date.current - customer.invoices.overdue.maximum(:due_date)).to_i : 0 %>
               <div
                 class="
                   absolute -bottom-8 bg-gray-700 text-white text-xs px-2 py-1 rounded
                   whitespace-nowrap z-10
                 "
               >
-                John Doe<br>45 dias em atraso
+                <%= customer.full_name %><br><%= overdue_days %> dias em atraso
               </div>
             <% end %>
           </div>
         <% end %>
+        
+        <% (8 - @late_customers.count).times do %>
+          <div
+            class="
+              bg-white rounded-lg shadow-sm p-3 flex items-center justify-center border-2
+              border-gray-200 relative hover:shadow-md transition-shadow
+            "
+          >
+            <i class="material-symbols-outlined text-3xl text-gray-400">person_pin</i>
+          </div>
+        <% end %>
+        
         <!-- List clients button -->
         <div
           class="
@@ -91,23 +105,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/pie_card",
       title: "Negociações aceitas",
-      subtitle: "Dados referentes ao dia 20/03",
-      percentage: 62 %>
+      subtitle: "Dados referentes ao mês atual",
+      percentage: @renegotiations_data[:percentage] %>
 
-      <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: 14 %>
+      <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: @overdue_percentage %>
     </div>
     <!-- Progress bars section -->
     <div class="bg-white rounded-xl shadow-sm p-6">
       <%= render "shared/cards/progress_bar_group",
       title: "Pagamento por segmentos",
-      bars: [
-        { label: "10 a 30", percentage: 96 },
-        { label: "31 a 60", percentage: 48 },
-        { label: "61 a 90", percentage: 56 },
-        { label: "91 a 120", percentage: 27 },
-        { label: "120 a 160", percentage: 45 },
-        { label: "Nunca pagos", percentage: 3 },
-      ] %>
+      bars: @payment_bars %>
     </div>
     <!-- Widget cards with enhanced styling -->
     <div class="space-y-4">

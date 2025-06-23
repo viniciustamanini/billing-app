@@ -5,13 +5,9 @@ one:
   description: MyText
   quantity: 1
   unit_price: 9.99
-  tax_rate: 9.99
-  line_total: 9.99
 
 two:
   invoice: two
   description: MyText
   quantity: 1
   unit_price: 9.99
-  tax_rate: 9.99
-  line_total: 9.99

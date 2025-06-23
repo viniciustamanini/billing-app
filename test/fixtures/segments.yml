@@ -4,7 +4,7 @@ one:
   company: one
   overdue_range: one
   name: MyString
-  descriptin: MyText
+  description: MyText
   debt_min: 9.99
   debt_max: 9.99
   include_active_customer: false
@@ -15,7 +15,7 @@ two:
   company: two
   overdue_range: two
   name: MyString
-  descriptin: MyText
+  description: MyText
   debt_min: 9.99
   debt_max: 9.99
   include_active_customer: false

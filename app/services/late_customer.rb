@@ -4,12 +4,13 @@ class LateCustomer
   end
 
   def call
-    company_customers = Profile
-      .where(company: @company)
-      .by_type("customer")
-      .order(:id)
+    @company.profiles
+      .by_type('customer')
+      .joins(:invoices)
+      .where(invoices: { invoice_status: InvoiceStatus.overdue })
+      .group('profiles.id')
+      .order('MAX(invoices.due_date) ASC')
       .limit(8)
-
-    company_customers
+      .includes(:invoices)
   end
 end

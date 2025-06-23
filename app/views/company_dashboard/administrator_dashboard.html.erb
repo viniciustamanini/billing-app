@@ -6,20 +6,20 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/stat_card",
       title: "Recebimentos",
-      delta: "0%",
-      big_number: "R$ 0,00",
+      delta: @receipts_data[:delta],
+      big_number: number_to_currency(@receipts_data[:total], unit: "R$ "),
       small_stats: {
-        "Dentro do prazo" => "R$ 0,00",
-        "Em atraso" => "R$ 0,00",
+        "Dentro do prazo" => number_to_currency(@receipts_data[:on_time], unit: "R$ "),
+        "Em atraso" => number_to_currency(@receipts_data[:overdue], unit: "R$ "),
       } %>
 
       <%= render "shared/cards/stat_card",
       title: "Cobranças",
-      delta: "0%",
-      big_number: "R$ 0,00",
+      delta: @collections_data[:delta],
+      big_number: number_to_currency(@collections_data[:total], unit: "R$ "),
       small_stats: {
-        "Inadimplência recuperada" => "R$ 0,00",
-        "Antecipados" => "R$ 0,00",
+        "Inadimplência recuperada" => number_to_currency(@collections_data[:recovered_overdue], unit: "R$ "),
+        "Antecipados" => number_to_currency(@collections_data[:early_payments], unit: "R$ "),
       } %>
     </div>
     <!-- Chart section with enhanced styling -->
@@ -35,11 +35,11 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/pie_card",
       title: "Negociações aceitas",
-      subtitle: "Dados referentes ao dia 20/03",
+      subtitle: "Dados referentes ao mês atual",
       href: company_renegotiations_path(@company),
-      percentage: @approved_renegotiation_percentage %>
+      percentage: @renegotiations_data[:percentage] %>
 
-      <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: 0 %>
+      <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: @overdue_percentage %>
     </div>
     <!-- Progress bars section -->
     <%= render "shared/cards/progress_bar_group",
