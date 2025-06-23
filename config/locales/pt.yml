@@ -26,6 +26,17 @@ pt:
   set_as_default_profile: "Usar como perfil padrão?"
   email_info: "Este email será utilizado para envio de notificações."
   collapse_sidebar: "Recolher barra lateral"
+  invoice_statuses:
+    draft: "Rascunho"
+    issued: "Emitida"
+    sent: "Enviada"
+    viewed: "Visualizada"
+    partial: "Parcial"
+    paid: "Paga"
+    overdue: "Vencida"
+    void: "Anulada"
+    refunded: "Reembolsada"
+    disputed: "Disputada"
   date:
     formats:
       default: "%d/%m/%Y"

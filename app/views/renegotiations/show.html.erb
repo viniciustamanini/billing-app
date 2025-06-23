@@ -136,7 +136,7 @@
                 <td class="px-3 py-2"><%= l invoice.issued_date %></td>
                 <td class="px-3 py-2"><%= l invoice.due_date %></td>
                 <td class="px-3 py-2 text-right"><%= number_to_currency(invoice.total_amount) %></td>
-                <td class="px-3 py-2"><%= invoice.invoice_status.name.humanize %></td>
+                <td class="px-3 py-2"><%= invoice_status_translation(invoice.invoice_status) %></td>
               </tr>
               <%# Invoice Items for each generated invoice - uncomment and adapt if needed %>
               <% if invoice.invoice_items.any? %>

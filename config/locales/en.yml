@@ -26,6 +26,17 @@ en:
   set_as_default_profile: "Set as default profile?"
   email_info: "This email will be used to send notifications."
   collapse_sidebar: "Collapse sidebar"
+  invoice_statuses:
+    draft: "Draft"
+    issued: "Issued"
+    sent: "Sent"
+    viewed: "Viewed"
+    partial: "Partial"
+    paid: "Paid"
+    overdue: "Overdue"
+    void: "Void"
+    refunded: "Refunded"
+    disputed: "Disputed"
   date:
     formats:
       default: "%m/%d/%Y"

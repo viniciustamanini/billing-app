@@ -21,7 +21,7 @@
           <td class="px-3 py-2">
             R<%= number_to_currency(inv.total_amount, unit: "", separator: ",", delimiter: ".") %>
           </td>
-          <td class="px-3 py-2"><%= inv.invoice_status.name.titleize %></td>
+          <td class="px-3 py-2"><%= invoice_status_translation(inv.invoice_status) %></td>
           <td class="px-3 py-2 text-right space-x-2">
             <%= link_to company_profile_invoice_path(@company, @profile, inv),
                   class: "inline-flex items-center justify-center w-6 h-6 text-blue-600 hover:text-blue-800" do %>

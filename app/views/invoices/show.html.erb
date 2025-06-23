@@ -30,7 +30,7 @@
     <p><strong>Vencimento:</strong>
       <%= l(@invoice.due_date) %></p>
     <p><strong>Status:</strong>
-      <%= @invoice.invoice_status.name.titleize %></p>
+      <%= invoice_status_translation(@invoice.invoice_status) %></p>
     <p><strong>Valor total:</strong>
       R<%= number_to_currency(
         @invoice.total_amount,

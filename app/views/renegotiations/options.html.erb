@@ -36,7 +36,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-500">Status</label>
-              <p class="text-gray-900"><%= @invoice.invoice_status.name.titleize %></p>
+              <p class="text-gray-900"><%= invoice_status_translation(@invoice.invoice_status) %></p>
             </div>
           </div>
         </div>
