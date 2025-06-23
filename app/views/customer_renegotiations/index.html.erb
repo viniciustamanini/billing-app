@@ -1,0 +1,93 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-semibold text-gray-800">Minhas Renegociações</h1>
+        <%= link_to company_profile_customer_dashboard_path(@company, @customer_profile), 
+                    class: "text-blue-600 hover:underline flex items-center gap-2" do %>
+          <i class="material-symbols-outlined">arrow_back</i>
+          Voltar ao Dashboard
+        <% end %>
+      </div>
+
+      <% if @renegotiations.any? %>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left text-gray-700">
+            <thead>
+              <tr class="bg-gray-100 text-xs uppercase text-gray-500 border-b">
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Proposto por</th>
+                <th class="px-4 py-3">Valor proposto</th>
+                <th class="px-4 py-3">Parcelas</th>
+                <th class="px-4 py-3">Data da proposta</th>
+                <th class="px-4 py-3">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <% @renegotiations.each do |renegotiation| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-3">
+                    <% badge_classes = {
+                      "pending" => "bg-yellow-100 text-yellow-800",
+                      "approved" => "bg-green-100 text-green-800",
+                      "rejected" => "bg-red-100 text-red-800",
+                      "canceled" => "bg-gray-100 text-gray-800"
+                    } %>
+                    <span class="px-2 py-1 text-xs font-semibold rounded <%= badge_classes[renegotiation.renegotiation_status.name] || 'bg-gray-100 text-gray-800' %>">
+                      <%= renegotiation_status_translation(renegotiation.renegotiation_status) %>
+                    </span>
+                  </td>
+                  <td class="px-4 py-3">
+                    <%= renegotiation.proposed_by_profile.full_name %>
+                  </td>
+                  <td class="px-4 py-3">
+                    R$ <%= number_to_currency(renegotiation.proposed_total_amount, unit: "") %>
+                  </td>
+                  <td class="px-4 py-3">
+                    <%= renegotiation.installments %>x
+                  </td>
+                  <td class="px-4 py-3">
+                    <%= l(renegotiation.created_at.to_date) %>
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center gap-2">
+                      <%= link_to "Ver detalhes", 
+                                  company_customer_renegotiation_path(@company, renegotiation),
+                                  class: "text-blue-600 hover:underline text-sm" %>
+                      
+                      <% if renegotiation.pending? && renegotiation.proposed_by_profile != @customer_profile %>
+                        <%= button_to "Aceitar",
+                                      accept_company_customer_renegotiation_path(@company, renegotiation),
+                                      method: :patch,
+                                      class: "text-green-600 hover:underline text-sm",
+                                      data: { 
+                                        turbo_confirm: "Tem certeza que deseja aceitar esta proposta?" 
+                                      } %>
+                        
+                        <%= button_to "Rejeitar",
+                                      reject_company_customer_renegotiation_path(@company, renegotiation),
+                                      method: :patch,
+                                      class: "text-red-600 hover:underline text-sm",
+                                      data: { 
+                                        turbo_confirm: "Tem certeza que deseja rejeitar esta proposta?" 
+                                      } %>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-12">
+          <div class="text-gray-400 mb-4">
+            <i class="material-symbols-outlined text-6xl">description</i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhuma renegociação encontrada</h3>
+          <p class="text-gray-500">Você ainda não possui renegociações.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 

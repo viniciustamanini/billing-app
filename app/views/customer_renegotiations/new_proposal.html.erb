@@ -1,0 +1,159 @@
+<div class="container mx-auto px-4 py-8" data-controller="options">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <%= link_to company_profile_customer_dashboard_path(@company, @customer_profile), 
+                    class: "text-blue-600 hover:underline flex items-center gap-2" do %>
+          <i class="material-symbols-outlined">arrow_back</i>
+          Voltar ao Dashboard
+        <% end %>
+        <h1 class="text-2xl font-semibold text-gray-800">Propor Renegociação</h1>
+      </div>
+    </div>
+
+    <!-- Invoice Information -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Informações da Fatura</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-500">ID da Fatura</label>
+            <p class="text-gray-900 font-medium">#<%= @invoice.id %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Valor Total</label>
+            <p class="text-gray-900 font-semibold">R$ <%= number_to_currency(@invoice.total_amount) %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Data de Vencimento</label>
+            <p class="text-gray-900"><%= l(@invoice.due_date) %></p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Status</label>
+            <p class="text-gray-900"><%= invoice_status_translation(@invoice.invoice_status) %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Dias em Atraso</label>
+            <p class="text-gray-900"><%= @overdue_days %> dias</p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Empresa</label>
+            <p class="text-gray-900"><%= @invoice.company.name %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Renegotiation Options -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-semibold text-gray-900">Opções de Renegociação</h2>
+        
+        <div class="flex items-center gap-3">
+          <label for="proposed_due_date" class="text-sm font-medium text-gray-700">Data primeira parcela</label>
+          <input
+            type="date"
+            id="proposed_due_date"
+            name="proposed_due_date"
+            value="<%= Date.current.to_s %>"
+            class="rounded-md border-gray-300 pl-3 pr-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+            data-options-target="dueDate"
+            data-action="change->options#updateAllOffers"
+          >
+        </div>
+      </div>
+
+      <!-- Segmentation Information -->
+      <% if defined?(@overdue_days) %>
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div class="flex items-center gap-2 mb-2">
+            <i class="material-symbols-outlined text-blue-600">info</i>
+            <h3 class="text-sm font-medium text-blue-900">Informações de Segmentação</h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-blue-700 font-medium">Dias em atraso:</span>
+              <span class="text-blue-900"><%= @overdue_days %> dias</span>
+            </div>
+            <div>
+              <span class="text-blue-700 font-medium">Segmentos aplicáveis:</span>
+              <span class="text-blue-900"><%= @offers_by_segment.keys.map(&:name).join(", ") %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form_with url: create_invoice_proposal_company_customer_renegotiations_path(@company, invoice_id: @invoice.id),
+                    method: :post,
+                    local: true,
+                    class: "space-y-6" do |f| %>
+        
+        <% if @offers_by_segment.any? %>
+          <% @offers_by_segment.each do |segment, offers| %>
+            <% first_offer = offers.first %>
+            <div class="mb-8 p-4 border rounded bg-gray-50">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-base font-semibold text-gray-900"><%= segment.name %></h3>
+
+                <select
+                  data-action="change->options#updateOffer"
+                  data-options-target="select"
+                  data-segment-id="<%= segment.id %>"
+                  data-segment-url="<%= recalculate_company_profile_invoice_renegotiation_path(@company, @invoice, segment_id: segment.id) %>"
+                  class="rounded-md border-gray-300 pl-3 pr-10 py-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                >
+                  <% offers.each_with_index do |off, index| %>
+                    <option value="<%= off[:installments] %>" <%= 'selected' if index == 0 %>><%= off[:installments] %>x</option>
+                  <% end %>
+                </select>
+              </div>
+
+              <div
+                id="segment-<%= segment.id %>-offer"
+                data-options-target="card"
+                class="space-y-4"
+              >
+                <%= render "customer_offer_card", offer: first_offer, company: @company, invoice: @invoice, form: f %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-8 text-gray-500">
+            <p>Nenhuma opção de renegociação disponível para esta fatura.</p>
+          </div>
+        <% end %>
+
+        <!-- Hidden form fields -->
+        <%= f.hidden_field :segment_id, id: "selected_segment_id" %>
+        <%= f.hidden_field :installments, id: "selected_installments" %>
+        <%= f.hidden_field :proposed_total_amount, id: "selected_total_amount" %>
+        <%= f.hidden_field :proposed_due_date, id: "selected_due_date" %>
+        <%= f.hidden_field :reason, value: "Proposta do cliente" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden form for submission -->
+<form
+  id="renegotiation_form"
+  action="<%= create_invoice_proposal_company_customer_renegotiations_path(@company, invoice_id: @invoice.id) %>"
+  method="post"
+  style="display:none;"
+>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <%= hidden_field_tag :segment_id %>
+  <%= hidden_field_tag :installments %>
+  <%= hidden_field_tag :reason, "Proposta do cliente" %>
+  <%= hidden_field_tag :proposed_total_amount %>
+  <%= hidden_field_tag :proposed_due_date, Date.current %>
+</form> 

@@ -1,0 +1,187 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <%= link_to company_customer_renegotiations_path(@company), 
+                    class: "text-blue-600 hover:underline flex items-center gap-2" do %>
+          <i class="material-symbols-outlined">arrow_back</i>
+          Voltar às Renegociações
+        <% end %>
+        <h1 class="text-2xl font-semibold text-gray-800">Detalhes da Renegociação</h1>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <% badge_classes = {
+          "pending" => "bg-yellow-100 text-yellow-800",
+          "approved" => "bg-green-100 text-green-800",
+          "rejected" => "bg-red-100 text-red-800",
+          "canceled" => "bg-gray-100 text-gray-800"
+        } %>
+        <span class="px-3 py-1 text-sm font-semibold rounded <%= badge_classes[@renegotiation.renegotiation_status.name] || 'bg-gray-100 text-gray-800' %>">
+          <%= renegotiation_status_translation(@renegotiation.renegotiation_status) %>
+        </span>
+      </div>
+    </div>
+
+    <!-- Renegotiation Details -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Informações da Renegociação</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Status</label>
+            <p class="text-gray-900 font-medium">
+              <%= renegotiation_status_translation(@renegotiation.renegotiation_status) %>
+            </p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Proposto por</label>
+            <p class="text-gray-900"><%= @renegotiation.proposed_by_profile.full_name %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Cliente</label>
+            <p class="text-gray-900"><%= @renegotiation.customer_profile.full_name %></p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Data da proposta</label>
+            <p class="text-gray-900"><%= l(@renegotiation.created_at.to_date) %></p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Valor original</label>
+            <p class="text-gray-900 font-semibold">
+              R$ <%= number_to_currency(@renegotiation.original_total_amount) %>
+            </p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Valor proposto</label>
+            <p class="text-gray-900 font-semibold">
+              R$ <%= number_to_currency(@renegotiation.proposed_total_amount) %>
+            </p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Número de parcelas</label>
+            <p class="text-gray-900"><%= @renegotiation.installments %>x</p>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Vencimento proposto</label>
+            <p class="text-gray-900"><%= l(@renegotiation.proposed_due_date) %></p>
+          </div>
+        </div>
+      </div>
+      
+      <% if @renegotiation.reason.present? %>
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <label class="block text-sm font-medium text-gray-500 mb-2">Motivo</label>
+          <p class="text-gray-900"><%= @renegotiation.reason %></p>
+        </div>
+      <% end %>
+      
+      <!-- Action Buttons -->
+      <% if @renegotiation.pending? && @renegotiation.proposed_by_profile != @customer_profile %>
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Ações Disponíveis</h3>
+          <div class="flex gap-4">
+            <%= button_to "Aceitar Proposta",
+                          accept_company_customer_renegotiation_path(@company, @renegotiation),
+                          method: :patch,
+                          class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium",
+                          data: { 
+                            turbo_confirm: "Tem certeza que deseja aceitar esta proposta?" 
+                          } %>
+            
+            <%= button_to "Rejeitar Proposta",
+                          reject_company_customer_renegotiation_path(@company, @renegotiation),
+                          method: :patch,
+                          class: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium",
+                          data: { 
+                            turbo_confirm: "Tem certeza que deseja rejeitar esta proposta?" 
+                          } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Original Invoices -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Faturas Originais</h2>
+      
+      <% original_invoices = @renegotiation.invoice_renegotiations.map(&:invoice) %>
+      <% if original_invoices.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+                <th class="text-left px-3 py-2">ID da Fatura</th>
+                <th class="text-left px-3 py-2">Data de Emissão</th>
+                <th class="text-left px-3 py-2">Data de Vencimento</th>
+                <th class="text-left px-3 py-2 text-right">Valor (R$)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <% original_invoices.each do |invoice| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-3 py-2">#<%= invoice.id %></td>
+                  <td class="px-3 py-2"><%= l(invoice.issued_date) %></td>
+                  <td class="px-3 py-2"><%= l(invoice.due_date) %></td>
+                  <td class="px-3 py-2 text-right"><%= number_to_currency(invoice.total_amount) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-gray-500">Nenhuma fatura original encontrada.</p>
+      <% end %>
+    </div>
+
+    <!-- Generated Invoices (if approved) -->
+    <% if @renegotiation.approved? %>
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Novas Faturas Geradas</h2>
+        
+        <% generated_invoices = @renegotiation.child_invoices %>
+        <% if generated_invoices.any? %>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+              <thead>
+                <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+                  <th class="text-left px-3 py-2">Parcela</th>
+                  <th class="text-left px-3 py-2">Data de Vencimento</th>
+                  <th class="text-left px-3 py-2 text-right">Valor (R$)</th>
+                  <th class="text-left px-3 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <% generated_invoices.order(:installment_number).each do |invoice| %>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-3 py-2"><%= invoice.installment_number %>/<%= invoice.installment_count %></td>
+                    <td class="px-3 py-2"><%= l(invoice.due_date) %></td>
+                    <td class="px-3 py-2 text-right"><%= number_to_currency(invoice.total_amount) %></td>
+                    <td class="px-3 py-2">
+                      <span class="px-2 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800">
+                        <%= invoice_status_translation(invoice.invoice_status) %>
+                      </span>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="text-gray-500">Nenhuma nova fatura gerada.</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div> 

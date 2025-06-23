@@ -19,6 +19,18 @@ Rails.application.routes.draw do
         end
       end
 
+      # Customer renegotiations - separate from company renegotiations
+      resources :customer_renegotiations, controller: "customer_renegotiations", only: [:index, :show] do
+        member do
+          patch :accept
+          patch :reject
+        end
+        collection do
+          get "invoices/:invoice_id/new_proposal", to: "customer_renegotiations#new_proposal", as: :new_invoice_proposal
+          post "invoices/:invoice_id/create_proposal", to: "customer_renegotiations#create_proposal", as: :create_invoice_proposal
+        end
+      end
+
       # TODO maybe the customer_dashboard and customer controller should be just one
       resources :profiles, only: [] do
         get "customer_dashboard", to: "customer_dashboard#index_for_company", as: :customer_dashboard

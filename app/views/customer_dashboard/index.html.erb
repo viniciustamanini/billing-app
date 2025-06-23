@@ -46,6 +46,15 @@
               <h3 class="font-medium">Última negociação</h3>
               <p>--</p>
             </div>
+
+            <!-- Renegotiations Link -->
+            <div class="pt-4 border-t border-gray-200">
+              <%= link_to company_customer_renegotiations_path(@company), 
+                          class: "text-blue-600 hover:underline flex items-center gap-2" do %>
+                <i class="material-symbols-outlined">description</i>
+                Ver Minhas Renegociações
+              <% end %>
+            </div>
           </div>
         </div>
 
@@ -115,6 +124,17 @@
                 </div>
               </div>
             </div>
+            
+            <!-- Renegotiation Action for Eligible Invoices -->
+            <% if invoice.can_be_renegotiated? %>
+              <div class="flex justify-end">
+                <%= link_to new_invoice_proposal_company_customer_renegotiations_path(@company, invoice_id: invoice.id),
+                            class: "text-blue-600 hover:underline text-sm flex items-center gap-1" do %>
+                  <i class="material-symbols-outlined text-sm">edit</i>
+                  Propor Renegociação
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
         </div>
 

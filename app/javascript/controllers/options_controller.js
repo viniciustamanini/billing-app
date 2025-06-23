@@ -72,4 +72,26 @@ export default class extends Controller {
 
     form.submit();
   }
+
+  submitCustomerRenegotiation(event) {
+    const button = event.currentTarget;
+    const confirmMessage = button.dataset.confirm;
+
+    if (confirmMessage && !confirm(confirmMessage)) {
+      return;
+    }
+
+    const form = document.getElementById("renegotiation_form");
+
+    form.querySelector('input[name="segment_id"]').value =
+      button.dataset.segmentId;
+    form.querySelector('input[name="installments"]').value =
+      button.dataset.installments;
+    form.querySelector('input[name="proposed_total_amount"]').value =
+      button.dataset.proposedTotalAmount;
+    form.querySelector('input[name="proposed_due_date"]').value =
+      button.dataset.dueDate;
+
+    form.submit();
+  }
 }

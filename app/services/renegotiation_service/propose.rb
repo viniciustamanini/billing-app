@@ -33,6 +33,7 @@ module RenegotiationService
           proposed_by_profile: @proposer,
           customer_profile: @invoice.profile,
           proposed_total_amount: @params[:proposed_total_amount],
+          original_total_amount: @invoice.total_amount,
           proposed_due_date: proposed_date,
           reason: @params[:reason],
           installments: @params[:installments],

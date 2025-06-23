@@ -1,0 +1,29 @@
+<div class="bg-white rounded-lg border border-gray-200 p-4">
+  <div class="space-y-2">
+    <p><strong>Valor total:</strong>
+      R$ <%= number_with_precision(offer[:proposed_total_amount], precision: 2, delimiter: ".", separator: ",") %>
+    </p>
+    <p><strong>Parcelas:</strong> <%= offer[:installments] %>x</p>
+    <p><strong>Vencimento:</strong>
+      <%= begin
+        l(Date.parse((offer[:schedule]&.first || Date.current).to_s))
+      rescue StandardError
+        "-"
+      end %>
+    </p>
+
+    <button
+      type="button"
+      class="btn-primary mt-3 w-full"
+      data-action="click->options#submitCustomerRenegotiation"
+      data-strategy="<%= offer[:strategy] %>"
+      data-installments="<%= offer[:installments] %>"
+      data-proposed-total-amount="<%= offer[:proposed_total_amount] %>"
+      data-due-date="<%= (offer[:schedule]&.first || Date.current).to_s %>"
+      data-segment-id="<%= offer[:segment_id] %>"
+      data-confirm="Confirmar envio desta proposta de renegociação?"
+    >
+      Propor Renegociação
+    </button>
+  </div>
+</div> 

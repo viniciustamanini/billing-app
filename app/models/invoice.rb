@@ -40,6 +40,25 @@ class Invoice < ApplicationRecord
         .exists?
   end
 
+  def can_be_renegotiated?
+    # Invoice must not be paid
+    return false if paid_at.present?
+    
+    # Invoice must not already be renegotiated
+    return false if renegotiated?
+    
+    # Invoice must not have a pending renegotiation
+    return false if has_pending_renegotiation?
+    
+    # Invoice must be overdue or due soon (within 30 days)
+    return false if due_date > 30.days.from_now
+    
+    # Invoice must have a positive amount
+    return false if total_amount <= 0
+    
+    true
+  end
+
   private
 
   def set_original_due_date
