@@ -23,7 +23,7 @@
       } %>
     </div>
     <!-- Chart section with enhanced styling -->
-    <%= render "shared/cards/chart_section", dates: @dates %>
+    <%= render "shared/cards/chart_section", dates: @dates, payment_bars: @chart_data %>
     <!-- Late customers section with modern styling -->
     <div class="bg-white rounded-xl shadow-sm p-6">
       <h2 class="text-lg font-medium mb-4">Maiores atrasos</h2>

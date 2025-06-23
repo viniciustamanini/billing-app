@@ -23,7 +23,7 @@
       } %>
     </div>
     <!-- Chart section with enhanced styling -->
-    <%= render "shared/cards/chart_section", dates: @dates %>
+    <%= render "shared/cards/chart_section", dates: @dates, payment_bars: @chart_data %>
     <!-- Late customers with modern styling -->
     <%= render "shared/cards/late_customers_section",
     late_customers: @late_customers,

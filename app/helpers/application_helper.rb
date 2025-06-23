@@ -1,5 +1,6 @@
 module ApplicationHelper
   include Pagy::Frontend
+  include ActionView::Helpers::NumberHelper
 
   def profile_root_path(profile = nil)
     profile ||= current_user.profiles.find_by(id: session[:active_profile_id])
@@ -80,7 +81,7 @@ module ApplicationHelper
 
   def chart_text_class(dates_count)
     return "text-xs" if dates_count.nil? || dates_count < 0
-
+    
     case dates_count
     when 0..7
       "text-xs"
@@ -93,5 +94,36 @@ module ApplicationHelper
     else
       "text-xs text-gray-500"
     end
+  end
+
+  def chart_max_value(payment_bars)
+    return 0 if payment_bars.blank?
+    
+    max_value = 0
+    payment_bars.each do |date, data|
+      expected = data[:expected] || 0
+      received = data[:received] || 0
+      total = expected + received
+      max_value = [max_value, total].max
+    end
+    max_value
+  end
+
+  def chart_guide_lines(max_value)
+    return [0, 20000, 40000, 60000] if max_value <= 0
+    
+    rounded_max = ((max_value / 10000.0).ceil * 10000).to_i
+    step = rounded_max / 4.0
+    
+    (0..4).map { |i| (i * step).to_i }
+  end
+
+  def format_currency(value)
+    "R$ #{number_with_delimiter(value, delimiter: '.', separator: ',')}"
+  end
+
+  def chart_bar_height(value, max_value)
+    return 0 if max_value <= 0
+    ((value.to_f / max_value) * 100).round(2)
   end
 end

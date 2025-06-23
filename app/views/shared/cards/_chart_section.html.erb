@@ -30,22 +30,69 @@
 
     <div class="relative">
       <% if dates.any? %>
-        <!-- Chart bars -->
-        <div class="h-48 grid grid-cols-<%= chart_columns_count(dates.size) %> <%= chart_gap_class(dates.size) %> items-end">
-          <% dates.first(chart_columns_count(dates.size)).each do |date| %>
-            <div class="flex flex-col items-center">
-              <!-- <div class="w-full bg-yellow-400" style="height: <%= payment_bars[date] %>%"></div> -->
-              <span class="<%= chart_text_class(dates.size) %> font-bold mt-2"><%= chart_date_format(dates.size, date) %></span>
-            </div>
+        <% max_value = chart_max_value(payment_bars) %>
+        <% guide_lines = chart_guide_lines(max_value) %>
+        
+        <!-- Horizontal guide lines -->
+        <div class="absolute inset-0 grid grid-rows-5 pointer-events-none">
+          <% guide_lines.reverse.each_with_index do |value, index| %>
+            <div class="border-b border-gray-700"></div>
           <% end %>
         </div>
 
         <!-- Y-axis labels -->
-        <div class="absolute left-0 top-0 h-full flex flex-col justify-between pointer-events-none">
-          <span class="text-xs">60K</span>
-          <span class="text-xs">40K</span>
-          <span class="text-xs">20K</span>
-          <span class="text-xs">0</span>
+        <div class="absolute left-0 top-0 h-full flex flex-col justify-between pointer-events-none pr-2">
+          <% guide_lines.reverse.each do |value| %>
+            <span class="text-xs text-gray-400"><%= format_currency(value) %></span>
+          <% end %>
+        </div>
+
+        <!-- Chart bars -->
+        <div class="h-48 grid grid-cols-<%= chart_columns_count(dates.size) %> <%= chart_gap_class(dates.size) %> items-end pl-8">
+          <% dates.first(chart_columns_count(dates.size)).each do |date| %>
+            <% date_data = payment_bars[date] || {} %>
+            <% expected = date_data[:expected] || 0 %>
+            <% received = date_data[:received] || 0 %>
+            <% total = expected + received %>
+            
+            <div class="flex flex-col items-center relative group">
+              <!-- Stacked bars -->
+              <div class="w-full flex flex-col-reverse" style="height: <%= chart_bar_height(total, max_value) %>%">
+                <!-- Expected bar (gray) -->
+                <% if expected > 0 %>
+                  <div 
+                    class="w-full bg-gray-600 rounded-t-sm"
+                    style="height: <%= chart_bar_height(expected, total) %>%"
+                    title="Esperado: <%= format_currency(expected) %>"
+                  ></div>
+                <% end %>
+                
+                <!-- Received bar (yellow) -->
+                <% if received > 0 %>
+                  <div 
+                    class="w-full bg-yellow-400 rounded-t-sm"
+                    style="height: <%= chart_bar_height(received, total) %>%"
+                    title="Recebido: <%= format_currency(received) %>"
+                  ></div>
+                <% end %>
+              </div>
+              
+              <!-- Date label -->
+              <span class="<%= chart_text_class(dates.size) %> font-bold mt-2">
+                <%= chart_date_format(dates.size, date) %>
+              </span>
+              
+              <!-- Tooltip -->
+              <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                <div class="text-center">
+                  <div>Esperado: <%= format_currency(expected) %></div>
+                  <div>Recebido: <%= format_currency(received) %></div>
+                </div>
+                <!-- Tooltip arrow -->
+                <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+              </div>
+            </div>
+          <% end %>
         </div>
       <% else %>
         <!-- Empty state -->
