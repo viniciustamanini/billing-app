@@ -14,7 +14,7 @@ class OverdueRange < ApplicationRecord
 
   def days_from_before_days_to
     return if days_from.blank? || days_to.blank?
-    errors.add(:days_to, "must be greater than days_from") if days_to <= days_from
+    errors.add(:days_to, "Deve ser maior que os dias de") if days_to <= days_from
   end
 
   def no_overlap_with_existing_ranges
@@ -26,7 +26,7 @@ class OverdueRange < ApplicationRecord
       .where("days_from <= ? AND days_to >= ?", days_to, days_from)
 
     if overlapping_ranges.exists?
-      errors.add(:base, "This range overlaps with existing ranges.")
+      errors.add(:base, "Ja existem faixas neste periodo.")
     end
   end
 end
