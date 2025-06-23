@@ -233,6 +233,10 @@
     @apply min-w-[95px] text-center content-center p-2 py-2 border border-[var(--color-gold-hover)] text-[var(--color-gold-hover)] bg-transparent rounded cursor-pointer hover:bg-[var(--color-gold-hover)] hover:text-black transition;
   }
 
+  .btn-success {
+    @apply min-w-[95px] text-center content-center bg-green-600 p-2 py-2 text-white font-semibold rounded cursor-pointer hover:bg-green-700 transition;
+  }
+
   .btn-icon {
     @apply hover:cursor-pointer transition;
   }

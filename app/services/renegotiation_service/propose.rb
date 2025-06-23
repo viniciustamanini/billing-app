@@ -14,7 +14,7 @@ module RenegotiationService
       if @segment.nil?
         segment_matcher = SegmentMatcher.new(@invoice.company, @invoice.profile, @invoice.total_amount)
         result = segment_matcher.call
-        
+
         if result.success? && result.segments.any?
           @segment = result.segments.first # Use the first matching segment
         else

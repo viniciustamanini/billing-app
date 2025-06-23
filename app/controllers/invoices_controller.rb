@@ -2,7 +2,7 @@ class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company
   before_action :set_profile
-  before_action :set_invoice, only: %i[edit update]
+  before_action :set_invoice, only: %i[edit update mark_as_paid]
 
   def index
   end
@@ -44,6 +44,23 @@ class InvoicesController < ApplicationController
       redirect_to company_profile_invoice_path(@company, @profile, @invoice), notice: "Successfully updated"
     else
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def mark_as_paid
+    # Security check: only allow marking unpaid invoices as paid
+    if @invoice.paid_at.present?
+      redirect_to company_profile_invoice_path(@company, @profile, @invoice), 
+                  alert: "Esta fatura já foi marcada como paga"
+      return
+    end
+
+    if @invoice.update(paid_at: Time.current)
+      redirect_to company_profile_invoice_path(@company, @profile, @invoice), 
+                  notice: "Fatura marcada como paga com sucesso!"
+    else
+      redirect_to company_profile_invoice_path(@company, @profile, @invoice), 
+                  alert: "Erro ao marcar fatura como paga"
     end
   end
 

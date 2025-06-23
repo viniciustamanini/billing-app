@@ -9,6 +9,16 @@
     </h1>
 
     <div class="flex gap-3">
+      <% unless @invoice.paid_at.present? %>
+        <%= button_to "Marcar como Paga",
+        mark_as_paid_company_profile_invoice_path(@company, @profile, @invoice),
+        method: :patch,
+        class: "btn-success",
+        data: {
+          turbo_confirm: "Tem certeza que deseja marcar esta fatura como paga?"
+        } %>
+      <% end %>
+
       <%= link_to "Renegociar",
       options_company_profile_invoice_renegotiation_path(
         @company,
@@ -39,6 +49,15 @@
         delimiter: ".",
       ) %>
     </p>
+    <% if @invoice.paid_at.present? %>
+      <p class="sm:col-span-2">
+        <strong>Status de Pagamento:</strong>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <i class="material-symbols-outlined text-sm mr-1">check_circle</i>
+          Paga em <%= l(@invoice.paid_at, format: :long) %>
+        </span>
+      </p>
+    <% end %>
   </div>
   <!-- itens -->
   <h2 class="text-lg font-medium text-gray-800 mb-3">Itens da fatura</h2>
