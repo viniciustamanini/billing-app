@@ -173,7 +173,7 @@
                   <i class="material-symbols-outlined text-green-500">check_circle</i>
                   <div>
                     <h4 class="font-medium"><%= invoice.profile.company.name %></h4>
-                    <p class="text-sm text-gray-500"><%= invoice.paid_at&.strftime("%d/%m/%Y") || invoice.due_date.strftime("%d/%m/%Y") %></p>
+                    <p class="text-sm text-gray-500">Pago em <%= l(invoice.paid_at.to_date, format: :default) %></p>
                   </div>
                 </div>
                 <span class="font-medium">
