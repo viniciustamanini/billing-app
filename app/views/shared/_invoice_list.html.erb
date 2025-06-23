@@ -1,0 +1,77 @@
+<div class="space-y-4">
+  <% invoices.each do |invoice| %>
+    <% badge = due_date_status_badge(invoice.due_date) %>
+    
+    <!-- Invoice Item -->
+    <div class="invoice-item border border-gray-200 rounded-lg overflow-hidden">
+      <!-- Main Invoice Row -->
+      <%= link_to company_profile_invoice_path(invoice.company, invoice.profile, invoice) do %>
+        <div class="flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-colors">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
+              <i class="material-symbols-outlined text-white">receipt</i>
+            </div>
+            <div>
+              <h3 class="font-medium"><%= invoice.profile.company.name %></h3>
+              <p class="text-sm text-gray-500"><%= invoice.due_date.strftime("%d/%m/%Y") %></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <% if invoice.has_pending_renegotiation? %>
+              <span class="relative cursor-help" title="Fatura com renegociação pendente">
+                <i class="material-symbols-outlined text-blue-500">info</i>
+              </span>
+            <% end %>
+            <div class="flex flex-col items-end gap-1">
+              <span class="font-medium">R$ <%= invoice.total_amount %></span>
+              <span class="<%= badge[:class]%> px-2 py-1 rounded text-sm">
+                <%= badge[:title] %>
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+      <!-- Action Buttons Row -->
+      <div class="flex justify-end items-center gap-2 py-2 px-4 bg-gray-50 border-t border-gray-200">
+        <!-- Ver detalhes button -->
+        <%= link_to company_profile_invoice_path(invoice.company, invoice.profile, invoice),
+                    class: "text-blue-600 hover:underline text-sm flex items-center gap-1 px-2 py-1 rounded hover:bg-blue-50 transition-colors" do %>
+          <i class="material-symbols-outlined text-sm">visibility</i>
+          Ver detalhes
+        <% end %>
+        
+        <!-- Profile-specific actions -->
+        <% if customer_profile_type?(@current_profile&.profile_type&.name) %>
+          <!-- Customer actions -->
+          <% if invoice.can_be_renegotiated? %>
+            <%= link_to new_invoice_proposal_company_customer_renegotiations_path(invoice.company, invoice_id: invoice.id),
+                        class: "text-blue-600 hover:underline text-sm flex items-center gap-1 px-2 py-1 rounded hover:bg-blue-50 transition-colors" do %>
+              <i class="material-symbols-outlined text-sm">edit</i>
+              Propor Renegociação
+            <% end %>
+          <% end %>
+        <% else %>
+          <!-- Company/Admin actions -->
+          <% if admin_profile_type?(@current_profile&.profile_type&.name) %>
+            <%= link_to edit_company_profile_invoice_path(invoice.company, invoice.profile, invoice),
+                        class: "text-yellow-600 hover:underline text-sm flex items-center gap-1 px-2 py-1 rounded hover:bg-yellow-50 transition-colors" do %>
+              <i class="material-symbols-outlined text-sm">edit</i>
+              Editar
+            <% end %>
+            
+            <% unless invoice.paid_at.present? %>
+              <%= button_to "Marcar como paga",
+                            mark_as_paid_company_profile_invoice_path(invoice.company, invoice.profile, invoice),
+                            method: :patch,
+                            class: "text-green-600 hover:underline text-sm flex items-center gap-1 px-2 py-1 rounded hover:bg-green-50 transition-colors",
+                            data: { 
+                              turbo_confirm: "Tem certeza que deseja marcar esta fatura como paga?" 
+                            } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div> 

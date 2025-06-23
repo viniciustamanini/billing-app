@@ -1,6 +1,7 @@
 class CustomerDashboardController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!
+  before_action :set_current_profile, only: %i[index]
   before_action :set_company, only: %i[index_for_company]
 
   def index
@@ -44,7 +45,7 @@ class CustomerDashboardController < ApplicationController
     @customer_email = customer_profile.effective_email
 
     unless current_profile.company_id == @company.id
-      redirect to company_dashboard_path(@company),
+      redirect_to company_dashboard_path(@company),
       flash: { error: "Nao autorizado." } and return
     end
 
@@ -73,6 +74,18 @@ class CustomerDashboardController < ApplicationController
   end
 
   private
+
+  def set_current_profile
+    @current_profile = current_user.profiles.find_by(id: session[:active_profile_id])
+    
+    unless @current_profile
+      redirect_to choose_profile_path, alert: "Escolha um perfil"
+      return
+    end
+
+    @company = @current_profile.company
+    @profile_type = @current_profile.profile_type.name
+  end
 
   def set_company
     @company = Company.find(params[:company_id])

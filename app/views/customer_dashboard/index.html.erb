@@ -93,50 +93,14 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-medium">Próximos vencimentos</h2>
-        </div>
-
-        <div class="space-y-4">
-          <% @invoices.each do |invoice| %>
-            <% badge = due_date_status_badge(invoice.due_date) %>
-            <div class="flex items-center justify-between py-2 border-b">
-              <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
-                  <i class="material-symbols-outlined text-white">receipt</i>
-                </div>
-                <div>
-                  <h3 class="font-medium"><%= invoice.profile.company.name %></h3>
-                  <p class="text-sm text-gray-500"><%= invoice.due_date.strftime("%d/%m/%Y") %></p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <% if invoice.has_pending_renegotiation? %>
-                  <span class="relative cursor-help" title="Fatura com renegociação pendente">
-                    <i class="material-symbols-outlined text-blue-500">info</i>
-                  </span>
-                <% end %>
-                <div class="flex flex-col items-end gap-1">
-                  <span class="font-medium">R$
-                    <%= invoice.total_amount %>
-                  </span>
-                  <span class="<%= badge[:class]%> px-2 py-1 rounded text-sm">
-                    <%= badge[:title] %>
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Renegotiation Action for Eligible Invoices -->
-            <% if invoice.can_be_renegotiated? %>
-              <div class="flex justify-end">
-                <%= link_to new_invoice_proposal_company_customer_renegotiations_path(@company, invoice_id: invoice.id),
-                            class: "text-blue-600 hover:underline text-sm flex items-center gap-1" do %>
-                  <i class="material-symbols-outlined text-sm">edit</i>
-                  Propor Renegociação
-                <% end %>
-              </div>
-            <% end %>
+          <% if admin_profile_type?(@current_profile&.profile_type&.name) %>
+            <%= link_to "+",
+                        new_company_profile_invoice_path(@company, @current_profile),
+                        class: "btn-primary" %>
           <% end %>
         </div>
+
+        <%= render "shared/invoice_list", invoices: @invoices %>
 
         <%= render "shared/pagy_nav" if @invoices.any? %>
 
