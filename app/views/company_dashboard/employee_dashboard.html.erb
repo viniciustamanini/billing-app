@@ -105,7 +105,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <%= render "shared/cards/pie_card",
       title: "Negociações aceitas",
-      subtitle: "Dados referentes ao mês atual",
+      subtitle: "Dados referentes ao dia anterior",
       percentage: @renegotiations_data[:percentage] %>
 
       <%= render "shared/cards/pie_card", title: "Inadimplência", percentage: @overdue_percentage %>
