@@ -11,7 +11,6 @@ module RenegotiationService
 
     def call
       proposed_date = parse_date(@params[:proposed_due_date]) || Date.current
-      Rails.logger.info "[Propose] Validating segment. Params: #{@params[:proposed_total_amount]}"
       if proposed_date < Date.current
         return Result.new(false, nil, "Data da renegociação deve ser maior ou igual à data de hoje")
       end

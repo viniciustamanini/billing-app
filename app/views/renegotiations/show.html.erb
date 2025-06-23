@@ -6,10 +6,7 @@
       <div>
         <p class="text-sm text-gray-500">Status</p>
         <p class="font-semibold">
-          <%= t(
-            ".#{@renegotiation.status_name}",
-            scope: "activerecord.attributes.renegotiation_status",
-          ) %>
+          <%= renegotiation_status_translation(@renegotiation.renegotiation_status) %>
         </p>
       </div>
       <div>

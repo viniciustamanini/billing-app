@@ -10,7 +10,11 @@ module RenegotiationsHelper
   def renegotiation_status_options
     [ [ t("all"), "all" ] ] +
       RenegotiationStatus.order(:name).map do |status|
-        [ t(".#{status.name}", scope: "activerecord.attributes.renegotiation_status"), status.id ]
+        [ renegotiation_status_translation(status), status.id ]
       end
+  end
+
+  def renegotiation_status_translation(renegotiation_status)
+    I18n.t("activerecord.attributes.renegotiation_status.#{renegotiation_status.name}")
   end
 end

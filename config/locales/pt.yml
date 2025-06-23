@@ -34,13 +34,6 @@ pt:
   time:
     formats:
       default: "%d/%m/%Y %H:%M"
-  renegotiation_statuses:
-    pending: "Pendente"
-    approved: "Aprovada"
-    rejected: "Rejeitada"
-    canceled: "Cancelada"
-    expired: "Expirada"
-    completed: "Concluída"
   segment_strategies:
     flat_late_fee: "Juros simples"
     settlement_discount: "Desconto para pagamento"
@@ -76,6 +69,13 @@ pt:
               blank: "Valor total não pode ficar em branco"
             profile_id:
               blank: "Perfil não pode ficar em branco"
+        renegotiation_statuses:
+          pending: "Pendente"
+          approved: "Aprovada"
+          rejected: "Rejeitada"
+          canceled: "Cancelada"
+          expired: "Expirada"
+          completed: "Concluída"
         renegotiation:
           attributes:
             installments:

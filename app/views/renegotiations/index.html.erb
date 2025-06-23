@@ -81,7 +81,7 @@ search + status-id filter -->
                                     'bg-gray-100 text-gray-800' %>
                     "
                   >
-                    <%= t(".#{r.renegotiation_status.name}", scope: "activerecord.attributes.renegotiation_status") %>
+                    <%= renegotiation_status_translation(r.renegotiation_status) %>
                   </span>
                 </td>
                 <td class="px-4 py-2 space-x-2 whitespace-nowrap">
