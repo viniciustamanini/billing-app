@@ -34,7 +34,7 @@ class SegmentsController < ApplicationController
 
   def update
     if @segment.update(segment_params)
-      flash[:success] = "Segment updated"
+      flash[:success] = "Segmento atualizado"
       redirect_to company_segments_path
     else
       flash.now[:error] = @segment.errors.full_messages.to_sentence
