@@ -8,7 +8,7 @@
       Fatura #<%= @invoice.id %>
     </h1>
 
-    <% if admin_profile_type?(@profile.profile_type.name) %>
+    <% if admin_profile_type?(current_profile.profile_type.name) %>
       <div class="flex gap-3">
         <% unless @invoice.paid_at.present? %>
           <%= button_to "Marcar como Paga",
